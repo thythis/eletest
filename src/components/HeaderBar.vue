@@ -2,13 +2,13 @@
 	<div class="header-wrapper">
 		<el-row type="flex" justify="center">
 		  <el-col :span="14">
-		  	<div class="grid-content bg-blue">
+		  	<div class="grid-content">
 		  		<el-row type="flex" justify="space-between">
 		  			<el-col :span="10" class="logo">
 		  				<span>用户注册</span>
 		  			</el-col>
 		  			<el-col :span="6"  class="LEntry">
-		  				<span>我已注册,现在就去</span>
+		  				<span>我已注册,现在就</span>
 		  				<el-button type="success" class="login-btn">登录</el-button>
 		  			</el-col>
 		  		</el-row>

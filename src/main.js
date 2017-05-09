@@ -1,43 +1,27 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import FastClick from 'fastclick'
-import VueRouter from 'vue-router'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-default/index.css'
 import App from './App'
-// import Home from './components/HelloFromVux'
-// import Hello from './components/Hello'
+import router from './router'
 
-Vue.use(VueRouter)
+// import { Button, Select, Option, Menu, MenuItem, Submenu } from 'element-ui'
+// Vue.use(Button)
+// Vue.use(Select)
+// Vue.use(Option)
+// Vue.use(Menu)
+// Vue.use(MenuItem)
+// Vue.use(Submenu)
 
-
-
-
-const routes = [{
-	path: '/',
-	component: resolve => require(['./components/menu'], resolve),
-	redirect: '/home',
-	children: [
-		{
-			path: '/home',
-			component: resolve => require(['./components/HelloFromVux'], resolve)
-		},
-		{
-			path: '/hello',
-			component: resolve => require(['./components/Hello'], resolve)	
-		}
-	]
-}]
-
-const router = new VueRouter({
-  routes
-})
-
-FastClick.attach(document.body)
+Vue.use(ElementUI)
 
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
+  el: '#app',
   router,
-  render: h => h(App)
-}).$mount('#app-box')
+  template: '<App/>',
+  components: { App }
+})

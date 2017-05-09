@@ -1,4 +1,4 @@
-# vuxtest
+# eletest
 
 > A Vue.js project
 
@@ -6,7 +6,7 @@
 
 ``` bash
 # install dependencies
-npm install --registry=https://registry.npm.taobao.org
+npm install
 
 # serve with hot reload at localhost:8080
 npm run dev

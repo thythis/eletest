@@ -1,9 +1,5 @@
 var path = require('path')
 var utils = require('./utils')
-
-var projectRoot = path.resolve(__dirname, '../')
-const vuxLoader = require('vux-loader')
-
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
 
@@ -11,7 +7,7 @@ function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
-let webpackConfig = {
+module.exports = {
   entry: {
     app: './src/main.js'
   },
@@ -41,7 +37,6 @@ let webpackConfig = {
         loader: 'babel-loader',
         include: [resolve('src'), resolve('test')]
       },
-      
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
@@ -61,8 +56,3 @@ let webpackConfig = {
     ]
   }
 }
-
-
-module.exports = vuxLoader.merge(webpackConfig, {
-  plugins: ['vux-ui', 'progress-bar', 'duplicate-style']
-})
