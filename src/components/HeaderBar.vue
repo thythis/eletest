@@ -8,8 +8,8 @@
 		  				<span>用户注册</span>
 		  			</el-col>
 		  			<el-col :span="6"  class="LEntry">
-		  				<span>我已注册,现在就</span>
-		  				<el-button type="success" class="login-btn" @click="golog()">登录</el-button>
+		  				<span v-text="txt"></span>
+		  				<router-link :to="{path: path}"><el-button type="success" class="login-btn" v-text="btntxt"></el-button></router-link>
 		  			</el-col>
 		  		</el-row>
 		  	</div>
@@ -19,10 +19,10 @@
 </template>
 <script>
 	export default {
-		methods: {
-			golog() {
-				this.$router.push({path:'/login'})
-			}
+		props: {
+			txt: '',
+			btntxt: '',
+			path: ''
 		}
 	}
 </script>

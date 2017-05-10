@@ -1,23 +1,6 @@
 <template>
 	<div>
-		<div class="header-wrapper">
-			<el-row type="flex" justify="center">
-			  <el-col :span="14">
-			  	<div class="grid-content">
-			  		<el-row type="flex" justify="space-between">
-			  			<el-col :span="10" class="logo">
-			  				<span>用户注册</span>
-			  			</el-col>
-			  			<el-col :span="6"  class="LEntry">
-			  				<span class="desc">我已注册,现在就</span>
-                <router-link to="login"><el-button type="success" class="login-btn" >登录</el-button></router-link>
-			  				
-			  			</el-col>
-			  		</el-row>
-			  	</div>
-			  </el-col>
-			</el-row>
-		</div>
+    <header-bar txt="我已注册,现在就" path="login" btntxt="登录"></header-bar>
 		<div class="reg-form-wrapper">
 		  <el-row :gutter="10" type="flex" justify="center">
 		    <el-col :span="14" class="bg-white">
@@ -62,7 +45,11 @@
 </template>
 
 <script>
+  import HeaderBar from './HeaderBar.vue';
   export default {
+    components: {
+      HeaderBar,
+    },
     data() {
       var checkAge = (rule, value, callback) => {
         var reg = /1[0-9]{10}/;
@@ -102,6 +89,7 @@
         }
       };
       return {
+        txt: 'thy',
         ruleForm2: {
           pass: '',
           checkPass: '',
@@ -143,39 +131,6 @@
 </script>
 
 <style scope>
-	.header-wrapper {
-		background: #fff;
-	}
-
-	.logo,.LEntry {
-		height: 80px;
-		line-height: 80px;
-	}
-
-	.logo span {
-		color: #999;
-		font-size: 18px;
-		padding-left: 5px;
-		line-height: 80px;
-	}
-
-	.LEntry .desc {
-		color: #666;
-		font-size: 14px;
-	}
-
-	.LEntry .login-btn {
-		width: 90px;
-		margin-left: 12px;
-	}
-
-    .grid-content {
-        min-height: 36px;
-    }
-
-    .bg-blue {
-    	background: #20A0FF;
-    }
 
   .reg-form-wrapper {
     padding-top: 50px;

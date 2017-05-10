@@ -8,9 +8,11 @@
 </template>
 
 <script>
+ 	
  	import FooterBar from './FooterBar.vue';
 	export default {
 		components: {
+		  
 		  FooterBar
 		},
 	}
