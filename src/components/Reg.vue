@@ -10,14 +10,15 @@
 			  			</el-col>
 			  			<el-col :span="6"  class="LEntry">
 			  				<span class="desc">我已注册,现在就</span>
-			  				<el-button type="success" class="login-btn" @click="golog()">登录</el-button>
+                <router-link to="login"><el-button type="success" class="login-btn" >登录</el-button></router-link>
+			  				
 			  			</el-col>
 			  		</el-row>
 			  	</div>
 			  </el-col>
 			</el-row>
 		</div>
-		<div class="form-wrapper">
+		<div class="reg-form-wrapper">
 		  <el-row :gutter="10" type="flex" justify="center">
 		    <el-col :span="14" class="bg-white">
 		      <div class="form-banner">
@@ -28,7 +29,7 @@
 		      <el-row class="pt60">
 		        <el-col :xs="24" :sm="12" :md="12" class="pl70">
 		          <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="right" label-width="100px" class="demo-ruleForm">
-		            <el-form-item label="手机号" prop="age">
+		            <el-form-item label="手机号" prop="age" class="clearfix">
 		              <el-input v-model.number="ruleForm2.age"  placeholder="请输入手机号"></el-input>
 		            </el-form-item>
 		            <el-form-item label="短信验证码" prop="age">
@@ -176,22 +177,22 @@
     	background: #20A0FF;
     }
 
-  .form-wrapper {
+  .reg-form-wrapper {
     padding-top: 50px;
     padding-bottom: 70px;
     background: #f4f4f4;
   }
 
-  .form-banner {
+  .reg-form-wrapper .form-banner {
     padding-left: 40px;
   }
 
-  .form-banner .fb-outline {
+  .reg-form-wrapper .form-banner .fb-outline {
     height: 60px;
     border-bottom: 1px solid #f4f4f4;
   }
 
-  .form-banner .fb-outline span {
+  .reg-form-wrapper .form-banner .fb-outline span {
     display: inline-block;
     height: 59px;
     line-height: 59px;
@@ -210,15 +211,15 @@
     padding-left: 70px;
   }
 
-  .demo-ruleForm .el-input {
+  .reg-form-wrapper .demo-ruleForm .el-input {
     width: 90%;
   }
 
-  .demo-ruleForm .el-input.msg-code {
+  .reg-form-wrapper .demo-ruleForm .el-input.msg-code {
     width: 50%;
   }
 
-  .el-form-item {
+  .reg-form-wrapper .el-form-item {
     margin-bottom: 24px;
   }
 
@@ -248,5 +249,8 @@
   .sub-btn {
     width: 124px;
   }
+
+   .clearfix:after {content:"."; display:block; height:0; visibility:hidden; clear:both; }
+  .clearfix { *zoom:1; }
 
 </style>

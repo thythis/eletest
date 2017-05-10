@@ -10,14 +10,14 @@
 			  			</el-col>
 			  			<el-col :span="6"  class="LEntry">
 			  				<span class="desc">我还没注册，现在就</span>
-			  				<el-button type="success" class="login-btn" @click="goreg()">注册</el-button>
+                <router-link to="reg"><el-button type="success" class="login-btn">注册</el-button></router-link>
 			  			</el-col>
 			  		</el-row>
 			  	</div>
 			  </el-col>
 			</el-row>
 		</div>
-		<div class="form-wrapper">
+		<div class="log-form-wrapper">
 		  <el-row :gutter="10" type="flex" justify="center">
 		    <el-col :span="4" :offset="10" class="bg-white">
 		      <div class="form-banner">
@@ -173,22 +173,22 @@
     	background: #20A0FF;
     }
 
-  .form-wrapper {
+  .log-form-wrapper {
     padding-top: 50px;
     padding-bottom: 70px;
     background: #f4f4f4;
   }
 
-  .form-banner {
+  .log-form-wrapper .form-banner {
     /*padding-left: 40px;*/
   }
 
-  .form-banner .fb-outline {
+  .log-form-wrapper .form-banner .fb-outline {
     height: 50px;
     border-bottom: 1px solid #f4f4f4;
   }
 
-  .form-banner .fb-outline span {
+  .log-form-wrapper .form-banner .fb-outline span {
     display: inline-block;
     height: 49px;
     line-height: 49px;
@@ -209,20 +209,20 @@
     padding-left: 70px;
   }
 
-  .demo-ruleForm {
+  .log-form-wrapper .demo-ruleForm {
   	text-align: center;
   }
 
-  .demo-ruleForm .el-input {
+  .log-form-wrapper .demo-ruleForm .el-input {
     width: 80%;
     margin-top: 25px;
   }
 
-  .demo-ruleForm .el-input.msg-code {
+  .log-form-wrapper .demo-ruleForm .el-input.msg-code {
     width: 50%;
   }
 
-  .el-form-item {
+  .log-form-wrapper .el-form-item {
     margin-bottom: 24px;
   }
 
