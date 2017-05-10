@@ -9,7 +9,7 @@
 		  			</el-col>
 		  			<el-col :span="6"  class="LEntry">
 		  				<span>我已注册,现在就</span>
-		  				<el-button type="success" class="login-btn">登录</el-button>
+		  				<el-button type="success" class="login-btn" @click="golog()">登录</el-button>
 		  			</el-col>
 		  		</el-row>
 		  	</div>
@@ -19,7 +19,11 @@
 </template>
 <script>
 	export default {
-
+		methods: {
+			golog() {
+				this.$router.push({path:'/login'})
+			}
+		}
 	}
 </script>
 <style scoped>

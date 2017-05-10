@@ -1,58 +1,67 @@
 <template>
-  <div>
-    <header-bar></header-bar>
-    <div class="form-wrapper">
-      <el-row :gutter="10" type="flex" justify="center">
-        <el-col :span="14" class="bg-white">
-          <div class="form-banner">
-            <div class="fb-outline">
-              <span>注册帐号</span>
-            </div>
-          </div>
-          <el-row class="pt60">
-            <el-col :xs="24" :sm="12" :md="12" class="pl70">
-              <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="right" label-width="100px" class="demo-ruleForm">
-                <el-form-item label="手机号" prop="age">
-                  <el-input v-model.number="ruleForm2.age"  placeholder="请输入手机号"></el-input>
-                </el-form-item>
-                <el-form-item label="短信验证码" prop="age">
-                  <el-input v-model.number="ruleForm2.age"  placeholder="请输入短信验证码" class="msg-code"></el-input>
-                  <el-button  type="success">获取短信验证码</el-button>
-                </el-form-item>
-                <el-form-item label="密码" prop="pass">
-                  <el-input type="password" v-model="ruleForm2.pass" placeholder="请输入密码" auto-complete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="确认密码" prop="checkPass">
-                  <el-input type="password" v-model="ruleForm2.checkPass" placeholder="请再次输入密码" auto-complete="off"></el-input>
-                </el-form-item>
-                <el-form-item>
-                  <el-checkbox v-model="ruleForm2.checked">我已阅读并同意</el-checkbox>
-                </el-form-item>
-                <el-form-item>
-                  <el-button class="sub-btn" type="primary" size="large" @click="submitForm('ruleForm2')">注册</el-button>
-                  <el-button @click="resetForm('ruleForm2')">重置</el-button>
-                </el-form-item>
-              </el-form>
-            </el-col>
-            <el-col :xs="0" :sm="12" :md="12">
-              <img src="../assets/logo.png">
-            </el-col>
-          </el-row>
-        </el-col>
-      </el-row>
-    </div>
-    <footer-bar></footer-bar>
-  </div>
+	<div>
+		<div class="header-wrapper">
+			<el-row type="flex" justify="center">
+			  <el-col :span="14">
+			  	<div class="grid-content">
+			  		<el-row type="flex" justify="space-between">
+			  			<el-col :span="10" class="logo">
+			  				<span>用户注册</span>
+			  			</el-col>
+			  			<el-col :span="6"  class="LEntry">
+			  				<span class="desc">我已注册,现在就</span>
+			  				<el-button type="success" class="login-btn" @click="golog()">登录</el-button>
+			  			</el-col>
+			  		</el-row>
+			  	</div>
+			  </el-col>
+			</el-row>
+		</div>
+		<div class="form-wrapper">
+		  <el-row :gutter="10" type="flex" justify="center">
+		    <el-col :span="14" class="bg-white">
+		      <div class="form-banner">
+		        <div class="fb-outline">
+		          <span>注册帐号</span>
+		        </div>
+		      </div>
+		      <el-row class="pt60">
+		        <el-col :xs="24" :sm="12" :md="12" class="pl70">
+		          <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="right" label-width="100px" class="demo-ruleForm">
+		            <el-form-item label="手机号" prop="age">
+		              <el-input v-model.number="ruleForm2.age"  placeholder="请输入手机号"></el-input>
+		            </el-form-item>
+		            <el-form-item label="短信验证码" prop="age">
+		              <el-input v-model.number="ruleForm2.age"  placeholder="请输入短信验证码" class="msg-code"></el-input>
+		              <el-button  type="success">获取短信验证码</el-button>
+		            </el-form-item>
+		            <el-form-item label="密码" prop="pass">
+		              <el-input type="password" v-model="ruleForm2.pass" placeholder="请输入密码" auto-complete="off"></el-input>
+		            </el-form-item>
+		            <el-form-item label="确认密码" prop="checkPass">
+		              <el-input type="password" v-model="ruleForm2.checkPass" placeholder="请再次输入密码" auto-complete="off"></el-input>
+		            </el-form-item>
+		            <el-form-item>
+		              <el-checkbox v-model="ruleForm2.checked">我已阅读并同意</el-checkbox>
+		            </el-form-item>
+		            <el-form-item>
+		              <el-button class="sub-btn" type="primary" size="large" @click="submitForm('ruleForm2')">注册</el-button>
+		              <el-button @click="resetForm('ruleForm2')">重置</el-button>
+		            </el-form-item>
+		          </el-form>
+		        </el-col>
+		        <el-col :xs="0" :sm="12" :md="12">
+		          <img src="../assets/logo.png">
+		        </el-col>
+		      </el-row>
+		    </el-col>
+		  </el-row>
+		</div>
+	</div>
 </template>
 
 <script>
-  import HeaderBar from './HeaderBar.vue';
-  import FooterBar from './FooterBar.vue';
   export default {
-    components: {
-      HeaderBar,
-      FooterBar
-    },
     data() {
       var checkAge = (rule, value, callback) => {
         var reg = /1[0-9]{10}/;
@@ -124,12 +133,49 @@
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
+      },
+      golog() {
+      	this.$router.push({path:'/login'})
       }
     }
   }
 </script>
 
 <style scope>
+	.header-wrapper {
+		background: #fff;
+	}
+
+	.logo,.LEntry {
+		height: 80px;
+		line-height: 80px;
+	}
+
+	.logo span {
+		color: #999;
+		font-size: 18px;
+		padding-left: 5px;
+		line-height: 80px;
+	}
+
+	.LEntry .desc {
+		color: #666;
+		font-size: 14px;
+	}
+
+	.LEntry .login-btn {
+		width: 90px;
+		margin-left: 12px;
+	}
+
+    .grid-content {
+        min-height: 36px;
+    }
+
+    .bg-blue {
+    	background: #20A0FF;
+    }
+
   .form-wrapper {
     padding-top: 50px;
     padding-bottom: 70px;
