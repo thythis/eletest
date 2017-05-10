@@ -1,6 +1,6 @@
 <template>
 	<div>
-    <header-bar txt="我已注册,现在就" path="login" btntxt="登录"></header-bar>
+    <header-bar v-bind:img-data="imgData" txt="我已注册,现在就" path="login" btntxt="登录"></header-bar>
 		<div class="reg-form-wrapper">
 		  <el-row :gutter="10" type="flex" justify="center">
 		    <el-col :span="14" class="bg-white">
@@ -26,7 +26,7 @@
 		              <el-input type="password" v-model="ruleForm2.checkPass" placeholder="请再次输入密码" auto-complete="off"></el-input>
 		            </el-form-item>
 		            <el-form-item>
-		              <el-checkbox v-model="ruleForm2.checked">我已阅读并同意</el-checkbox>
+		              <el-checkbox v-model="ruleForm2.checked">我已阅读并同意<span class="aoi">《卫宝贝用户许可协议》</span></el-checkbox>
 		            </el-form-item>
 		            <el-form-item>
 		              <el-button class="sub-btn" type="primary" size="large" @click="submitForm('ruleForm2')">注册</el-button>
@@ -34,8 +34,20 @@
 		            </el-form-item>
 		          </el-form>
 		        </el-col>
-		        <el-col :xs="0" :sm="12" :md="12">
-		          <img src="../assets/logo.png">
+		        <el-col :xs="0" :sm="12" :md="12" class="rPanel">
+		          <img src="../assets/img/children.jpg">
+              <div class="code-container">
+                <ul>
+                  <li class="spline">
+                    <img src="../assets/img/appcode.jpg" alt="">
+                    <h3>卫宝贝APP</h3>
+                  </li>
+                  <li>
+                    <img src="../assets/img/wx.jpg" alt="">
+                    <h3>卫宝贝微信号</h3>
+                  </li>
+                </ul>
+              </div>
 		        </el-col>
 		      </el-row>
 		    </el-col>
@@ -45,6 +57,7 @@
 </template>
 
 <script>
+  import desc from '../assets/img/desc.png'
   import HeaderBar from './HeaderBar.vue';
   export default {
     components: {
@@ -89,6 +102,9 @@
         }
       };
       return {
+        imgData: {
+          desc: desc
+        },
         txt: 'thy',
         ruleForm2: {
           pass: '',
@@ -151,7 +167,7 @@
     display: inline-block;
     height: 59px;
     line-height: 59px;
-    border-bottom: 2px solid #0996d4;
+    border-bottom: 2px solid #3780a1;
     font-weight: 400;
     font-size: 22px;
     color: #333;
@@ -176,6 +192,41 @@
 
   .reg-form-wrapper .el-form-item {
     margin-bottom: 24px;
+  }
+
+  .reg-form-wrapper .el-form-item .aoi {
+    color: #3c9fc9;
+  }
+
+  .rPanel {
+    text-align: center;
+  }
+
+  ul, ul li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .rPanel .code-container {
+    border: 3px solid #f9f9f9;
+    width: 300px;
+    margin: 0 auto;
+    padding: 25px 0;
+  }
+
+  .rPanel .code-container li {
+    display: inline-block;
+    width: 140px;
+  }
+
+  .rPanel .code-container li.spline {
+    border-right: 1px solid #f1f1f1;
+  }
+
+  .rPanel .code-container li h3 {
+    font-weight: normal;
+    font-size: 1rem;
   }
 
   .el-form-item__error {
@@ -204,8 +255,5 @@
   .sub-btn {
     width: 124px;
   }
-
-   .clearfix:after {content:"."; display:block; height:0; visibility:hidden; clear:both; }
-  .clearfix { *zoom:1; }
 
 </style>

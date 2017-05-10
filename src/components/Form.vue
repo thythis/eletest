@@ -1,8 +1,6 @@
 <template>
 	<div>
-		<transition name="el-fade-in">
-        	<router-view></router-view>
-      	</transition>
+		<router-view></router-view>
 		<footer-bar></footer-bar>
 	</div>
 </template>
@@ -12,7 +10,7 @@
  	import FooterBar from './FooterBar.vue';
 	export default {
 		components: {
-		  
+
 		  FooterBar
 		},
 	}

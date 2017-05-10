@@ -1,6 +1,6 @@
 <template>
 	<div>
-    <header-bar txt="我还没注册,现在就" path="reg" btntxt="注册"></header-bar>
+    <header-bar v-bind:img-data="imgData" txt="我还没注册,现在就" path="reg" btntxt="注册"></header-bar>
 		<div class="log-form-wrapper">
 		  <el-row :gutter="10" type="flex" justify="center">
 		    <el-col :span="4" :offset="10" class="bg-white">
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+  import desc from '../assets/img/desc2.png'
   import HeaderBar from './HeaderBar.vue';
   export default {
     components: {
@@ -72,6 +73,9 @@
         }
       };
       return {
+        imgData: {
+          desc: desc
+        },
         ruleForm2: {
           pass: '',
           checkPass: '',
@@ -153,6 +157,7 @@
 
   .log-form-wrapper .demo-ruleForm {
   	text-align: center;
+    padding-bottom: 60px;
   }
 
   .log-form-wrapper .demo-ruleForm .el-input {

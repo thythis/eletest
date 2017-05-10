@@ -4,8 +4,9 @@
 		  <el-col :span="14">
 		  	<div class="grid-content">
 		  		<el-row type="flex" justify="space-between">
-		  			<el-col :span="10" class="logo">
-		  				<span>用户注册</span>
+		  			<el-col :span="18" class="logo">
+		  				<img :src="imgSrc" alt="">
+		  				<img class="desc" v-bind:src="imgData.desc" alt="">
 		  			</el-col>
 		  			<el-col :span="6"  class="LEntry">
 		  				<span v-text="txt"></span>
@@ -18,11 +19,18 @@
 	</div>
 </template>
 <script>
+import logo from '../assets/img/logo.png'
 	export default {
 		props: {
+			imgData: '',
 			txt: '',
 			btntxt: '',
 			path: ''
+		},
+		data() {
+			return {
+				imgSrc: logo
+			}
 		}
 	}
 </script>
@@ -36,11 +44,17 @@
 		line-height: 80px;
 	}
 
-	.logo span {
-		color: #999;
-		font-size: 18px;
-		padding-left: 5px;
-		line-height: 80px;
+	.logo {
+		font-size: 0;
+	}
+
+	.logo img {
+		vertical-align: middle;
+
+	}
+
+	.logo img.desc {
+		margin-left: 27px;
 	}
 
 	.LEntry span {
