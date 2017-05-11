@@ -4,7 +4,7 @@
 		  <el-col :span="14">
 		  	<div class="grid-content">
 		  		<el-row type="flex" justify="space-between">
-		  			<el-col :span="18" class="logo">
+		  			<el-col :span="12" class="logo">
 		  				<img :src="imgSrc" alt="">
 		  				<img class="desc" v-bind:src="imgData.desc" alt="">
 		  			</el-col>

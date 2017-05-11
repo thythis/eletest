@@ -22,7 +22,12 @@ const routes = [{
 			component: resolve => require(['./components/Login'], resolve)	
 		}
 	]
-}]
+},{
+	path: '/home',
+	component: resolve => require(['./components/Main'], resolve)
+}
+
+]
 
 const router = new VueRouter({
   routes
