@@ -5,7 +5,8 @@
 		  	<div class="grid-content">
 		  		<el-row type="flex" justify="space-between">
 		  			<el-col :span="12" class="logo">
-		  				<img :src="imgSrc" alt="">
+		  				<router-link to="home"><img :src="imgSrc" alt=""></router-link>
+		  				
 		  				<img class="desc" v-bind:src="imgData.desc" alt="">
 		  			</el-col>
 		  			<el-col :span="6"  class="LEntry">
