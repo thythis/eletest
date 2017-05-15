@@ -1,16 +1,42 @@
 <template>
-	<div class="wrape-top-bar">
-		<div class="top-bar clearfix">
-			<div class="count">
-				累计浏览人次 <strong ref="nana" class="vcount">294,534,844</strong>&nbsp;&nbsp;
-				已服务健康评估人数 <strong class="hcount">473,608</strong>
+	<div>
+		<div class="top-bar-wrapper">
+			<div class="top-bar">
+				<div class="count">
+					累计浏览人次 <strong ref="nana" class="vcount">294,534,844</strong>&nbsp;&nbsp;
+					已服务健康评估人数 <strong class="hcount">473,608</strong>
+				</div>
+				<ul class="rList">
+					<li class="reg"><router-link to="login"><i class="iconfont icon-person"></i>登录</router-link> / <router-link to="reg">注册</router-link></li>
+					<li><a class="drop">下载APP</a></li>
+					<li class="drop-down">
+						<a class="drop">关注微信</a>
+						<div class="drop-box">
+							<img src="../assets/img/wx.jpg" height="100" width="100" alt="">
+						</div>
+					</li>
+				</ul>
+				
 			</div>
-			<ul class="rList clearfix">
-				<li class="reg"><router-link to="login"><i class="iconfont icon-person"></i>登录</router-link> / <router-link to="reg">注册</router-link></li>
-				<li><a>下载APP</a></li>
-				<li><a>关注微信</a></li>
-			</ul>
-			
+		</div>
+		<div class="search-bar-wrapper">
+			<div class="search-bar">
+				<div class="logo"><img src="../assets/img/logo.png" height="67" width="170" alt=""></div>
+				<div class="main-serv">
+					<a href="">健康评估表</a>
+					<a href="">育儿宝典</a>
+				</div>
+				<div class="content">
+					<span>热搜词：</span>
+					<ul>
+						<li><a href="">家庭教育</a></li>
+						<li><a href="">护理保健</a></li>
+						<li><a href="">艺术培养</a></li>
+						<li><a href="">心理行为语言</a></li>
+						<li><a href="">学校教育</a></li>
+					</ul>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -35,30 +61,30 @@
 @import '../assets/css/common.css';
 @import '../assets/css/iconfont.css';
 
-	.wrape-top-bar {
+	.top-bar-wrapper {
 		height: 50px;
 		line-height: 50px;
 		border-bottom: 1px solid #7db4c8;
 	}
 
-	.wrape-top-bar .top-bar {
+	.top-bar-wrapper .top-bar {
 		height: 50px;
 		line-height: 50px;
 		padding: 0 2%;
 	}
 
-	.wrape-top-bar .top-bar .count {
+	.top-bar-wrapper .top-bar .count {
 		display: inline-block;
 		float: left;
 		font-size: 12px;
 		color: #666;
 	}
 
-	.wrape-top-bar .top-bar .rList {
+	.top-bar-wrapper .top-bar .rList {
 		float: right;		
 	}
 
-	.wrape-top-bar .top-bar .rList li {
+	.top-bar-wrapper .top-bar .rList li {
 		height: 50px;
 		line-height: 50px;
 		float: left;
@@ -66,38 +92,146 @@
 		color: #666;
 	}
 
-	.wrape-top-bar .top-bar .rList li:nth-child(1) {
+	.top-bar-wrapper .top-bar .rList li:nth-child(1) {
 		margin-right: 30px;
 	}
 
-	.wrape-top-bar .top-bar .rList li:nth-child(2) {
-		margin-right: 25px;
+	.top-bar-wrapper .top-bar .rList li:nth-child(2) {
+		margin-right: 15px;
 	}
 
-	.wrape-top-bar .top-bar .rList li:nth-child(3) {
-		margin-right: 125px;
+	.top-bar-wrapper .top-bar .rList li:nth-child(3) {
+		margin-right: 105px;
 	}
 
-	.wrape-top-bar .top-bar .rList li a i {
+	.top-bar-wrapper .top-bar .rList li a i {
 		margin-right: 3px;
 		font-size: 18px;
 	}
 
-	.wrape-top-bar .top-bar .rList li a {
+	.top-bar-wrapper .top-bar .rList li a {
 		font-size: 12px;
 		color: #666;
 	}
 
-	.wrape-top-bar .top-bar .rList li a:hover {
+	.top-bar-wrapper .top-bar .rList li.drop-down {
+		position: relative;
+	}
+
+	.top-bar-wrapper .top-bar .rList li.drop-down .drop-box {
+		position: absolute;
+		top: 40px;
+		left: -35px;
+		padding: 10px 20px 0 20px;
+		border: 1px solid #eee;
+		background: #fff;
+		z-index: 998;
+		display: none; 
+	}
+
+	.top-bar-wrapper .top-bar .rList li.drop-down a.drop {
+		padding: 10px;
+		z-index: 999;
+	}
+
+	.top-bar-wrapper .top-bar .rList li.drop-down a.drop:after {
+		content: '';
+		margin-left: 6px;
+		width: 14px;
+		height: 9px;
+		display: inline-block;
+		background: url(../assets/img/drop.gif) no-repeat;
+	}
+
+	.top-bar-wrapper .top-bar .rList li.drop-down a.drop:hover {
+		border: 1px solid #eee;
+		border-bottom: 1px solid #fff;
+	}
+
+	.top-bar-wrapper .top-bar .rList li.drop-down:hover .drop-box{
+		display: block;
+	}
+
+	.top-bar-wrapper .top-bar .rList li a:hover {
 		color: #eb6894;
 	}
 
-	.wrape-top-bar .top-bar .count .vcount {
+	.top-bar-wrapper .top-bar .count .vcount {
 		color: #ea5281;
 	}
 
-	.wrape-top-bar .top-bar .count .hcount {
+	.top-bar-wrapper .top-bar .count .hcount {
 		color: #2e8eb6;
+	}
+
+	.search-bar-wrapper {
+		height: 90px;
+		line-height: 90px;
+	}
+
+	.search-bar-wrapper .search-bar {
+		padding: 0 2%;
+	}
+
+	.search-bar-wrapper .search-bar .logo {
+		float: left;		
+		height: 90px;
+		line-height: 90px;
+	}
+
+	.search-bar-wrapper .search-bar .logo:after {
+		content: '';
+		display: inline-block;
+		width: 10px;
+		height: 40px;
+		vertical-align: middle;
+		border-right: 1px solid #eee;
+	}
+
+	.search-bar-wrapper .search-bar .logo img {
+		vertical-align: middle;
+	}
+
+	.search-bar-wrapper .search-bar .content {
+		float: right;		
+		height: 40px;
+		line-height: 40px;
+		padding: 25px 0;
+	}
+
+	.search-bar-wrapper .search-bar .content span {
+		float: left;
+		font-size: 12px;
+		color: #eee;
+	}
+
+	.search-bar-wrapper .search-bar .content ul {
+		font-size: 12px;
+		float: left;
+	}
+
+	.search-bar-wrapper .search-bar .content ul li{
+		float: left;
+		margin-right: 10px;
+	}
+
+	.search-bar-wrapper .search-bar .main-serv {
+		float: left;		
+		height: 40px;
+		line-height: 40px;
+		padding: 25px 0;
+	}
+
+	.search-bar-wrapper .search-bar .main-serv a {
+		display: inline-block;
+		width: 40px;
+		height: 40px;
+		line-height: 40px;
+		border-radius: 50%;
+		background: #e75788;
+		margin-left: 20px;
+		color: #fff;
+		font-size: 12px;	
 	}
 
 	.clearfix{overflow:hidden;_zoom:1;}
