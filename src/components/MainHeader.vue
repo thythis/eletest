@@ -28,14 +28,30 @@
 				</div>
 				<div class="content">
 					<span>热搜词：</span>
-					<ul>
+					<ul class="tag-list">
 						<li><a href="">家庭教育</a></li>
 						<li><a href="">护理保健</a></li>
 						<li><a href="">艺术培养</a></li>
 						<li><a href="">心理行为语言</a></li>
 						<li><a href="">学校教育</a></li>
 					</ul>
+					<div class="search-panel">
+						<i class="el-icon-edit"></i>
+						<input type="text" placeholder="请输入要查询关键字">
+					</div>
+					<button class="search-btn"><i class="el-icon-search"></i></button>
 				</div>
+			</div>
+		</div>
+		<div class="nav-bar-wrapper">
+			<div class="nav-bar">
+				<a href="" class="hover">首页</a>
+				<a href="">健康评估表</a>
+				<a href="">育儿宝典</a>
+				<a href="">合作医院</a>
+				<a href="">新闻中心</a>
+				<a href="">客户端下载</a>
+				<a href="">联系</a>
 			</div>
 		</div>
 	</div>
@@ -57,7 +73,7 @@
 	}
 </script>
 
-<style scope>
+<style scoped>
 @import '../assets/css/common.css';
 @import '../assets/css/iconfont.css';
 
@@ -202,7 +218,7 @@
 	.search-bar-wrapper .search-bar .content span {
 		float: left;
 		font-size: 12px;
-		color: #eee;
+		color: #999;
 	}
 
 	.search-bar-wrapper .search-bar .content ul {
@@ -213,6 +229,54 @@
 	.search-bar-wrapper .search-bar .content ul li{
 		float: left;
 		margin-right: 10px;
+	}
+
+	.search-bar-wrapper .search-bar .content ul li a {
+		color: #666;
+	}
+
+	.search-bar-wrapper .search-bar .content ul li a:hover {
+		color: #e75788;
+	}
+
+	.search-bar-wrapper .search-bar .content .search-panel {
+		float: left;
+		margin-left: 15px;
+		width: 286px;
+		height: 40px;
+		background: #e75788;
+		border-radius: 40px; 
+	}
+
+	.search-bar-wrapper .search-bar .content .search-panel i {
+		color: #fff;
+		padding: 0 10px 0 16px;
+	}
+
+	.search-bar-wrapper .search-bar .content .search-panel input {
+		height: 100%;
+		border: none;
+		background: none;
+		-webkit-appearance: none ;
+		outline: none;
+		color: #fff;
+	}
+
+	.search-bar-wrapper .search-bar .content .search-btn {
+		float: left;
+		-webkit-appearance: none ;
+		background: none;
+		border: none;
+		outline: none;
+		margin-left: 14px;
+		height: 40px;
+		line-height: 40px;
+		padding-top: 5px;		
+	}
+
+	.search-bar-wrapper .search-bar .content .search-btn i {
+		font-size: 30px;
+		color: #e75788;
 	}
 
 	.search-bar-wrapper .search-bar .main-serv {
@@ -232,6 +296,34 @@
 		margin-left: 20px;
 		color: #fff;
 		font-size: 12px;	
+	}
+
+	.nav-bar-wrapper {
+		margin-top: 50px;
+		padding: 20px 0;
+	}
+
+	.nav-bar-wrapper .nav-bar {
+		text-align: center;		
+	}
+
+	.nav-bar-wrapper .nav-bar a {
+		display: inline-block;
+		margin: 0 10px;
+		height: 32px;
+		line-height: 32px;
+		font-size: 18px;
+		font-weight: bold;
+		color: #000;
+	}
+
+	.nav-bar-wrapper .nav-bar a:hover {
+		color: #e75788;
+	}
+
+	.nav-bar-wrapper .nav-bar a.hover {
+		color: #e75788;
+		border-bottom: 2px solid #e75788;	
 	}
 
 	.clearfix{overflow:hidden;_zoom:1;}

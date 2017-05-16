@@ -35,7 +35,7 @@
 		          </el-form>
 		        </el-col>
 		        <el-col :xs="0" :sm="12" :md="12" class="rPanel">
-		          <img src="../assets/img/children.jpg">
+		          <img src="../assets/img/children.png">
               <div class="code-container">
                 <ul>
                   <li class="spline">
@@ -146,7 +146,7 @@
   }
 </script>
 
-<style scope>
+<style scoped>
 
   .reg-form-wrapper {
     padding-top: 50px;

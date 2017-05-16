@@ -2,8 +2,27 @@
 	<div>
     <header-bar v-bind:img-data="imgData" txt="我还没注册,现在就" path="reg" btntxt="注册"></header-bar>
 		<div class="log-form-wrapper">
-		  <el-row :gutter="10" type="flex" justify="center">
-		    <el-col :span="4" :offset="10" class="bg-white">
+		  <el-row type="flex" justify="center">
+        <el-col :span="10">
+          <div class="Linfo">
+            <div class="bac_desc"></div>
+            <div class="code-container">
+              <ul>
+                <li class="spline">
+                  <img src="../assets/img/appcode.jpg" alt="">
+                  <p class="pt18">极速下载</p>
+                  <p>卫宝贝APP</p>
+                </li>
+                <li>
+                  <img src="../assets/img/wx.jpg" alt="">
+                  <p class="pt18">轻松关注</p>
+                  <p>卫宝贝微信号</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </el-col>
+		    <el-col :span="4" class="bg-white">
 		      <div class="form-banner">
 		        <div class="fb-outline">
 		          <span>用户登录</span>
@@ -119,10 +138,59 @@
 <style scope>
 @import '../assets/css/iconfont.css';
 
+  ul, ul li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
   .log-form-wrapper {
-    padding-top: 50px;
-    padding-bottom: 70px;
-    background: #f4f4f4;
+    padding-top: 60px;
+    padding-bottom: 125px;
+    background: url(../assets/img/login_bac.png) no-repeat;
+    background-size: cover;
+  }
+
+  .log-form-wrapper .Linfo {
+    padding: 38px 0 0 52px;
+  }
+
+  .log-form-wrapper .Linfo .bac_desc {
+    width: 430px;
+    height: 110px;
+    background: url(../assets/img/bac_desc.png) no-repeat;
+  }
+
+  .log-form-wrapper .Linfo .code-container {
+    border: 3px dashed #e2eceb;
+    width: 399px;
+    margin-top: 15px;
+    margin-left: 5px;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    background: #fff;
+  }
+
+  .log-form-wrapper .Linfo .code-container li {
+    display: inline-block;
+    width: 100px;
+    background: #fff;
+    padding: 0 48px;
+  }
+
+  .log-form-wrapper .Linfo .code-container li.spline {
+    border-right: 1px solid #f1f1f1;
+  }
+
+  .log-form-wrapper .Linfo .code-container li p {
+    margin: 0;
+    text-align: center;
+    font-size: 1rem;
+    line-height: 20px;
+  }
+
+  .log-form-wrapper .Linfo .code-container li p.pt18 {
+    margin-top: 18px;
   }
 
   .log-form-wrapper .form-banner {
@@ -161,8 +229,13 @@
   }
 
   .log-form-wrapper .demo-ruleForm .el-input {
+    height: 40px;
     width: 80%;
     margin-top: 25px;
+  }
+
+  .log-form-wrapper .demo-ruleForm .el-input input {
+    height: 40px;
   }
 
   .log-form-wrapper .demo-ruleForm .el-input.msg-code {
@@ -174,9 +247,9 @@
   }
 
   .log-btn {
-  	margin-top: 25px;
+  	margin-top: 30px;
   	margin-bottom: 10px;
-	width: 80%;
+  	width: 80%;
   }
 
   .el-form-item__error {
