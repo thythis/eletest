@@ -22,9 +22,9 @@
 		<div class="search-bar-wrapper">
 			<div class="search-bar">
 				<div class="logo"><img src="../assets/img/logo.png" height="67" width="170" alt=""></div>
-				<div class="main-serv">
-					<a href="">健康评估表</a>
-					<a href="">育儿宝典</a>
+				<div class="main-serv clearfix">
+					<a href=""><p>健康<br>评估表</p></a>
+					<a href=""><p>育儿<br>宝典</p></a>
 				</div>
 				<div class="content">
 					<span>热搜词：</span>
@@ -287,7 +287,7 @@
 	}
 
 	.search-bar-wrapper .search-bar .main-serv a {
-		display: inline-block;
+		float: left;
 		width: 40px;
 		height: 40px;
 		line-height: 40px;
@@ -296,6 +296,14 @@
 		margin-left: 20px;
 		color: #fff;
 		font-size: 12px;	
+		text-align: center;
+	}
+
+	.search-bar-wrapper .search-bar .main-serv a p {
+		margin-top: 8px;
+		font-size: 10px;
+		line-height: 12px;
+		text-align: center;
 	}
 
 	.nav-bar-wrapper {
