@@ -15,16 +15,19 @@ const routes = [{
 	children: [
 		{
 			path: '/reg',
-			component: resolve => require(['./components/Reg'], resolve)
+			component: resolve => require(['./views/Reg'], resolve)
 		},
 		{
 			path: '/login',
-			component: resolve => require(['./components/Login'], resolve)	
+			component: resolve => require(['./views/Login'], resolve)	
 		}
 	]
 },{
 	path: '/home',
-	component: resolve => require(['./components/Main'], resolve)
+	component: resolve => require(['./views/Main'], resolve)
+},{
+	path: '/eva',
+	component: resolve => require(['./views/Evaluate'], resolve)
 }
 
 ]

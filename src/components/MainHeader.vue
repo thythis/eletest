@@ -45,30 +45,47 @@
 		</div>
 		<div class="nav-bar-wrapper">
 			<div class="nav-bar">
-				<a href="" class="hover">首页</a>
-				<a href="">健康评估表</a>
-				<a href="">育儿宝典</a>
-				<a href="">合作医院</a>
-				<a href="">新闻中心</a>
-				<a href="">客户端下载</a>
-				<a href="">联系</a>
+				<router-link to="home" class="hover">首页</router-link>
+				<router-link to="eva">健康评估表</router-link>
+				<router-link to="">育儿宝典</router-link>
+				<router-link to="">合作医院</router-link>
+				<router-link to="">新闻中心</router-link>
+				<router-link to="">客户端下载</router-link>
+				<router-link to="login">联系</router-link>
 			</div>
+		</div>
+		<div class="carousel-wrapper">
+			<el-carousel :interval="4000" height="630px" arrow="always">
+			    <el-carousel-item v-for="item in list" :key="item">
+				    <img :src="item.img" alt="">
+				    <h3>{{item.txt}}</h3>
+		    	</el-carousel-item>
+			</el-carousel>
 		</div>
 	</div>
 </template>
 
 <script>
-	import {myfun} from "../assets/js/test.js"
+	import banner1 from '../assets/img/banner1.png';
+	import banner2 from '../assets/img/banner2.png';
+	import banner3 from '../assets/img/banner3.png';
 	export default {
+		data() {
+			return {
+				list: [
+					{
+						img: banner1, 
+						txt: '为您提供6岁以下宝宝的喂养、护理、疾病及成长发育最专业、新颖、贴心的育儿资讯。让您更快获取一步儿童健康专业知识，及时分享更多的育儿知识，呵护宝贝健康成长！'
+					},{
+						img: banner2, 
+						txt: '卫宝贝系列产品是一款面向儿科类的专科产品，针对幼儿园儿童心理筛查，为医院、幼儿园，家长提供了全面的解决方案。'
+					},{
+						img: banner3, 
+						txt: '个人中心宝贝成长历程，育儿知识收藏，宝贝档案管理，宝贝健康档案管理。一键登录，随手记录，随时查阅，为宝贝成长的每一步进行实时关注，与宝贝一同成长！'
+					}]
+			}
+		},
 		mounted() {
-			var options = {
-			  useEasing : true, 
-			  useGrouping : true, 
-			  separator : ',', 
-			  decimal : '.', 
-			};
-			// var demo = new CountUp(this.$refs.nana, 0, 3631, 0, 2.5, options);
-			// demo.start();
 		}
 	}
 </script>
@@ -76,6 +93,11 @@
 <style scoped>
 @import '../assets/css/common.css';
 @import '../assets/css/iconfont.css';
+
+	@font-face {
+		font-family: myFont;
+		src: url('../assets/font/hl.ttf');
+	}
 
 	.top-bar-wrapper {
 		height: 50px;
@@ -332,6 +354,27 @@
 	.nav-bar-wrapper .nav-bar a.hover {
 		color: #e75788;
 		border-bottom: 2px solid #e75788;	
+	}
+
+
+	.carousel-wrapper {
+		width: 80%;
+		margin: 0 auto 30px auto;
+	}
+
+	.el-carousel__item img {
+		position: absolute;
+	}
+
+	.el-carousel__item h3 {
+		position: absolute;
+		text-align: center;
+		font-family: myFont;
+		font-size: 46px;
+		color: #02b6f1;
+		line-height: 72px;
+		padding: 0 20%;
+		margin-top: 60px;
 	}
 
 	.clearfix{overflow:hidden;_zoom:1;}
