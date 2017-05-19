@@ -3,8 +3,7 @@
 		<main-header></main-header>
 		<div class="content-wrapper">
 			<div class="main">
-				<el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
-				<menu-tree></menu-tree>
+				<menu-tree :list="list"></menu-tree>
 			</div>
 		</div>
 		<main-footer></main-footer>
@@ -23,51 +22,50 @@
 		},
 		data() {
 	      return {
-	        data: [{
-	          label: '长处和困难问卷',
-	          children: [{
-	            label: '二级 1-1',
-	            children: [{
-	              label: '三级 1-1-1'
-	            }]
-	          }]
-	        }, {
-	          label: '一级 2',
-	          children: [{
-	            label: '二级 2-1',
-	            children: [{
-	              label: '三级 2-1-1'
-	            }]
-	          }, {
-	            label: '二级 2-2',
-	            children: [{
-	              label: '三级 2-2-1'
-	            }]
-	          }]
-	        }, {
-	          label: '一级 3',
-	          children: [{
-	            label: '二级 3-1',
-	            children: [{
-	              label: '三级 3-1-1'
-	            }]
-	          }, {
-	            label: '二级 3-2',
-	            children: [{
-	              label: '三级 3-2-1'
-	            }]
-	          }]
-	        }],
-	        defaultProps: {
-	          children: 'children',
-	          label: 'label'
-	        }
+	      	list: [{
+	      	  label: '长处和困难问卷',
+	      	  id: 'c1',
+	      	  children: [{
+	      	    label: '二级 1-1',
+	      	    id: 'c2',
+	      	    children: [{
+	      	      label: '三级 1-1-1',
+	      	      id: 'c3',
+	      	    }]
+	      	  }]
+	      	}, {
+	      	  label: '儿童发育筛查问卷表',
+	      	  id: 'c4',
+	      	  children: [{
+	      	    label: '2/月--4/月',
+	      	    id: 'c5',
+	      	  }, {
+	      	    label: '2岁3月--4岁7月',
+	      	    id: 'c7',
+	      	  }]
+	      	}, {
+	      	  label: '儿童行为量表CBCL2~3)',
+	      	  id: 'c9',
+	      	  children: [{
+	      	    label: '二级 3-1',
+	      	    id: 'c10',
+	      	    children: [{
+	      	      label: '三级 3-1-1',
+	      	      id: 'c11',
+	      	    }]
+	      	  }, {
+	      	    label: '二级 3-2',
+	      	    id: 'c12',
+	      	    children: [{
+	      	      label: '三级 3-2-1',
+	      	      id: 'c13',
+	      	    }]
+	      	  }]
+	      	}],
+	      	
 	      };
 	    },
 	    methods: {
-	      handleNodeClick(data) {
-	        console.log(data);
-	      }
 	    }
 	}
 </script>
@@ -78,5 +76,4 @@
 		margin: 0 auto;
 	}
 
-	
 </style>
