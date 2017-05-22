@@ -3,7 +3,10 @@
 		<main-header></main-header>
 		<div class="content-wrapper">
 			<div class="main">
-				<menu-tree :list="list"></menu-tree>
+				<el-row>
+				  <el-col :span="6"><menu-tree :list="list"></menu-tree></el-col>
+				  <el-col :span="18"><survey></survey></el-col>
+				</el-row>
 			</div>
 		</div>
 		<main-footer></main-footer>
@@ -14,11 +17,13 @@
 	import MainHeader from '../components/MainHeader.vue';
 	import MainFooter from '../components/MainFooter.vue';
 	import MenuTree from '../components/MenuTree.vue';
+	import Survey from '../components/Survey.vue';
 	export default {
 		components: {
 			MainHeader,
 			MainFooter,
-			MenuTree
+			MenuTree,
+			Survey
 		},
 		data() {
 	      return {

@@ -55,11 +55,39 @@
 			</div>
 		</div>
 		<div class="carousel-wrapper">
-			<el-carousel :interval="4000" height="630px" arrow="always">
-			    <el-carousel-item v-for="item in list" :key="item">
-				    <img :src="item.img" alt="">
-				    <h3>{{item.txt}}</h3>
-		    	</el-carousel-item>
+			<el-carousel :interval="400000" height="422px" arrow="always">
+				<div class="myItem">
+				    <el-carousel-item>
+					    <img src="../assets/img/banner1.png" alt="">
+					    <h3 >
+					    	为您提供6岁以下宝宝的喂养、护理、疾病及<br>
+					    	成长发育最专业、新颖、贴心的育儿资讯。<br>
+					    	让您更快获取一步儿童健康专业知识，<br>
+					    	及时分享更多的育儿知识，呵护宝贝健康成长！
+					    </h3>
+			    	</el-carousel-item>
+			    	<el-carousel-item>
+					    <img src="../assets/img/banner2.png" alt="">
+					    <transition name="slide-fade">
+					    <h3>
+					    	卫宝贝系列产品是一款面向儿科类的专科产品，<br>
+					    	针对幼儿园儿童心理筛查，为医院、幼儿园，<br>
+					    	家长提供了全面的解决方案。
+					    </h3>
+					    </transition>
+			    	</el-carousel-item>
+			    	<el-carousel-item>
+					    <img src="../assets/img/banner3.png" alt="">
+					    <h3>
+					    	个人中心<br>
+					    	宝贝成长历程，育儿知识收藏，宝贝档案管理，<br>
+					    	宝贝健康档案管理。一键登录，<br>
+					    	随手记录，随时查阅，<br>
+					    	为宝贝成长的每一步进行实时关注，<br>
+					    	与宝贝一同成长！
+					    </h3>
+			    	</el-carousel-item>
+				</div>
 			</el-carousel>
 		</div>
 	</div>
@@ -69,9 +97,11 @@
 	import banner1 from '../assets/img/banner1.png';
 	import banner2 from '../assets/img/banner2.png';
 	import banner3 from '../assets/img/banner3.png';
+	import Animate from 'animate.css';
 	export default {
 		data() {
 			return {
+				show: true,
 				list: [
 					{
 						img: banner1, 
@@ -81,7 +111,7 @@
 						txt: '卫宝贝系列产品是一款面向儿科类的专科产品，针对幼儿园儿童心理筛查，为医院、幼儿园，家长提供了全面的解决方案。'
 					},{
 						img: banner3, 
-						txt: '个人中心宝贝成长历程，育儿知识收藏，宝贝档案管理，宝贝健康档案管理。一键登录，随手记录，随时查阅，为宝贝成长的每一步进行实时关注，与宝贝一同成长！'
+						txt: '个人中心，宝贝成长历程，育儿知识收藏，宝贝档案管理，宝贝健康档案管理。一键登录，随手记录，随时查阅，为宝贝成长的每一步进行实时关注，与宝贝一同成长！'
 					}]
 			}
 		},
@@ -364,17 +394,56 @@
 
 	.el-carousel__item img {
 		position: absolute;
+		width: 100%;
+		height: 100%;
 	}
 
 	.el-carousel__item h3 {
 		position: absolute;
-		text-align: center;
 		font-family: myFont;
-		font-size: 46px;
-		color: #02b6f1;
-		line-height: 72px;
-		padding: 0 20%;
-		margin-top: 60px;
+		font-size: 30px;
+		line-height: 46px;
+		opacity: 0;
+	}
+
+	.myItem .el-carousel__item:nth-child(1) h3 {
+		color: #0bb4ef;
+		font-size: 32px;
+		line-height: 50px;
+		text-align: center;
+		top: 56px;
+		left: 0;
+		right: 0;
+		margin: 0 auto;
+	}
+
+	.myItem .el-carousel__item:nth-child(2) h3 {
+		color: #eb6695;
+		text-align: left;
+		left: 54px;
+		top: 112px;
+	}
+
+	.myItem .el-carousel__item:nth-child(3) h3 {
+		color: #0da8a2;
+		text-align: left;
+		left: 48%;
+		top: 58px;
+	}
+
+	.myItem .el-carousel__item:hover {
+		cursor: pointer;
+	}
+
+	.myItem .el-carousel__item:hover img {
+		opacity: 0.8;
+	}
+
+	.is-active h3 {
+	  opacity: 1;
+	  transform: translateX(10px);
+	  transition: all .3s ease;
+	  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 	}
 
 	.clearfix{overflow:hidden;_zoom:1;}

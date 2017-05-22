@@ -7,6 +7,7 @@
 				  <el-col :span="12">
 				  	<div class="menu-item">
 						<img src="../assets/img/menu1.png" alt="">
+						<div class="gradient"></div>
 						<div class="content">
 							<h3>健康估表</h3>
 							<p>专业的健康评估表，预防及尽早发现成长发育中的问题</p>
@@ -18,6 +19,7 @@
 				  <el-col :span="12">
 				  	<div class="menu-item">
 						<img src="../assets/img/menu2.png" alt="">	
+						<div class="gradient"></div>
 						<div class="content">
 							<p>
 								&#9733;&nbsp;孩子吃饭慢吞吞 如何提速？<br>
@@ -38,6 +40,7 @@
 				  <el-col :span="12">
 				  	<div class="menu-item">
 				  		<img src="../assets/img/menu3.png" alt="">	
+				  		<div class="gradient"></div>
 				  		<div class="content">
 				  			<h3>合作双赢 携手共创</h3>
 				  			<h2>关注儿童心理健康</h2>
@@ -48,6 +51,7 @@
 				  <el-col :span="12">
 				  	<div class="menu-item">
 				  		<img src="../assets/img/menu4.png" alt="">
+				  		<div class="gradient"></div>
 				  		<div class="content">
 				  			<h3>精彩瞬间</h3>
 				  			<h4>每一次合作、演讲、都带来更多的感动！</h4>
@@ -58,6 +62,7 @@
 				  <el-col :span="12">
 				  	<div class="menu-item">
 				  		<img src="../assets/img/menu5.png" alt="">
+				  		<div class="gradient"></div>
 				  		<div class="content">
 				  			<h3>卫宝贝结合云技术、移动互联网技术，<br>
 							创新研发出国内最专业的儿童心理监测平台</h3>
@@ -71,6 +76,7 @@
 				  <el-col :span="12">
 				  	<div class="menu-item">
 				  		<img src="../assets/img/menu6.png" alt="">
+				  		<div class="gradient"></div>
 				  		<div class="content">
 				  			<p>
 				  				提供医院、幼儿园、家长三为一体的解决方案，<br>
@@ -92,6 +98,7 @@
 <script>
 	import MainHeader from '../components/MainHeader.vue';
 	import MainFooter from '../components/MainFooter.vue';
+	import Animate from 'animate.css';
 	export default {
 		components: {
 			MainHeader,
@@ -137,10 +144,77 @@
 		position: absolute;
 	}
 
+	.main .el-row .el-col .gradient {
+		width: 100%;
+		height: 100%;
+		opacity: 0;
+		position: absolute;
+		transition: .5s;
+		-moz-transition: .5s; /* Firefox 4 */
+		-webkit-transition: .5s; /* Safari 和 Chrome */
+		-o-transition: .5s; /* Opera */
+	}
+
+	.main .el-row .el-col:hover .gradient {
+		opacity: 0.8;
+	}
+
+	.main .el-row .el-col:hover {
+		cursor: pointer;
+	}
+
 	.main .el-row .el-col:nth-child(1) .content {
 		font-family: 'YouYuanaba4e711f19170';
 		left: 28px;
 		top: 36px;
+	}
+
+	.main .el-row .el-col:nth-child(1):hover .content {
+		animation: fadeIn 2s;
+	}
+
+	.main .el-row .el-col:nth-child(1):hover .gradient {
+		background: linear-gradient(135deg, #eb6995 0%, #fff9f9 100%);
+	}
+
+	.main .el-row .el-col:nth-child(2):hover .content {
+		animation: pulse .5s;
+	}
+
+	.main .el-row .el-col:nth-child(2):hover .gradient {
+		background: linear-gradient(135deg, #c8dab4 0%, #fafbff 100%);
+	}
+
+	.main .el-row .el-col:nth-child(3):hover .content {
+		animation: flipInY .8s;
+	}
+
+	.main .el-row .el-col:nth-child(3):hover .gradient {
+		background: linear-gradient(135deg, #9dd2a4 0%, #eff4f0 100%);
+	}
+
+	.main .el-row .el-col:nth-child(4):hover .content {
+		animation: zoomIn .8s;
+	}
+
+	.main .el-row .el-col:nth-child(4):hover .gradient {
+		background: linear-gradient(135deg, #87be3f 0%, #009143 100%);
+	}
+
+	.main .el-row .el-col:nth-child(5):hover .content {
+		animation: rubberBand .8s;
+	}
+
+	.main .el-row .el-col:nth-child(5):hover .gradient {
+		background: linear-gradient(135deg, #3fc9da 0%, #54dcea 100%);
+	}
+
+	.main .el-row .el-col:nth-child(6):hover .content {
+		animation: jello .8s;
+	}
+
+	.main .el-row .el-col:nth-child(6):hover .gradient {
+		background: linear-gradient(135deg, #e9f2fb 0%, #e3b4ab 100%);
 	}
 
 	.main .el-row .el-col:nth-child(2) .content {
