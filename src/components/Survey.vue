@@ -12,7 +12,14 @@
 				<div class="survey-content">
 					<p class="ps">(本测试23道题，系统自动跳转，专业心理指导。)</p>
 					<div class="progress-bar">
-						<el-progress :percentage="50" :show-text="false"></el-progress>
+						<span><strong>1</strong>/23</span>
+						<el-progress :percentage="4" :show-text="false"></el-progress>
+					</div>
+					<div class="question-panel">
+						<p>1、你将孩子抱在膝盖上跳跃、摇摆等，他高兴喜欢吗？</p>
+					</div>
+					<div class="answer-panel">
+						
 					</div>
 				</div>
 			</div>
@@ -26,7 +33,8 @@
 	}
 </script>
 
-<style scoped>
+<style lang="scss" type="text/css" scoped>
+	$MAIN_COLOR: #4fc0e8;
 	.survey-wrapper {
 		width: 80%;
 	}
@@ -61,7 +69,7 @@
 	.survey-box .box-header {
 		height: 60px;
 		line-height: 60px;
-		background: #4fc0e8;
+		background: $MAIN_COLOR;
 	}
 
 	.survey-box .box-header .title {
@@ -81,7 +89,7 @@
 	.survey-box .survey-content .ps {
 		line-height: 24px;
 		font-size: 14px;
-		color: #4fc0e8;
+		color: $MAIN_COLOR;
 		text-align: center;
 	}
 
@@ -90,4 +98,28 @@
 		line-height: 32px;
 	}
 
+	.survey-box .survey-content .progress-bar span {
+		margin-right: 16px;
+		font-size: 12px;
+	}	
+
+	.survey-box .survey-content .progress-bar span strong {
+		font-size: 20px;
+		color: $MAIN_COLOR;
+	}
+
+	.survey-box .survey-content .progress-bar .el-progress {
+		display: inline-block;
+		width: 85%;
+		vertical-align: middle;
+	}
+
+	.survey-box .survey-content .question-panel {
+		padding-bottom: 55px;
+	}
+
+	.survey-box .survey-content .question-panel p {
+		line-height: 32px;
+		font-size: 16px;
+	}
 </style>

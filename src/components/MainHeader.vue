@@ -403,6 +403,7 @@
 		font-family: myFont;
 		font-size: 30px;
 		line-height: 46px;
+		font-weight: normal;
 		opacity: 0;
 	}
 

@@ -13,6 +13,7 @@
 							<p>专业的健康评估表，预防及尽早发现成长发育中的问题</p>
 							<p class="bger">让孩子有一个快乐健康的成长过程！</p>
 						</div>
+						<a href="" class="more-desc">查看更多</a>
 						<a href="" class="more">更多的健康评估表 >></a>
 				  	</div>
 				  </el-col>
@@ -118,8 +119,7 @@
 <style scoped>
 	@font-face {font-family: 'YouYuanaba4e711f19170';src: url('//cdn.webfont.youziku.com/webfonts/nomal/102768/46614/591bf0eff629d816fc0dff10.gif?r=43396976184');src: url('//cdn.webfont.youziku.com/webfonts/nomal/102768/46614/591bf0eff629d816fc0dff10.gif?r=43396976184?#iefix') format('embedded-opentype'),     url('//cdn.webfont.youziku.com/webfonts/nomal/102768/46614/591bf0eff629d816fc0dff10.bmp?r=43396976184') format('woff'),     url('//cdn.webfont.youziku.com/webfonts/nomal/102768/46614/591bf0eff629d816fc0dff10.jpg?r=43396976184') format('truetype'),     url('#YouYuan') format('svg');   }.cssaba4e711f19170{font-family: 'YouYuanaba4e711f19170';}
 
-	@font-face
-	{
+	@font-face {
 		font-family: myFont;
 		src: url('../assets/font/hl.ttf');
 	}
@@ -144,19 +144,53 @@
 		position: absolute;
 	}
 
+	.main .el-row .el-col {
+	}
+
 	.main .el-row .el-col .gradient {
 		width: 100%;
 		height: 100%;
+		
 		opacity: 0;
 		position: absolute;
-		transition: .5s;
-		-moz-transition: .5s; /* Firefox 4 */
-		-webkit-transition: .5s; /* Safari 和 Chrome */
-		-o-transition: .5s; /* Opera */
+		/*transition: all .5s linear;
+		-moz-transition: all .5s linear; 
+		-webkit-transition: all .5s linear;
+		-o-transition: all .5s linear; */
+	}
+
+	.main .el-row .el-col:nth-child(1) .gradient {
+		-webkit-transition:opacity .8s;
+		background: linear-gradient(135deg, #eb6995 0%, #fff9f9 100%);
+	}
+
+	.main .el-row .el-col:nth-child(2) .gradient {
+		-webkit-transition:opacity .8s;
+		background: linear-gradient(135deg, #c8dab4 0%, #fafbff 100%);
+	}
+
+	.main .el-row .el-col:nth-child(3) .gradient {
+		-webkit-transition:opacity .8s;
+		background: linear-gradient(135deg, #9dd2a4 0%, #eff4f0 100%);
+	}
+
+	.main .el-row .el-col:nth-child(4) .gradient {
+		-webkit-transition:opacity .8s;
+		background: linear-gradient(135deg, #87be3f 0%, #009143 100%);
+	}
+
+	.main .el-row .el-col:nth-child(5) .gradient {
+		-webkit-transition:opacity .8s;
+		background: linear-gradient(135deg, #3fc9da 0%, #54dcea 100%);
+	}
+
+	.main .el-row .el-col:nth-child(6) .gradient {
+		-webkit-transition:opacity .8s;
+		background: linear-gradient(135deg, #e9f2fb 0%, #e3b4ab 100%);
 	}
 
 	.main .el-row .el-col:hover .gradient {
-		opacity: 0.8;
+		opacity: 1;
 	}
 
 	.main .el-row .el-col:hover {
@@ -169,52 +203,45 @@
 		top: 36px;
 	}
 
-	.main .el-row .el-col:nth-child(1):hover .content {
-		animation: fadeIn 2s;
+	.main .el-row .el-col:nth-child(1):hover .content .bger {
+		opacity: 1;
+		/*animation: slideInUp 2s, fadeIn 2s;*/
+		transform: translateX(5px);
+		
 	}
 
-	.main .el-row .el-col:nth-child(1):hover .gradient {
-		background: linear-gradient(135deg, #eb6995 0%, #fff9f9 100%);
+	.main .el-row .el-col:nth-child(1) .more-desc {
+		opacity: 1;
+	}
+
+	.main .el-row .el-col:nth-child(1):hover .more-desc {
+		animation: fadeOutDown .8s;
+		opacity: 0;
+	}
+
+	.main .el-row .el-col:nth-child(1):hover .more {
+		animation: slideInUp .8s, fadeIn .8s;
+		opacity: 1;
 	}
 
 	.main .el-row .el-col:nth-child(2):hover .content {
 		animation: pulse .5s;
 	}
 
-	.main .el-row .el-col:nth-child(2):hover .gradient {
-		background: linear-gradient(135deg, #c8dab4 0%, #fafbff 100%);
-	}
-
 	.main .el-row .el-col:nth-child(3):hover .content {
 		animation: flipInY .8s;
-	}
-
-	.main .el-row .el-col:nth-child(3):hover .gradient {
-		background: linear-gradient(135deg, #9dd2a4 0%, #eff4f0 100%);
 	}
 
 	.main .el-row .el-col:nth-child(4):hover .content {
 		animation: zoomIn .8s;
 	}
 
-	.main .el-row .el-col:nth-child(4):hover .gradient {
-		background: linear-gradient(135deg, #87be3f 0%, #009143 100%);
-	}
-
 	.main .el-row .el-col:nth-child(5):hover .content {
 		animation: rubberBand .8s;
 	}
 
-	.main .el-row .el-col:nth-child(5):hover .gradient {
-		background: linear-gradient(135deg, #3fc9da 0%, #54dcea 100%);
-	}
-
 	.main .el-row .el-col:nth-child(6):hover .content {
 		animation: jello .8s;
-	}
-
-	.main .el-row .el-col:nth-child(6):hover .gradient {
-		background: linear-gradient(135deg, #e9f2fb 0%, #e3b4ab 100%);
 	}
 
 	.main .el-row .el-col:nth-child(2) .content {
@@ -294,17 +321,23 @@
 		color: #1a8e3d;
 	}
 
-	.main .el-row .el-col a.more {
+	.main .el-row .el-col a {
 		font-size: 20px;
-		text-decoration: underline;
 		color: #fff;
 		position: absolute;
 		left: 22px;
 		bottom: 25px;
+
 	}
 
-	.main .el-row .el-col:nth-child(1) a.more {
+	.main .el-row .el-col a.more {
+		text-decoration: underline;
+		opacity: 0;
+	}
+
+	.main .el-row .el-col:nth-child(1) a {
 		bottom: 136px;
+		transition: all .8s;
 	}
 
 	.main .el-row .el-col:nth-child(6) a.more {
@@ -328,6 +361,10 @@
 		font-size: 34px;
 		line-height: 114px;
 		margin-bottom: 120px;
+		position: absolute;
+		opacity: 0;
+		transition: all .5s ease;
+		transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 	}
 
 </style>

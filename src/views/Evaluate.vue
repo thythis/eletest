@@ -75,10 +75,12 @@
 	}
 </script>
 
-<style scoped>
-	.content-wrapper .main {
-		width: 80%;
-		margin: 0 auto;
+<style lang="scss" scoped type="text/css">
+	.content-wrapper {
+		.main {
+			width: 80%;
+			margin: 0 auto;
+		}
 	}
 
 </style>
