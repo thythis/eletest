@@ -116,7 +116,7 @@
 	}
 </script>
 
-<style scoped>
+<style lang="scss" scoped type="text/css">
 	@font-face {font-family: 'YouYuanaba4e711f19170';src: url('//cdn.webfont.youziku.com/webfonts/nomal/102768/46614/591bf0eff629d816fc0dff10.gif?r=43396976184');src: url('//cdn.webfont.youziku.com/webfonts/nomal/102768/46614/591bf0eff629d816fc0dff10.gif?r=43396976184?#iefix') format('embedded-opentype'),     url('//cdn.webfont.youziku.com/webfonts/nomal/102768/46614/591bf0eff629d816fc0dff10.bmp?r=43396976184') format('woff'),     url('//cdn.webfont.youziku.com/webfonts/nomal/102768/46614/591bf0eff629d816fc0dff10.jpg?r=43396976184') format('truetype'),     url('#YouYuan') format('svg');   }.cssaba4e711f19170{font-family: 'YouYuanaba4e711f19170';}
 
 	@font-face {
@@ -127,36 +127,30 @@
 	.main {
 		width: 80%;
 		margin: 0 auto;
-	}
+		.menu-item {
+			height: 528px;
+			position: relative;
+			img {
+				width: 100%;
+				height: 100%;
+				position: absolute;
+			}
+		}
 
-	.main .menu-item {
-		height: 528px;
-		position: relative;
-	}
+		.content {
+			position: absolute;
+		}
 
-	.main .menu-item img {
-		width: 100%;
-		height: 100%;
-		position: absolute;
-	}
-
-	.main .el-row .el-col .content {
-		position: absolute;
-	}
-
-	.main .el-row .el-col {
-	}
-
-	.main .el-row .el-col .gradient {
-		width: 100%;
-		height: 100%;
-		
-		opacity: 0;
-		position: absolute;
-		/*transition: all .5s linear;
-		-moz-transition: all .5s linear; 
-		-webkit-transition: all .5s linear;
-		-o-transition: all .5s linear; */
+		.gradient {
+			width: 100%;
+			height: 100%;
+			opacity: 0;
+			position: absolute;
+			/*transition: all .5s linear;
+			-moz-transition: all .5s linear; 
+			-webkit-transition: all .5s linear;
+			-o-transition: all .5s linear; */
+		}
 	}
 
 	.main .el-row .el-col:nth-child(1) .gradient {
@@ -207,7 +201,6 @@
 		opacity: 1;
 		/*animation: slideInUp 2s, fadeIn 2s;*/
 		transform: translateX(5px);
-		
 	}
 
 	.main .el-row .el-col:nth-child(1) .more-desc {
@@ -232,16 +225,19 @@
 		animation: flipInY .8s;
 	}
 
-	.main .el-row .el-col:nth-child(4):hover .content {
-		animation: zoomIn .8s;
+	.main .el-row .el-col:nth-child(4):hover .content h4 {
+		color: #fff;
+		text-decoration: underline;
 	}
 
-	.main .el-row .el-col:nth-child(5):hover .content {
-		animation: rubberBand .8s;
+	.main .el-row .el-col:nth-child(5):hover .content h4 {
+		opacity: 1;
 	}
 
-	.main .el-row .el-col:nth-child(6):hover .content {
-		animation: jello .8s;
+	.main .el-row .el-col:nth-child(6):hover .content p {
+		opacity: 1;
+		text-decoration: underline;
+		color: #e84d5d;
 	}
 
 	.main .el-row .el-col:nth-child(2) .content {
@@ -274,7 +270,8 @@
 		font-size: 24px;
 		line-height: 44px;
 		color: #e84d5d;
-		text-decoration: underline;
+		opacity: 0;
+		transition: all .5s ease;
 	}
 
 	.main .el-row .el-col:nth-child(5) .content h3 {
@@ -288,6 +285,8 @@
 		line-height: 48px;
 		font-weight: normal;
 		color: #fff;
+		opacity: 0;
+		transition: all .8s ease;
 	}
 
 	.main .el-row .el-col:nth-child(4) .content h3 {
@@ -299,7 +298,7 @@
 		font-size: 34px;
 		color: #fff;
 		font-weight: normal;
-		text-decoration: underline;
+		transition: all .5s ease;
 	}
 
 	.main .el-row .el-col:nth-child(3) .content h3 {

@@ -28,6 +28,12 @@ const routes = [{
 },{
 	path: '/eva',
 	component: resolve => require(['./views/Evaluate'], resolve)
+},{
+	path: '/app',
+	component: resolve => require(['./views/Download'], resolve)
+},{
+	path: '/contact',
+	component: resolve => require(['./views/Contact'], resolve)
 }
 
 ]

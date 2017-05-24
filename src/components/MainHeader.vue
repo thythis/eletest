@@ -50,8 +50,8 @@
 				<router-link to="">育儿宝典</router-link>
 				<router-link to="">合作医院</router-link>
 				<router-link to="">新闻中心</router-link>
-				<router-link to="">客户端下载</router-link>
-				<router-link to="login">联系</router-link>
+				<router-link to="app">客户端下载</router-link>
+				<router-link to="contact">联系</router-link>
 			</div>
 		</div>
 		<div class="carousel-wrapper">
@@ -127,6 +127,11 @@
 	@font-face {
 		font-family: myFont;
 		src: url('../assets/font/hl.ttf');
+	}
+
+	input::-webkit-input-placeholder{
+	    color: #fff;
+	    opacity:1;
 	}
 
 	.top-bar-wrapper {
