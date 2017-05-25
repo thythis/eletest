@@ -47,9 +47,9 @@
 			<div class="nav-bar">
 				<router-link to="home" class="hover">首页</router-link>
 				<router-link to="eva">健康评估表</router-link>
-				<router-link to="">育儿宝典</router-link>
-				<router-link to="">合作医院</router-link>
-				<router-link to="">新闻中心</router-link>
+				<router-link to="baby">育儿宝典</router-link>
+				<router-link to="partners">合作医院</router-link>
+				<router-link to="news">新闻中心</router-link>
 				<router-link to="app">客户端下载</router-link>
 				<router-link to="contact">联系</router-link>
 			</div>
