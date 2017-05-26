@@ -6,7 +6,123 @@
 				<el-col :span="4">
 					<menu-tree :list="list"></menu-tree>
 				</el-col>
-				<el-col></el-col>
+				<el-col :span="20">
+					<div class="baby-item">
+						<el-row>
+							<el-col :span="3">
+								<img src="../assets/img/baby1.jpg" alt="">
+							</el-col>
+							<el-col :span="21">
+								<div class="baby-desc">
+									<h3>教孩子懂礼貌，从家长做起</h3>
+									<p>很多家长常抱怨：我家孩子啥都好，就是在外面放不开，连招呼也不打；我家孩子太霸道，什么都不愿意分享……的确，孩子在外不够礼貌得体，让家长觉得没面子...[详细]很多家长常抱怨：我家孩子啥都好，就是在外面放不开，连招呼也不打；我家孩子太霸道，什么都不愿意分享……的确，孩子在外不够礼貌得体，让家长觉得没面子...[详细]</p>
+								</div>		
+							</el-col>
+						</el-row>
+						<div class="msg-bar">
+							<span class="dateinfo">5月2日 06:36</span>
+							<a href="" class="tag">礼貌</a>
+							<a href="" class="tag">家长</a>
+							<a href="" class="tag">孩子</a>
+							<div class="opt">
+								<a href="">评论(<span>3</span>)</a>
+								<a href="">分享</a>
+							</div>
+						</div>
+					</div>
+					<div class="baby-item">
+						<el-row>
+							<el-col :span="3">
+								<img src="../assets/img/baby1.jpg" alt="">
+							</el-col>
+							<el-col :span="21">
+								<div class="baby-desc">
+									<h3>教孩子懂礼貌，从家长做起</h3>
+									<p>很多家长常抱怨：我家孩子啥都好，就是在外面放不开，连招呼也不打；我家孩子太霸道，什么都不愿意分享……的确，孩子在外不够礼貌得体，让家长觉得没面子...[详细]很多家长常抱怨：我家孩子啥都好，就是在外面放不开，连招呼也不打；我家孩子太霸道，什么都不愿意分享……的确，孩子在外不够礼貌得体，让家长觉得没面子...[详细]</p>
+								</div>		
+							</el-col>
+						</el-row>
+						<div class="msg-bar">
+							<span class="dateinfo">5月2日 06:36</span>
+							<a href="" class="tag">礼貌</a>
+							<a href="" class="tag">家长</a>
+							<a href="" class="tag">孩子</a>
+							<div class="opt">
+								<a href="">评论(<span>3</span>)</a>
+								<a href="">分享</a>
+							</div>
+						</div>
+					</div>
+					<div class="baby-item">
+						<el-row>
+							<el-col :span="3">
+								<img src="../assets/img/baby1.jpg" alt="">
+							</el-col>
+							<el-col :span="21">
+								<div class="baby-desc">
+									<h3>教孩子懂礼貌，从家长做起</h3>
+									<p>很多家长常抱怨：我家孩子啥都好，就是在外面放不开，连招呼也不打；我家孩子太霸道，什么都不愿意分享……的确，孩子在外不够礼貌得体，让家长觉得没面子...[详细]很多家长常抱怨：我家孩子啥都好，就是在外面放不开，连招呼也不打；我家孩子太霸道，什么都不愿意分享……的确，孩子在外不够礼貌得体，让家长觉得没面子...[详细]</p>
+								</div>		
+							</el-col>
+						</el-row>
+						<div class="msg-bar">
+							<span class="dateinfo">5月2日 06:36</span>
+							<a href="" class="tag">礼貌</a>
+							<a href="" class="tag">家长</a>
+							<a href="" class="tag">孩子</a>
+							<div class="opt">
+								<a href="">评论(<span>3</span>)</a>
+								<a href="">分享</a>
+							</div>
+						</div>
+					</div>
+					<div class="baby-item">
+						<el-row>
+							<el-col :span="3">
+								<img src="../assets/img/baby1.jpg" alt="">
+							</el-col>
+							<el-col :span="21">
+								<div class="baby-desc">
+									<h3>教孩子懂礼貌，从家长做起</h3>
+									<p>很多家长常抱怨：我家孩子啥都好，就是在外面放不开，连招呼也不打；我家孩子太霸道，什么都不愿意分享……的确，孩子在外不够礼貌得体，让家长觉得没面子...[详细]很多家长常抱怨：我家孩子啥都好，就是在外面放不开，连招呼也不打；我家孩子太霸道，什么都不愿意分享……的确，孩子在外不够礼貌得体，让家长觉得没面子...[详细]</p>
+								</div>		
+							</el-col>
+						</el-row>
+						<div class="msg-bar">
+							<span class="dateinfo">5月2日 06:36</span>
+							<a href="" class="tag">礼貌</a>
+							<a href="" class="tag">家长</a>
+							<a href="" class="tag">孩子</a>
+							<div class="opt">
+								<a href="">评论(<span>3</span>)</a>
+								<a href="">分享</a>
+							</div>
+						</div>
+					</div>
+					<div class="baby-item">
+						<el-row>
+							<el-col :span="3">
+								<img src="../assets/img/baby1.jpg" alt="">
+							</el-col>
+							<el-col :span="21">
+								<div class="baby-desc">
+									<h3>教孩子懂礼貌，从家长做起</h3>
+									<p>很多家长常抱怨：我家孩子啥都好，就是在外面放不开，连招呼也不打；我家孩子太霸道，什么都不愿意分享……的确，孩子在外不够礼貌得体，让家长觉得没面子...[详细]很多家长常抱怨：我家孩子啥都好，就是在外面放不开，连招呼也不打；我家孩子太霸道，什么都不愿意分享……的确，孩子在外不够礼貌得体，让家长觉得没面子...[详细]</p>
+								</div>		
+							</el-col>
+						</el-row>
+						<div class="msg-bar">
+							<span class="dateinfo">5月2日 06:36</span>
+							<a href="" class="tag">礼貌</a>
+							<a href="" class="tag">家长</a>
+							<a href="" class="tag">孩子</a>
+							<div class="opt">
+								<a href="">评论(<span>3</span>)</a>
+								<a href="">分享</a>
+							</div>
+						</div>
+					</div>
+				</el-col>
 			</el-row>
 		</div>
 		<main-footer></main-footer>
@@ -83,6 +199,61 @@
 	.baby-wrapper {
 		width: 60%;
 		margin: 0 auto;
-
+		.baby-item {
+			padding: 38px 0 44px 0;
+			border-bottom: 1px solid #f6f6f6;
+			img {
+				width: 100%;
+				height: 100%;
+			}
+			.baby-desc {
+				display: inline-block;
+				padding-left: 20px;
+				h3 {
+					font-size: 18px;
+					line-height: 24px;
+					margin-bottom: 8px;
+				}
+				p {
+					font-size: 14px;
+					line-height: 20px;
+					color: #686868;
+				}
+			}
+			.msg-bar {
+				margin-top: 12px;
+				height: 24px;
+				line-height: 24px;
+				position: relative;
+				.dateinfo {
+					font-size: 14px;
+					color: #4e4e4e;
+					margin-right: 28px;
+				}
+				.tag {
+					font-size: 14px;
+					color: #449599;
+					margin-left: 13px;
+				}
+				.opt {
+					position: absolute;
+					top: 0;
+					right: 0;
+					display: inline-block;
+					a {
+						font-size: 14px;
+						color: #4e4e4e;
+						padding-left: 20px;
+						&:nth-child(1) {
+							padding-right: 20px;
+							border-right: 1px solid #4e4e4d;
+						}
+						&:hover {
+							color: #49bdec;
+						}
+					}
+				}
+			}
+		}
 	}
 </style>
