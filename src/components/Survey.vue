@@ -19,7 +19,14 @@
 						<p>1、你将孩子抱在膝盖上跳跃、摇摆等，他高兴喜欢吗？</p>
 					</div>
 					<div class="answer-panel">
-						
+						<label class="answer-item" for="cb1">
+							<input type="radio" name="cx" value="yes" id="cb1">
+							<span>A</span>是
+						</label>
+						<label class="answer-item" for="cb2">
+							<input type="radio" name="cx" value="no" id="cb2">
+							<span>B</span>否
+						</label>
 					</div>
 				</div>
 			</div>
@@ -105,6 +112,59 @@
 					p {
 						line-height: 32px;
 						font-size: 16px;
+					}
+				}
+				.answer-panel {
+					.answer-item {
+						display: block;
+						position: relative;
+						padding: 0 30px 0 25px;
+						height: 48px;
+						line-height: 48px;
+						font-size: 14px;
+						input {
+							position: absolute;
+							clip: rect(0, 0, 0, 0);
+							&:checked ~ span {
+								background: $MAIN_COLOR;
+								color: #fff;
+							}
+						}
+						&:hover {
+							cursor: pointer;
+							::after {
+								content: '';
+								width: 100%;
+								height: 48px;
+								position: absolute;
+								left: 0;
+								top: 0;
+								background: rgba(200,200,200,0.3);
+							}
+							span {
+								background: $MAIN_COLOR;
+								color: #fff;
+								cursor: pointer;
+							}
+						}
+						span {
+							display: inline-block;
+							width: 20px;
+							height: 20px;
+							border-radius: 50%;
+							background: #fff;
+							color: $MAIN_COLOR;
+							border: 1px solid $MAIN_COLOR;
+							text-align: center;
+							line-height: 20px;
+							font-size: 12px;
+							margin-right: 10px;
+							&:hover {
+								background: $MAIN_COLOR;
+								color: #fff;
+								cursor: pointer;
+							}
+						}
 					}
 				}
 			}
