@@ -2,11 +2,14 @@ import Vue from 'vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import VueRouter from 'vue-router'
+import VueResource from 'vue-resource'
 import App from './App'
 
 Vue.use(ElementUI);
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
+
+Vue.use(VueResource);
 
 const routes = [{
 	path: '/',
@@ -19,7 +22,7 @@ const routes = [{
 		},
 		{
 			path: '/login',
-			component: resolve => require(['./views/Login'], resolve)	
+			component: resolve => require(['./views/Login'], resolve)
 		}
 	]
 },{

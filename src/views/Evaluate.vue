@@ -33,10 +33,6 @@
 	      	  children: [{
 	      	    label: '二级 1-1',
 	      	    id: 'c2',
-	      	    children: [{
-	      	      label: '三级 1-1-1',
-	      	      id: 'c3',
-	      	    }]
 	      	  }]
 	      	}, {
 	      	  label: '儿童发育筛查问卷表',
@@ -54,20 +50,12 @@
 	      	  children: [{
 	      	    label: '二级 3-1',
 	      	    id: 'c10',
-	      	    children: [{
-	      	      label: '三级 3-1-1',
-	      	      id: 'c11',
-	      	    }]
 	      	  }, {
 	      	    label: '二级 3-2',
 	      	    id: 'c12',
-	      	    children: [{
-	      	      label: '三级 3-2-1',
-	      	      id: 'c13',
-	      	    }]
 	      	  }]
 	      	}],
-	      	
+
 	      };
 	    },
 	    methods: {

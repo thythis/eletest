@@ -5,9 +5,10 @@
 				<h3>评测说明</h3>
 				<p>幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力</p>
 			</div>
+			<img :src="questionList[0].desc_img" alt="">
 			<div class="survey-box">
 				<div class="box-header">
-					<h2 class="title">儿童发育筛查问卷表 （小星星）</h2>
+					<h2 class="title">{{questionList[0].name}}</h2>
 				</div>
 				<div class="survey-content">
 					<p class="ps">(本测试23道题，系统自动跳转，专业心理指导。)</p>
@@ -36,7 +37,23 @@
 
 <script>
 	export default {
-
+		mounted() {
+			var that = this;
+			this.$http.get('static/test.json').then(function(response){
+			    // 响应成功回调
+					console.log(response);
+					that.questionList = response.body;
+					// that.$set('questionList', response.body[0].name);
+			}, function(response){
+			    // 响应错误回调
+					console.log('fail');
+			});
+		},
+		data() {
+			return {
+				questionList: '',
+			}
+		}
 	}
 </script>
 
@@ -105,7 +122,7 @@
 						display: inline-block;
 						width: 85%;
 						vertical-align: middle;
-					}	
+					}
 				}
 				.question-panel {
 					padding: 0 30px 55px 25px;

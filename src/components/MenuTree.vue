@@ -7,7 +7,7 @@
 		    <ul v-if="item.children!=null">
 		      <li v-for="itemson in item.children" :key="itemson">
 		        <input type="checkbox" :id="itemson.id" />
-		        <label :for="itemson.id" class="tree_label">{{itemson.label}}</label>
+		        <label :for="itemson.id" class="tree_label sLevel">{{itemson.label}}</label>
 		        <ul v-if="itemson.children!=null">
 		          <li v-for="itemgson in itemson.children" :key="itemgson"><span class="tree_label">{{itemgson.label}}</span></li>
 		        </ul>
@@ -29,9 +29,9 @@
 	}
 </script>
 
-<style scoped>
-	.tree { 
-		margin: 1em; 
+<style lang="scss" type="text/css" scoped>
+	.tree {
+		margin: 1em;
 		border-left: 1px solid #49bdec;
 	}
 
@@ -44,8 +44,8 @@
 
 	.tree input:checked ~ ul { display: block; }
 
-	.tree input:checked ~ .tree_label { 
-		color: #49bdec; 
+	.tree input:checked ~ .tree_label {
+		color: #49bdec;
 		text-decoration: underline;
 	}
 
@@ -66,26 +66,59 @@
 	  }
 
 	label.tree_label {
-		cursor: pointer; 	
+		cursor: pointer;
 		font-size: 18px;
 		color: #434343;
 		height: 36px;
 		line-height: 36px;
+		padding-left: 10px;
 	}
 
 	label.tree_label:hover {
 		color: #49bdec;
 		text-decoration: underline;
+		&.fLevel:before {
+			top: 8px;
+			left: -10px;
+			content: '';
+			display: inline-block;
+			position: relative;
+			width: 4px;
+			height: 25px;
+			// margin: 0 10px 0 0 ;
+			background: #49bdec;
+			-ms-transform: rotate(0);
+			transform: rotate(0);
+
+		}
+
+		&.sLevel:before {
+		    display: inline-block;
+			position: relative;
+			z-index: 1;
+			margin: 3px 8px 0 3px;
+			content: '';
+			line-height: 36px;
+			width: 0;
+			height: 0;
+			border: 6px solid transparent;
+			border-right-width: 0;
+			border-left-color: #49bdec;
+			border-left-width: 7px;
+			-ms-transform: rotate(0);
+			transform: rotate(0);
+			transition: transform .3s ease-in-out;
+		}
+
 	}
-	
-	label.tree_label:before {
-		display: inline-block;
+
+	:checked ~ label.sLevel:before {
+	    display: inline-block;
 		position: relative;
 		z-index: 1;
 		margin: 3px 8px 0 3px;
 		content: '';
 		line-height: 36px;
-
 		width: 0;
 		height: 0;
 		border: 6px solid transparent;
@@ -94,12 +127,7 @@
 		border-left-width: 7px;
 		-ms-transform: rotate(0);
 		transform: rotate(0);
-		transition: transform .3s ease-in-out;					
-	}
-
-	:checked ~ label.tree_label:before { 
-	    -ms-transform: rotate(90deg);
-	    transform: rotate(90deg);
+		transition: transform .3s ease-in-out;
 	}
 
 	label.tree_label.fLevel:before {
@@ -108,12 +136,12 @@
 
 	:checked ~ label.tree_label.fLevel:before {
 		top: 8px;
+		left: -10px;
 		content: '';
 		display: inline-block;
 		position: relative;
 		width: 4px;
 		height: 25px;
-		margin: 0 10px 0 0 ;
 		background: #49bdec;
 		-ms-transform: rotate(0);
 		transform: rotate(0);

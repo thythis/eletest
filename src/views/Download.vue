@@ -17,7 +17,17 @@
 					</div>
 				</el-col>
 				<el-col :span="13">
-					<img src="../assets/img/app_desc.png" alt="">
+				  <el-carousel class="app_img" indicator-position="none" arrow="never" type="card" height="500px" :autoplay="false">
+				    <el-carousel-item >
+					  	<img src="../assets/img/app_desc.png" alt="">
+				    </el-carousel-item>
+						<el-carousel-item>
+					  	<img src="../assets/img/app_desc2.png" alt="">
+				    </el-carousel-item>
+					<el-carousel-item>
+					  	<img src="../assets/img/app_desc3.png" alt="">
+				    </el-carousel-item>
+				  </el-carousel>
 				</el-col>
 			</el-row>
 		</div>
@@ -81,6 +91,21 @@
 				}
 				&:hover {
 					background: #fd6174;
+				}
+			}
+		}
+
+		.app_img {
+			.el-carousel__item {
+				// &:nth-child(1), &:nth-child(2) {
+				// 	width: 641px;
+				// }
+				// &:nth-child(3) {
+				// 	width: 825px;
+				// }
+				img {
+					width: 100%;
+					height: 100%;
 				}
 			}
 		}
