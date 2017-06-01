@@ -5,28 +5,23 @@
 				<h3>评测说明</h3>
 				<p>幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力</p>
 			</div>
-			<img :src="questionList[0].desc_img" alt="">
 			<div class="survey-box">
 				<div class="box-header">
-					<h2 class="title">{{questionList[0].name}}</h2>
+					<h2 class="title">{{questionList.pgbnr}}</h2>
 				</div>
 				<div class="survey-content">
-					<p class="ps">(本测试23道题，系统自动跳转，专业心理指导。)</p>
+					<p class="ps">(本测试{{questionList.qlist.length}}道题，系统自动跳转，专业心理指导。)</p>
 					<div class="progress-bar">
-						<span><strong>1</strong>/23</span>
-						<el-progress :percentage="4" :show-text="false"></el-progress>
+						<span><strong>{{questionIndex + 1}}</strong>/{{questionList.qlist.length}}</span>
+						<el-progress :percentage="percent" :show-text="false"></el-progress>
 					</div>
 					<div class="question-panel">
-						<p>1、你将孩子抱在膝盖上跳跃、摇摆等，他高兴喜欢吗？</p>
+						<p>{{questionList.qlist[questionIndex].qnr}}</p>
 					</div>
 					<div class="answer-panel">
-						<label class="answer-item" for="cb1">
-							<input type="radio" name="cx" value="yes" id="cb1">
-							<span>A</span>是
-						</label>
-						<label class="answer-item" for="cb2">
-							<input type="radio" name="cx" value="no" id="cb2">
-							<span>B</span>否
+						<label class="answer-item" v-for="item in questionList.qlist[questionIndex].alist"  @click.prevent="myTest(item.axx)" :for="item.aid">
+							<input type="radio" name="xx" :id="item.aid">
+							<span>{{item.axx}}</span>{{item.axxnr}}
 						</label>
 					</div>
 				</div>
@@ -39,11 +34,10 @@
 	export default {
 		mounted() {
 			var that = this;
-			this.$http.get('static/test.json').then(function(response){
+			this.$http.get('static/test.json', {emulatejson: true}).then(function(response){
 			    // 响应成功回调
-					console.log(response);
-					that.questionList = response.body;
-					// that.$set('questionList', response.body[0].name);
+					that.questionList = response.body[0];
+					that.percentrate = 1 / response.body[0].qlist.length * 100;
 			}, function(response){
 			    // 响应错误回调
 					console.log('fail');
@@ -52,6 +46,30 @@
 		data() {
 			return {
 				questionList: '',
+				questionIndex: 0,
+				percentrate: 0,
+				choice: "",
+				percent: 0,
+				answerlist: []
+			}
+		},
+		methods: {
+			myTest: function(x) {
+				if(this.questionIndex == (this.questionList.length -1)) {
+					this.percent += this.percentrate;
+					this.answerList.push({
+						mxxh: this.questionIndex + 1,
+						xh: x
+					});
+					return;
+				}
+				this.percent += this.percentrate;
+				this.answerList.push({
+					mxxh: this.questionIndex + 1,
+					xh: x
+				})
+				this.questionIndex++;
+				console.log(this.answerList);
 			}
 		}
 	}
