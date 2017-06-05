@@ -36,7 +36,7 @@ const routes = [{
 	component: resolve => require(['./views/Download'], resolve)
 },{
 	path: '/contact',
-	component: resolve => require(['./views/Contact'], resolve)
+	component: resolve => require(['./views/pc'], resolve)
 },{
 	path: '/news',
 	component: resolve => require(['./views/News'], resolve)

@@ -55,22 +55,24 @@
 		},
 		methods: {
 			myTest: function(x) {
-				if(this.questionIndex == (this.questionList.qlist.length - 1)) {
-					console.log(this.questionIndex);
+				setTimeout(() => {
+					if(this.questionIndex == (this.questionList.qlist.length - 1)) {
+						console.log(this.questionIndex);
+						this.percent += this.percentrate;
+						this.answerList.push({
+							mxxh: this.questionIndex + 1,
+							xh: x
+						});
+						return;
+					}
 					this.percent += this.percentrate;
 					this.answerList.push({
 						mxxh: this.questionIndex + 1,
 						xh: x
-					});
-					return;
-				}
-				this.percent += this.percentrate;
-				this.answerList.push({
-					mxxh: this.questionIndex + 1,
-					xh: x
-				})
-				this.questionIndex++;
-				console.log(this.answerList);
+					})
+					this.questionIndex++;
+					console.log(this.answerList);
+        }, 300);
 			}
 		}
 	}
