@@ -3,10 +3,10 @@
 		<main-header></main-header>
 		<div class="baby-wrapper">
 			<el-row>
-				<el-col :span="4">
+				<el-col :span="6">
 					<menu-tree :list="list"></menu-tree>
 				</el-col>
-				<el-col :span="20">
+				<el-col :span="18">
 					<div class="baby-item">
 						<el-row>
 							<el-col :span="3">
@@ -200,15 +200,23 @@
 		width: 60%;
 		margin: 0 auto;
 		.baby-item {
+			cursor: pointer;
 			padding: 38px 0 44px 0;
 			border-bottom: 1px solid #f6f6f6;
+			&:hover {
+				box-shadow: 3px 3px 3px #ededed;
+				img {
+					transform: scale(1.1,1.1);
+				}
+			}
 			img {
 				width: 100%;
 				height: 100%;
+				transition: all .8s;
 			}
 			.baby-desc {
 				display: inline-block;
-				padding-left: 20px;
+				padding: 0 10px 0 20px;
 				h3 {
 					font-size: 18px;
 					line-height: 24px;
@@ -238,7 +246,7 @@
 				.opt {
 					position: absolute;
 					top: 0;
-					right: 0;
+					right: 20px;
 					display: inline-block;
 					a {
 						font-size: 14px;

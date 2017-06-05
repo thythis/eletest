@@ -29,15 +29,15 @@
 		        </div>
 		      </div>
 	          <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" class="demo-ruleForm">
-	              <el-input v-model.number="ruleForm2.age"  placeholder="请输入手机号">
+	              <el-input v-model.number="ruleForm2.phone"  placeholder="请输入手机号">
 	              	<template slot="prepend"><i class="iconfont icon-person"></i></template>
 	              </el-input>
 
-	              <el-input v-model.number="ruleForm2.age"  placeholder="请输入密码">
+	              <el-input type="password" v-model="ruleForm2.pass"  placeholder="请输入密码">
 	              	<template slot="prepend"><i class="iconfont icon-lock"></i></template>
 	              </el-input>
 
-	              <el-button type="success" size="large" class="log-btn">登录</el-button>
+	              <el-button type="success" size="large" class="log-btn" @click="login" v-loading.fullscreen.lock="fullscreenLoading">登录</el-button>
 
 	          </el-form>
 		    </el-col>
@@ -54,11 +54,12 @@
       HeaderBar,
     },
     data() {
-      var checkAge = (rule, value, callback) => {
+      var checkPhone = (rule, value, callback) => {
         var reg = /1[0-9]{10}/;
         var re = new RegExp(reg);
         if (!value) {
-          return callback(new Error('年龄不能为空'));
+          console.log('thy');
+          return callback(new Error('手机号不能为空'));
         }
         setTimeout(() => {
           if (!Number.isInteger(value)) {
@@ -76,40 +77,25 @@
         if (value === '') {
           callback(new Error('请输入密码'));
         } else {
-          if (this.ruleForm2.checkPass !== '') {
-            this.$refs.ruleForm2.validateField('checkPass');
-          }
-          callback();
-        }
-      };
-      var validatePass2 = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请再次输入密码'));
-        } else if (value !== this.ruleForm2.pass) {
-          callback(new Error('两次输入密码不一致!'));
-        } else {
           callback();
         }
       };
       return {
+        fullscreenLoading: false,
         imgData: {
           desc: desc
         },
         ruleForm2: {
           pass: '',
-          checkPass: '',
-          age: '',
+          phone: '',
           checked: true
         },
         rules2: {
           pass: [
             { validator: validatePass, trigger: 'blur' }
           ],
-          checkPass: [
-            { validator: validatePass2, trigger: 'blur' }
-          ],
-          age: [
-            { validator: checkAge, trigger: 'blur' }
+          phone: [
+            { validator: checkPhone, trigger: 'blur' }
           ]
         }
       };
@@ -124,6 +110,13 @@
             return false;
           }
         });
+      },
+      login() {
+        this.fullscreenLoading = true;
+        setTimeout(() => {
+          this.fullscreenLoading = false;
+          this.$router.push({path:'/home'})
+        }, 2000);
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();

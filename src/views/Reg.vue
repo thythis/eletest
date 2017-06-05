@@ -12,12 +12,12 @@
 		      <el-row class="pt60">
 		        <el-col :xs="24" :sm="12" :md="12" class="pl70">
 		          <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="right" label-width="100px" class="demo-ruleForm">
-		            <el-form-item label="手机号" prop="age" class="clearfix">
-		              <el-input v-model.number="ruleForm2.age"  placeholder="请输入手机号"></el-input>
+		            <el-form-item label="手机号" prop="phone" class="clearfix">
+		              <el-input v-model.number="ruleForm2.phone"  placeholder="请输入手机号"></el-input>
 		            </el-form-item>
-		            <el-form-item label="短信验证码" prop="age">
-		              <el-input v-model.number="ruleForm2.age"  placeholder="请输入短信验证码" class="msg-code"></el-input>
-		              <el-button  type="success">获取短信验证码</el-button>
+		            <el-form-item label="短信验证码" prop="msgcode">
+		              <el-input v-model.number="ruleForm2.msgcode"  placeholder="请输入短信验证码" class="msg-code"></el-input>
+		              <el-button  type="success" @click="sendCode">获取短信验证码</el-button>
 		            </el-form-item>
 		            <el-form-item label="密码" prop="pass">
 		              <el-input type="password" v-model="ruleForm2.pass" placeholder="请输入密码" auto-complete="off"></el-input>
@@ -26,7 +26,7 @@
 		              <el-input type="password" v-model="ruleForm2.checkPass" placeholder="请再次输入密码" auto-complete="off"></el-input>
 		            </el-form-item>
 		            <el-form-item>
-		              <el-checkbox v-model="ruleForm2.checked">我已阅读并同意<span class="aoi">《卫宝贝用户许可协议》</span></el-checkbox>
+		              <el-checkbox v-model="ruleForm2.checked">我已阅读并同意</el-checkbox><span class="aoi" @click="openProto">《卫宝贝用户许可协议》</span>
 		            </el-form-item>
 		            <el-form-item>
 		              <el-button class="sub-btn" type="primary" size="large" @click="submitForm('ruleForm2')">注册</el-button>
@@ -64,27 +64,56 @@
       HeaderBar,
     },
     data() {
-      var checkAge = (rule, value, callback) => {
+      var checkPhone = (rule, value, callback) => {
         var reg = /1[0-9]{10}/;
         var re = new RegExp(reg);
         if (!value) {
-          return callback(new Error('年龄不能为空'));
+          // new Error('手机号不能为空')
+          return callback(this.$message({
+            message: '手机号不能为空',
+            type: 'error',
+            duration: 1000
+          }));
         }
         setTimeout(() => {
           if (!Number.isInteger(value)) {
-            callback(new Error('请输入数字值'));
+            callback(this.$message({
+            message: '请输入数字值',
+            type: 'error',
+            duration: 1000
+          }));
           } else {
-            if (re.test(value)) {
-              callback(new Error('必须年满18岁'));
-            } else {
-              callback();
-            }
+            callback();
+          }
+        }, 1000);
+      };
+      var checkMsg = (rule, value, callback) => {
+        if (!value) {
+          return callback(this.$message({
+            message: '验证码不能为空',
+            type: 'error',
+            duration: 1000
+          }));
+        }
+        setTimeout(() => {
+          if (!Number.isInteger(value)) {
+            callback(this.$message({
+            message: '请输入数字值',
+            type: 'error',
+            duration: 1000
+          }));
+          } else {
+            callback();
           }
         }, 1000);
       };
       var validatePass = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('请输入密码'));
+          callback(this.$message({
+            message: '请输入密码',
+            type: 'error',
+            duration: 1000
+          }));
         } else {
           if (this.ruleForm2.checkPass !== '') {
             this.$refs.ruleForm2.validateField('checkPass');
@@ -94,9 +123,17 @@
       };
       var validatePass2 = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('请再次输入密码'));
+          callback(this.$message({
+            message: '请再次输入密码',
+            type: 'error',
+            duration: 1000
+          }));
         } else if (value !== this.ruleForm2.pass) {
-          callback(new Error('两次输入密码不一致!'));
+          callback(this.$message({
+            message: '两次输入密码不一致',
+            type: 'error',
+            duration: 1000
+          }));
         } else {
           callback();
         }
@@ -109,7 +146,8 @@
         ruleForm2: {
           pass: '',
           checkPass: '',
-          age: '',
+          phone: '',
+          msgcode: '',
           checked: true
         },
         rules2: {
@@ -119,8 +157,11 @@
           checkPass: [
             { validator: validatePass2, trigger: 'blur' }
           ],
-          age: [
-            { validator: checkAge, trigger: 'blur' }
+          phone: [
+            { validator: checkPhone, trigger: 'blur' }
+          ],
+          msgcode: [
+            { validator: checkMsg, trigger: 'blur' }
           ]
         }
       };
@@ -129,15 +170,40 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            this.$notify({
+              title: '恭喜您！',
+              message: '注册成功',
+              type: 'success'
+            });
           } else {
-            console.log('error submit!!');
+            this.$notify({
+              title: '注册失败',
+              type: 'error'
+            });
             return false;
           }
         });
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
+      },
+      openProto() {
+        this.$alert('这是一段内容这是一段内容这是一段内容这是一段内容这是一段内容这是一段内容这是一段内容这是一段内容这是一段内容这是一段内容这是一段内容这是一段内容这是一段内容这是一段内容', '卫宝贝用户许可协议', {
+          confirmButtonText: '同意',
+          callback: action => {
+            // this.$message({
+            //   type: 'info',
+            //   message: `action: ${ action }`
+            // });
+          }
+        });
+      },
+      sendCode() {
+        this.$message({
+          message: '验证码已发送',
+          type: 'info',
+          duration: 2000
+        })
       },
       golog() {
       	this.$router.push({path:'/login'})
@@ -196,6 +262,7 @@
   }
 
   .reg-form-wrapper .el-form-item .aoi {
+    cursor: pointer;
     color: #3c9fc9;
   }
 
@@ -236,6 +303,7 @@
 
   .el-form-item__error:before {
     content: '!';
+    display: inline-block;
     border-radius: 50%;
     width: 14px;
     height: 14px;

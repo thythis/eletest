@@ -24,7 +24,7 @@
 		width: 374px;
 		height: 24px;
 		background: url(../assets/img/desc2.png) no-repeat;
-		margin: 36px auto 54px auto;
+		margin: 200px auto 54px auto;
 	}
 
 	.footer-bar-wrapper {

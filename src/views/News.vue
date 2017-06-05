@@ -113,9 +113,17 @@
 		width: 60%;
 		margin: 0 auto;
 		.news-item {
+			cursor: pointer;
 			padding: 30px 25px 140px 0;
 			border-bottom: 1px dashed #a9a9a9;
 			position: relative;
+			&:hover {
+				box-shadow: 3px 3px 3px #ededed;
+				border-bottom: none;
+				img {
+					transform: scale(1.1,1.1);
+				}
+			}
 			a {
 				position: absolute;
 				right: 25px;
@@ -136,6 +144,9 @@
 			.news-content {
 				height: 150px;
 				line-height: 150px; 
+				img {
+					transition: all .8s;
+				}
 				.news-desc {
 					display: inline-block;
 					padding-left: 16px;

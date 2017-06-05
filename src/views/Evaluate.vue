@@ -68,6 +68,7 @@
 		.main {
 			width: 80%;
 			margin: 0 auto;
+			margin-bottom: 150px;
 		}
 	}
 

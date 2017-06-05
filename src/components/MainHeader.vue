@@ -23,8 +23,8 @@
 			<div class="search-bar">
 				<div class="logo"><img src="../assets/img/logo.png" height="67" width="170" alt=""></div>
 				<div class="main-serv clearfix">
-					<a href=""><p>健康<br>评估表</p></a>
-					<a href=""><p>育儿<br>宝典</p></a>
+					<router-link to="eva"><p>健康<br>评估表</p></router-link>
+					<router-link to="baby"><p>育儿<br>宝典</p></router-link>
 				</div>
 				<div class="content">
 					<span>热搜词：</span>

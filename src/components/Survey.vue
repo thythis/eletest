@@ -50,12 +50,13 @@
 				percentrate: 0,
 				choice: "",
 				percent: 0,
-				answerlist: []
+				answerList: []
 			}
 		},
 		methods: {
 			myTest: function(x) {
-				if(this.questionIndex == (this.questionList.length -1)) {
+				if(this.questionIndex == (this.questionList.qlist.length - 1)) {
+					console.log(this.questionIndex);
 					this.percent += this.percentrate;
 					this.answerList.push({
 						mxxh: this.questionIndex + 1,
@@ -76,7 +77,7 @@
 </script>
 
 <style lang="scss" type="text/css" scoped>
-	$MAIN_COLOR: #4fc0e8;
+	$MAIN_COLOR: #4fc1e9;
 	.survey-wrapper {
 		width: 80%;
 		.info {

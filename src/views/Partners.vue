@@ -90,10 +90,19 @@
 		.cps-item {
 			padding-bottom: 86px;
 			text-align: center;
+			cursor: pointer;
+			&:hover {
+				box-shadow: 3px 3px 3px #ededed;
+				border-bottom: none;
+				img {
+					transform: scale(1.1,1.1);
+				}
+			}
 			img {
 				width: 288px;
 				height: 206px;
 				display: inline-block;
+				transition: all .8s;
 			}
 		}
 	}

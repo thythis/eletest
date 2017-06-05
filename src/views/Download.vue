@@ -90,7 +90,8 @@
 					margin-right: 15px;
 				}
 				&:hover {
-					background: #fd6174;
+					background: #4fc1e9;
+					border-bottom-color: #a6e8ff;
 				}
 			}
 		}
