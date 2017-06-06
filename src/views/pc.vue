@@ -5,7 +5,7 @@
         <el-row>
           <el-col :span="5">
             <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
-              <div class="baby-avatar">
+              <div class="baby">
                 <div class="photo">
                 </div>
                 <span class="account">17607675503</span>
@@ -17,9 +17,12 @@
                   <el-menu-item index="1-2">修改宝贝信息</el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
-              <el-menu-item index="2"><i class="el-icon-menu"></i>兑换码</el-menu-item>
+              <el-menu-item index="2"><i class="el-icon-menu"></i><router-link to="contact/bbmana">兑换码</router-link></el-menu-item>
               <el-menu-item index="3"><i class="el-icon-setting"></i>评估历史</el-menu-item>
             </el-menu>
+          </el-col>
+          <el-col :span="19" class="nr-panel">
+            <router-view></router-view>
           </el-col>
         </el-row>
       </div>
@@ -46,7 +49,11 @@ export default {
         .el-col {
           height: 100%;
           background: #eef1f6;
-          .baby-avatar {
+          &.nr-panel {
+            background: #f7f7f7;
+            overflow-y: auto;
+          }
+          .baby {
             height: 90px;
             padding: 10px 0 0 10px;
             background: #4fc1e9;
