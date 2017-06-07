@@ -10,15 +10,9 @@
                 </div>
                 <span class="account">17607675503</span>
               </div>
-              <el-submenu index="1">
-                <template slot="title"><i class="el-icon-message"></i>宝贝管理</template>
-                <el-menu-item-group>
-                  <el-menu-item index="1-1">添加宝贝</el-menu-item>
-                  <el-menu-item index="1-2">修改宝贝信息</el-menu-item>
-                </el-menu-item-group>
-              </el-submenu>
-              <el-menu-item index="2"><i class="el-icon-menu"></i><router-link to="contact/bbmana">兑换码</router-link></el-menu-item>
-              <el-menu-item index="3"><i class="el-icon-setting"></i>评估历史</el-menu-item>
+              <el-menu-item index="1"><i class="el-icon-message"></i><router-link to="bbmana">宝贝管理</router-link></el-menu-item>
+              <el-menu-item index="2"><i class="el-icon-menu"></i><router-link to="rcode">兑换码</router-link></el-menu-item>
+              <el-menu-item index="3"><i class="el-icon-time"></i>评估历史</el-menu-item>
             </el-menu>
           </el-col>
           <el-col :span="19" class="nr-panel">
@@ -75,13 +69,25 @@ export default {
               margin-left: 10px;
             }
           }
-          .el-menu-item.is-active {
-            color: #4fc1e9;
+          .el-menu-item {
+            a {
+              text-decoration: none;
+              color: #48576a;
+            }
+            &.is-active {
+              color: #4fc1e9;
+              a {
+                color: #4fc1e9;
+              }
+            }
           }
           .el-submenu .el-menu-item:hover, .el-submenu__title:hover,
           .el-menu-item:hover {
             background-color: #4fc1e9;
             color: #fff;
+            a {
+              color: #fff;
+            }
           }
         }
       }

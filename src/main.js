@@ -39,9 +39,12 @@ const routes = [{
 	component: resolve => require(['./views/pc'], resolve),
 	children: [
 		{
-			path: '/contact/bbmana',
+			path: '/bbmana',
 			component: resolve => require(['./components/bbmana.vue'], resolve)
-		},
+		},{
+			path: '/rcode',
+			component: resolve => require(['./components/RedeemCode.vue'], resolve)
+		}
 	]
 },{
 	path: '/news',
