@@ -1,6 +1,7 @@
 <template lang="html">
   <div>
     <div class="baby-list" v-if="!flag">
+      <el-button type="primary" icon="plus" class="add-baby" @click="babyAdd">添加宝贝</el-button>
       <div class="baby-item" v-for="(item, index) in list">
         <img src="../assets/img/baby1.jpg" alt="">
         <div class="baby-desc">
@@ -26,7 +27,7 @@
           </el-form-item>
           <el-form-item label="出生日期">
             <el-col :span="10">
-              <el-date-picker type="date" placeholder="选择日期" v-model="form.birth" style="width: 100%;"></el-date-picker>
+              <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions0" v-model="form.birth" style="width: 100%;"></el-date-picker>
             </el-col>
           </el-form-item>
           <el-form-item label="保健号">
@@ -50,6 +51,11 @@
 export default {
   data() {
     return {
+      pickerOptions0: {
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        }
+      },
       flag: false,
       list: [{
         name: '宝贝一',
@@ -63,6 +69,7 @@ export default {
       }],
       form: {
         index: 0,
+        type: 0,
         name: '',
         birth: '',
         resource: '',
@@ -71,8 +78,14 @@ export default {
     }
   },
   methods: {
+    babyAdd: function() {
+      this.form.name = '';
+      this.form.birth = '';
+      this.form.type = 1;
+      this.flag = true;
+    },
     babyEdit: function(item, index) {
-      console.log(index);
+      this.form.type = 0;
       this.form.index = index;
       this.form.name = item.name;
       this.form.birth = item.birth;
@@ -82,12 +95,35 @@ export default {
       this.flag = false;
     },
     saveEdit: function() {
-      this.list[this.form.index] = this.form;
-      this.list[this.form.index].birth = this.form.birth.getFullYear() + '-' +
-      (this.form.birth.getMonth() + 1 > 9 ? this.form.birth.getMonth() + 1 : '0' + (this.form.birth.getMonth() + 1)) + '-' +
-      (this.form.birth.getDate() > 9 ? this.form.birth.getDate() : '0' + this.form.birth.getDate());
-      this.flag = false;
-      console.log(this.list);
+      this.$confirm('确认保存宝宝信息?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          if(this.form.type == 1) {
+            this.form.birth = this.form.birth.getFullYear() + '-' +
+            (this.form.birth.getMonth() + 1 > 9 ? this.form.birth.getMonth() + 1 : '0' + (this.form.birth.getMonth() + 1)) + '-' +
+            (this.form.birth.getDate() > 9 ? this.form.birth.getDate() : '0' + this.form.birth.getDate());
+            this.list.push({
+              name: this.form.name,
+              birth: this.form.birth
+            })
+          } else {
+            this.list[this.form.index].name = this.form.name;
+            if(!(this.list[this.form.index].birth === this.form.birth)) {
+              this.list[this.form.index].birth = this.form.birth.getFullYear() + '-' +
+              (this.form.birth.getMonth() + 1 > 9 ? this.form.birth.getMonth() + 1 : '0' + (this.form.birth.getMonth() + 1)) + '-' +
+              (this.form.birth.getDate() > 9 ? this.form.birth.getDate() : '0' + this.form.birth.getDate());
+            }
+          }
+          this.flag = false;
+          this.$message({
+            type: 'success',
+            message: '保存成功!'
+          });
+        }).catch(() => {
+
+        });
     }
   }
 }
@@ -98,6 +134,9 @@ export default {
     width: 80%;
     overflow: hidden;
     margin: 50px auto 0 auto;
+    .add-baby {
+      margin-bottom: 20px;
+    }
     .baby-item {
       height: 80px;
       padding: 10px;
