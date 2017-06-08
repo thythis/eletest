@@ -1,15 +1,25 @@
 import Vue from 'vue'
 import ElementUI from 'element-ui'
+import AMap from 'vue-amap';
 import 'element-ui/lib/theme-default/index.css'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 import App from './App'
+
+Vue.use(AMap);
 
 Vue.use(ElementUI);
 
 Vue.use(VueRouter);
 
 Vue.use(VueResource);
+
+AMap.initAMapApiLoader({
+  // 高德的key
+  key: '52fbab570d9f67a1df71cfb8ba8e77c9',
+  // 插件集合
+  plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor']
+});
 
 const routes = [{
 	path: '/',

@@ -4,8 +4,8 @@
 		<div class="addr-info">
 			<el-row>
 				<el-col :span="13" class="lPart">
-					<div class="map" id="bdmap">
-					</div>
+					<el-amap class="map" vid="amapDemo" :zoom="zoom" :center="center">
+					</el-amap>
 					<div class="map-bac"></div>
 				</el-col>
 				<el-col :span="11">
@@ -29,24 +29,16 @@
 <script>
 	import MainHeader from '../components/MainHeader.vue';
 	import MainFooter from '../components/MainFooter.vue';
-	import BMap from 'BMap';
 
 	export default {
 		components: {
 			MainHeader,
 			MainFooter
 		},
-		mounted() {
-			this.ready();			
-		},
-		methods: {
-			ready: function() {
-				var map = new BMap.Map('bdmap');
-				var point = new BMap.Point(113.963864,22.543456);
-				var marker = new BMap.Marker(point);
-				map.centerAndZoom(point, 19);
-				map.addOverlay(marker);
-				map.enableScrollWheelZoom(true);
+		data() {
+			return {
+				zoom: 12,
+        center: [121.59996, 31.197646],
 			}
 		}
 	}
@@ -58,7 +50,7 @@
 	}
 	.anchorBL{
 	    display:none!important;
-	} 
+	}
 	.addr-info {
 		width: 80%;
 		padding-top: 40px;
@@ -68,9 +60,6 @@
 				position: relative;
 				height: 582px;
 				display: none;
-				.anchorBL {
-					display: none!important;
-				}
 			}
 			.map-bac {
 				display: block;
