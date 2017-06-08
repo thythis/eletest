@@ -13,8 +13,25 @@
           <h3>{{item.name}}</h3>
           <span>{{item.birth}}</span>
         </div>
-        <el-button class="edit-btn" type="primary">兑换</el-button>
+        <el-button class="edit-btn" type="primary" @click="redeemGo(index)">兑换</el-button>
       </div>
+    </div>
+    <div class="pgblist">
+      <el-tag type="gray">已激活的评估表列表</el-tag>
+      <el-collapse v-model="activeNames">
+        <el-collapse-item title="自闭症筛查" name="1">
+          <div>自闭症筛查</div>
+          <div>6月-2岁<el-tag type="success">正常</el-tag></div>
+        </el-collapse-item>
+        <el-collapse-item title="自闭症筛查" name="2">
+          <div>自闭症筛查</div>
+          <div>6月-2岁<el-tag type="success">正常</el-tag></div>
+        </el-collapse-item>
+        <el-collapse-item title="自闭症筛查" name="3">
+          <div>自闭症筛查</div>
+          <div>6月-2岁<el-tag type="success">正常</el-tag></div>
+        </el-collapse-item>
+      </el-collapse>
     </div>
   </div>
 </template>
@@ -23,6 +40,7 @@
 export default {
   data() {
     return {
+      activeNames: ['1'],
       rcode: '',
       flag: false,
       list: [{
@@ -40,6 +58,12 @@ export default {
   methods: {
     exchange: function() {
       this.flag = true;
+    },
+    redeemGo: function(index) {
+      this.$message({
+        type: 'success',
+        message: '兑换成功!'
+      });
     }
   }
 }
@@ -53,6 +77,25 @@ export default {
     }
     .el-button {
       margin-left: 10px;
+    }
+  }
+  .pgblist {
+    width: 80%;
+    margin:20px auto;
+  }
+  .el-collapse {
+    margin-top: 10px;
+    .el-tag {
+      height: 20px;
+      line-height: 18px;
+      margin-left: 40px;
+    }
+    .el-collapse-item {
+      &.is-active {
+        .el-collapse-item__header {
+          color: #4fc1e9;
+        }
+      }
     }
   }
 </style>

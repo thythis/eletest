@@ -44,6 +44,9 @@ const routes = [{
 		},{
 			path: '/rcode',
 			component: resolve => require(['./components/RedeemCode.vue'], resolve)
+		},{
+			path: '/history',
+			component: resolve => require(['./components/EvHistory.vue'], resolve)
 		}
 	]
 },{

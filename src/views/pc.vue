@@ -4,7 +4,7 @@
       <div class="pc-content">
         <el-row>
           <el-col :span="5">
-            <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+            <el-menu default-active="2" class="el-menu-vertical-demo">
               <div class="baby">
                 <div class="photo">
                 </div>
@@ -12,7 +12,7 @@
               </div>
               <el-menu-item index="1"><i class="el-icon-message"></i><router-link to="bbmana">宝贝管理</router-link></el-menu-item>
               <el-menu-item index="2"><i class="el-icon-menu"></i><router-link to="rcode">兑换码</router-link></el-menu-item>
-              <el-menu-item index="3"><i class="el-icon-time"></i>评估历史</el-menu-item>
+              <el-menu-item index="3"><i class="el-icon-time"></i><router-link to="history">评估历史</router-link></el-menu-item>
             </el-menu>
           </el-col>
           <el-col :span="19" class="nr-panel">
