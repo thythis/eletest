@@ -1,15 +1,54 @@
 <template lang="html">
   <div>
     <div class="baby-list" v-if="!flag">
+      <el-table
+        :data="list"
+        border
+        stripe
+        style="width: 100%">
+        <el-table-column
+          label="出生日期"
+          width="180">
+          <template scope="scope">
+            <el-icon name="time"></el-icon>
+            <span style="margin-left: 10px">{{ scope.row.birth }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="姓名"
+          width="100">
+          <template scope="scope">
+            <div slot="reference" class="name-wrapper">
+              <el-tag>{{ scope.row.name }}</el-tag>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="性别"
+          width="100">
+          <template scope="scope">
+            <div slot="reference" class="name-wrapper">
+              <el-tag :type="{true:'primary',false:'success'}[scope.row.gendar=='男宝贝']">{{ scope.row.gendar }}</el-tag>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="保健号"
+          >
+          <template scope="scope">
+            <div slot="reference" class="name-wrapper">
+              <el-tag>{{ scope.row.bjh }}</el-tag>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作">
+          <template scope="scope">
+            <el-button size="small" icon="edit" @click.native.prevent="editRow(scope.$index, scope.row)">编辑</el-button>
+            <el-button size="small" icon="delete" type="danger" @click.native.prevent="delRow(scope.$index, list)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
       <el-button type="primary" icon="plus" class="add-baby" @click="babyAdd">添加宝贝</el-button>
-      <div class="baby-item" v-for="(item, index) in list">
-        <img src="../assets/img/baby1.jpg" alt="">
-        <div class="baby-desc">
-          <h3>{{item.name}}</h3>
-          <span>{{item.birth}}</span>
-        </div>
-        <el-button class="edit-btn" type="primary" icon="edit" @click="babyEdit(item, index)">编辑</el-button>
-      </div>
     </div>
     <transition name="el-fade-in">
       <div class="edit-panel" v-if="flag">
@@ -20,7 +59,7 @@
             </el-col>
           </el-form-item>
           <el-form-item label="性别">
-            <el-radio-group v-model="form.resource">
+            <el-radio-group v-model="form.gendar">
               <el-radio label="男宝贝"></el-radio>
               <el-radio label="女宝贝"></el-radio>
             </el-radio-group>
@@ -59,12 +98,23 @@ export default {
       flag: false,
       list: [{
         name: '宝贝一',
+        gendar: '男宝贝',
+        bjh: '12345678910',
         birth: '2017-1-15'
       },{
         name: '宝贝二',
+        gendar: '男宝贝',
+        bjh: '12345678910',
         birth: '2017-1-15'
       },{
         name: '宝贝三',
+        gendar: '男宝贝',
+        bjh: '12345678910',
+        birth: '2017-1-15'
+      },{
+        name: '宝贝四',
+        gendar: '男宝贝',
+        bjh: '12345678910',
         birth: '2017-1-15'
       }],
       form: {
@@ -72,7 +122,7 @@ export default {
         type: 0,
         name: '',
         birth: '',
-        resource: '',
+        gendar: '',
         bjh: ''
       }
     }
@@ -81,18 +131,38 @@ export default {
     babyAdd: function() {
       this.form.name = '';
       this.form.birth = '';
+      this.form.gendar = '';
+      this.form.bjh = '';
       this.form.type = 1;
-      this.flag = true;
-    },
-    babyEdit: function(item, index) {
-      this.form.type = 0;
-      this.form.index = index;
-      this.form.name = item.name;
-      this.form.birth = item.birth;
       this.flag = true;
     },
     editCancel: function() {
       this.flag = false;
+    },
+    delRow: function(index, rows) {
+      this.$confirm('确认删除一条宝宝数据?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        rows.splice(index, 1);
+        this.$message({
+          type: 'success',
+          duration: 1000,
+          message: '删除成功!'
+        });
+      }).catch(() => {
+
+      });
+    },
+    editRow: function(index, item) {
+      this.form.type = 0;
+      this.form.index = index;
+      this.form.name = item.name;
+      this.form.birth = item.birth;
+      this.form.gendar = item.gendar;
+      this.form.bjh = item.bjh;
+      this.flag = true;
     },
     saveEdit: function() {
       this.$confirm('确认保存宝宝信息?', '提示', {
@@ -106,10 +176,14 @@ export default {
             (this.form.birth.getDate() > 9 ? this.form.birth.getDate() : '0' + this.form.birth.getDate());
             this.list.push({
               name: this.form.name,
+              gendar: this.form.gendar,
+              bjh: this.form.bjh,
               birth: this.form.birth
             })
           } else {
             this.list[this.form.index].name = this.form.name;
+            this.list[this.form.index].gendar = this.form.gendar;
+            this.list[this.form.index].bjh = this.form.bjh;
             if(!(this.list[this.form.index].birth === this.form.birth)) {
               this.list[this.form.index].birth = this.form.birth.getFullYear() + '-' +
               (this.form.birth.getMonth() + 1 > 9 ? this.form.birth.getMonth() + 1 : '0' + (this.form.birth.getMonth() + 1)) + '-' +
@@ -131,11 +205,11 @@ export default {
 
 <style lang="scss">
   .baby-list {
-    width: 80%;
+    width: 90%;
     overflow: hidden;
     margin: 50px auto 0 auto;
     .add-baby {
-      margin-bottom: 20px;
+      margin-top: 20px;
     }
     .baby-item {
       height: 80px;
