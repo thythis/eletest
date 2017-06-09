@@ -18,6 +18,24 @@
     </div>
     <div class="pgblist">
       <el-tag type="gray">已激活的评估表列表</el-tag>
+      <div class="box">
+        <div class="ribbon">
+          thy
+        </div>
+      </div>
+      <el-table
+        :data="tableData"
+        stripe
+        style="width: 100%">
+        <el-table-column
+          prop="pgbname"
+          label="筛查表">
+        </el-table-column>
+        <el-table-column
+          prop="agerange"
+          label="年龄段">
+        </el-table-column>
+      </el-table>
       <el-collapse v-model="activeNames">
         <el-collapse-item title="自闭症筛查" name="1">
           <div>自闭症筛查</div>
@@ -40,6 +58,19 @@
 export default {
   data() {
     return {
+      tableData: [{
+        pgbname: '自闭症筛查',
+        agerange: '6月-2岁'
+      }, {
+        pgbname: '自闭症筛查',
+        agerange: '6月-2岁'
+      }, {
+        pgbname: '自闭症筛查',
+        agerange: '6月-2岁'
+      }, {
+        pgbname: '自闭症筛查',
+        agerange: '6月-2岁'
+      }],
       activeNames: ['1'],
       rcode: '',
       flag: false,
@@ -82,6 +113,43 @@ export default {
   .pgblist {
     width: 80%;
     margin:20px auto;
+    .box {
+      width: 150px;
+      height: 30px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      background: #f1f1f1;
+      box-shadow: 0 0 15px rgba(0,0,0,.1);
+      .ribbon {
+        width: 10px;
+        height: 20px;
+        position: relative;
+        margin-bottom: 12px;
+        color: #48576a;
+        background: #4fc1e9;
+        top: -3px;
+        left: 10px;
+        &:before {
+          content: '';
+          position: absolute;
+          height: 0;
+          width: 0;
+          border-bottom: 3px solid #4fc1c9;
+          border-right: 3px solid transparent;
+          right: -3px;
+        }
+        &:after {
+          content: '';
+          position: absolute;
+          height: 0;
+          width: 0;
+          border-left: 5px solid #4fc1e9;
+          border-right: 5px solid #4fc1e9;
+          border-bottom: 5px solid transparent;
+          bottom: -5px;
+        }
+      }
+    }
   }
   .el-collapse {
     margin-top: 10px;
