@@ -9,14 +9,14 @@
 				<div class="box-header">
 					<h2 class="title">{{questionList.pgbnr}}</h2>
 				</div>
-				<div class="survey-content">
+				<div class="survey-content" v-if="!rflag">
 					<p class="ps">(本测试{{questionList.qlist.length}}道题，系统自动跳转，专业心理指导。)</p>
 					<div class="progress-bar">
 						<span><strong>{{questionIndex + 1}}</strong>/{{questionList.qlist.length}}</span>
 						<el-progress :percentage="percent" :show-text="false"></el-progress>
 					</div>
 					<div class="question-panel">
-						<p>{{questionList.qlist[questionIndex].qnr}}</p>
+						<p>{{questionIndex + 1}}、{{questionList.qlist[questionIndex].qnr}}</p>
 					</div>
 					<div class="answer-panel">
 						<label class="answer-item" v-for="item in questionList.qlist[questionIndex].alist"  @click.prevent="myTest(item.axx)" :for="item.aid">
@@ -24,6 +24,16 @@
 							<span>{{item.axx}}</span>{{item.axxnr}}
 						</label>
 					</div>
+				</div>
+				<div class="resoult-panel" v-if="rflag">
+					<div class="list-item" v-for="(item, index) in questionList.qlist">
+						<span class="qbh">{{item.qbh}}</span>
+						<span class="qnr">{{item.qnr}}</span>
+						<span class="answer">{{item.alist[1].axxnr}}</span>
+					</div>
+					<button class="sub-btn">
+						提交评测
+					</button>
 				</div>
 			</div>
 		</div>
@@ -45,6 +55,7 @@
 		},
 		data() {
 			return {
+				rflag: false,
 				questionList: '',
 				questionIndex: 0,
 				percentrate: 0,
@@ -63,6 +74,7 @@
 							mxxh: this.questionIndex + 1,
 							xh: x
 						});
+						this.rflag = true;
 						return;
 					}
 					this.percent += this.percentrate;
@@ -113,6 +125,59 @@
 					font-size: 22px;
 					text-align: center;
 					font-weight: normal;
+				}
+			}
+			.resoult-panel {
+				position: relative;
+				box-sizing: border-box;
+				border: 1px solid #eee;
+				padding: 0 20px;
+				height: 610px;
+				.list-item {
+					padding: 10px 0;
+					border-bottom: 1px solid #ededed;
+					.qbh {
+						display: inline-block;
+						float: left;
+						width: 28px;
+						height: 28px;
+						border-radius: 50%;
+						background: $MAIN_COLOR;
+						color: #fff;
+						text-align: center;
+						line-height: 28px;
+						font-size: 14px;
+						margin-right: 5px;
+					}
+					.qnr {
+						display: inline-block;
+						float: left;
+						width: 80%;
+						height: 28px;
+						line-height: 28px;
+						overflow: hidden;
+						text-overflow:ellipsis;
+						white-space: nowrap;
+					}
+					.answer {
+						display: inline-block;
+						height: 28px;
+						line-height: 28px;
+						margin-left: 20px;
+					}
+				}
+				.sub-btn {
+					position: absolute;
+					left: 0;
+					bottom: 0;
+					width: 100%;
+					height: 56px;
+					line-height: 56px;
+					background: $MAIN_COLOR;
+					color: #fff;
+					font-size: 24px;
+					text-align: center;
+					border: none;
 				}
 			}
 			.survey-content {

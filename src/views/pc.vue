@@ -1,5 +1,6 @@
 <template lang="html">
   <div>
+    <main-header></main-header>
     <div class="pc-wrapper">
       <div class="pc-content">
         <el-row>
@@ -21,21 +22,32 @@
         </el-row>
       </div>
     </div>
+
+    <main-footer></main-footer>
   </div>
 </template>
 
 <script>
+import MainHeader from '../components/MainHeader.vue';
+import MainFooter from '../components/MainFooter.vue';
 export default {
+  components: {
+    MainFooter,
+    MainHeader
+  },
 }
 </script>
 
 <style lang="scss">
+  .carousel-wrapper,.nav-bar-wrapper {
+    display: none;
+  }
   .pc-wrapper {
     overflow: hidden;
     padding-top: 50px;
     .pc-content {
-      width: 60%;
-      height: 600px;
+      width: 75%;
+      height: 820px;
       margin: 0 auto;
       overflow: hidden;
       .el-row {

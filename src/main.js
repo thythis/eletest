@@ -47,6 +47,7 @@ const routes = [{
 },{
 	path: '/contact',
 	component: resolve => require(['./views/pc'], resolve),
+  redirect: '/bbmana',
 	children: [
 		{
 			path: '/bbmana',
