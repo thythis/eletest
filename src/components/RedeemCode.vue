@@ -13,14 +13,6 @@
         stripe
         style="width: 100%">
         <el-table-column
-          label="出生日期"
-          width="180">
-          <template scope="scope">
-            <el-icon name="time"></el-icon>
-            <span style="margin-left: 10px">{{ scope.row.birth }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
           label="姓名"
           width="100">
           <template scope="scope">
@@ -39,12 +31,11 @@
           </template>
         </el-table-column>
         <el-table-column
-          label="保健号"
-          >
+          label="出生日期"
+          width="180">
           <template scope="scope">
-            <div slot="reference" class="name-wrapper">
-              <el-tag>{{ scope.row.bjh }}</el-tag>
-            </div>
+            <el-icon name="time"></el-icon>
+            <span style="margin-left: 10px">{{ scope.row.birth }}</span>
           </template>
         </el-table-column>
         <el-table-column label="操作">
@@ -118,22 +109,18 @@ export default {
       list: [{
         name: '宝贝一',
         gendar: '男宝贝',
-        bjh: '12345678910',
         birth: '2017-1-15'
       },{
         name: '宝贝二',
         gendar: '男宝贝',
-        bjh: '12345678910',
         birth: '2017-1-15'
       },{
         name: '宝贝三',
         gendar: '男宝贝',
-        bjh: '12345678910',
         birth: '2017-1-15'
       },{
         name: '宝贝四',
         gendar: '男宝贝',
-        bjh: '12345678910',
         birth: '2017-1-15'
       }],
     }

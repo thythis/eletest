@@ -58,6 +58,9 @@ const routes = [{
 		},{
 			path: '/history',
 			component: resolve => require(['./components/EvHistory.vue'], resolve)
+		},{
+			path: '/fittest',
+			component: resolve => require(['./components/FitTest.vue'], resolve)
 		}
 	]
 },{

@@ -3,9 +3,15 @@
 		<div class="survey-wrapper">
 			<div class="info">
 				<h3>评测说明</h3>
-				<p>幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力幼儿期是儿童的智力</p>
+				<p>儿童在幼儿期或多或少会出现一些行为问题，有些问题是一过性的，随着时间的推移或及时处理后，很快就会消失。
+					一些行为问题可能较严重，若不及时处理将持续到儿童期甚至成人期，将对儿童的终身健康造成危害。如果这些问题在幼儿期能够及时发现和恰当处理，可以使其消失或程度减轻。
+					以下是100个反映孩子日常行为的问题，<strong>请您认真阅读每一个问题根据孩子最近3个月以内的实际情况，选择最全靠的答案。每一个问题都要做出回答。</strong></p>
 			</div>
-			<div class="survey-box">
+			<div class="opt-panel" v-if="showopt">
+				<el-button type="primary" @click="retest">重新测评</el-button>
+				<el-button type="warning" @click="showRst">查看报告</el-button>
+			</div>
+			<div class="survey-box" v-if="showbox">
 				<div class="box-header">
 					<h2 class="title">{{questionList.pgbnr}}</h2>
 				</div>
@@ -29,9 +35,9 @@
 					<div class="list-item" v-for="(item, index) in questionList.qlist">
 						<span class="qbh">{{item.qbh}}</span>
 						<span class="qnr">{{item.qnr}}</span>
-						<span class="answer">{{item.alist[1].axxnr}}</span>
+						<span class="answer">{{answerList[index].xh}}</span>
 					</div>
-					<button class="sub-btn">
+					<button class="sub-btn" @click="subsurvey">
 						提交评测
 					</button>
 				</div>
@@ -55,6 +61,8 @@
 		},
 		data() {
 			return {
+				showbox: false,
+				showopt: true,
 				rflag: false,
 				questionList: '',
 				questionIndex: 0,
@@ -65,6 +73,28 @@
 			}
 		},
 		methods: {
+			retest() {
+				this.showopt = false;
+				this.showbox = true;
+			},
+			showRst() {
+				this.$alert('您孩子的各项行为指标（视听反应、认识、语言、运动、早期社会交往等某一方面）发展与同龄儿童可能存在落后', '评估结果', {
+          confirmButtonText: '确定',
+          callback: action => {
+
+          }
+        });
+			},
+			subsurvey() {
+				this.$notify({
+          title: '提交成功',
+          message: '需等待妇幼专家出报告，我们会及时通知您',
+					duration: 0,
+          type: 'success'
+        });
+				this.showbox = false;
+				this.showopt = true;
+			},
 			myTest: function(x) {
 				setTimeout(() => {
 					if(this.questionIndex == (this.questionList.qlist.length - 1)) {
@@ -92,8 +122,10 @@
 
 <style lang="scss" type="text/css" scoped>
 	$MAIN_COLOR: #4fc1e9;
+	.el-message-box {
+		width: 760px;
+	}
 	.survey-wrapper {
-		width: 80%;
 		.info {
 			padding: 0 30px 30px 30px;
 			background: #faf6f7;
@@ -111,8 +143,12 @@
 				font-size: 16px;
 			}
 		}
-		.survey-box {
+		.opt-panel {
+			width: 200px;
 			margin: 0 auto;
+		}
+		.survey-box {
+			margin: 0 auto 40px auto;
 			width: 50%;
 			height: 670px;
 			box-shadow: 3px 3px 3px #ededed;

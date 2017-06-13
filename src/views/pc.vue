@@ -13,7 +13,8 @@
               </div>
               <el-menu-item index="1"><i class="el-icon-message"></i><router-link to="bbmana">宝贝管理</router-link></el-menu-item>
               <el-menu-item index="2"><i class="el-icon-menu"></i><router-link to="rcode">兑换码</router-link></el-menu-item>
-              <el-menu-item index="3"><i class="el-icon-time"></i><router-link to="history">评估历史</router-link></el-menu-item>
+              <el-menu-item index="3"><i class="el-icon-search"></i><router-link to="fittest">健康评估表</router-link></el-menu-item>
+              <el-menu-item index="4"><i class="el-icon-time"></i><router-link to="history">评估历史</router-link></el-menu-item>
             </el-menu>
           </el-col>
           <el-col :span="19" class="nr-panel">
