@@ -10,6 +10,7 @@
                 <div class="photo">
                 </div>
                 <span class="account">17607675503</span>
+                <span class="bbname">王大力</span>
               </div>
               <el-menu-item index="1"><i class="el-icon-message"></i><router-link to="bbmana">宝贝管理</router-link></el-menu-item>
               <el-menu-item index="2"><i class="el-icon-menu"></i><router-link to="rcode">兑换码</router-link></el-menu-item>
@@ -59,6 +60,9 @@ export default {
           &.nr-panel {
             background: #f7f7f7;
             overflow-y: auto;
+            .el-col {
+              background: #f7f7f7;
+            }
           }
           .baby {
             height: 90px;
@@ -73,13 +77,19 @@ export default {
               border: 1px solid #fff;
               background: url(../assets/img/logo.png) #c3e1ea no-repeat;
               background-size: cover;
+              cursor: pointer;
             }
-            .account {
+            span {
               display: inline-block;
               position: absolute;
               color: #fff;
-              top: 20px;
               margin-left: 10px;
+              &.account {
+                top: 20px;
+              }
+              &.bbname {
+                top: 50px;
+              }
             }
           }
           .el-menu-item {
