@@ -53,6 +53,11 @@
     <transition name="el-fade-in">
       <div class="edit-panel" v-if="flag">
         <el-form label-position="left" ref="form" :model="form" label-width="80px">
+          <el-form-item label="宝宝头像">
+            <el-col :span="10">
+              <VueImgInputer :img-src="imgval" v-model="form.picValue" size="small"></VueImgInputer>
+            </el-col>
+          </el-form-item>
           <el-form-item label="真实姓名">
             <el-col :span="10">
               <el-input v-model="form.name" placeholder="请输入宝宝姓名"></el-input>
@@ -87,9 +92,15 @@
 </template>
 
 <script>
+import VueImgInputer from 'vue-img-inputer';
+import baby1 from '../assets/img/baby1.jpg';
 export default {
+  components: {
+    VueImgInputer
+  },
   data() {
     return {
+      imgval: baby1,
       pickerOptions0: {
         disabledDate(time) {
           return time.getTime() > Date.now();
@@ -118,6 +129,7 @@ export default {
         birth: '2017-1-15'
       }],
       form: {
+        picValue: '',
         index: 0,
         type: 0,
         name: '',
@@ -128,6 +140,9 @@ export default {
     }
   },
   methods: {
+    picchange() {
+      console.log(this.picValue);
+    },
     babyAdd: function() {
       this.form.name = '';
       this.form.birth = '';
@@ -256,7 +271,7 @@ export default {
     margin: 50px auto 0 auto;
     .el-form {
       .el-form-item {
-        &:nth-child(4) {
+        &:nth-child(5) {
           .el-button {
             margin-left: 20px;
           }

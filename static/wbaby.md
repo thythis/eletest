@@ -1,20 +1,29 @@
-### 登陆注册
-### 宝贝管理
-> 宝贝添加，修改  
+## Access-Control-Allow-Origin 站点跨域请求问题解决方案
+#### Nginx服务器
+> 通过Nginx模块HttpHeadersModule来添加Access-Control-Allow-Origin允许的地址。
+在Nginx的conf目录下修改nginx.conf，添加以下代码
 
-### 兑换码
-> 激活评估表
+```javascript
+// 括号内为允许跨域的文件类型
+location ~* \.(eot|json|ttf|woff|svg|otf)$ {
+     add_header Access-Control-Allow-Origin *;
+}
 
-### 健康评估表
-> 兑换后显示表
+// eot|ttf|woff|svg|otf，表示请求后缀类型，也可以直接写如下代码
+location / {  
+  add_header Access-Control-Allow-Origin *;  
+}  
+```
+#### Apache服务器
+> 若服务器为Apache，则可以按照如下配置：
 
-### 个人中心
-- 宝贝管理
-  - 添加宝贝
-  - 修改宝贝信息
-- 兑换码
-  - `兑换成功后显示小孩列表，选择小孩检测信息`
-  - 激活的评估表列表
-- 评估历史
-
-### 首页
+```html
+<IfModule mod_setenvif.c>  
+    <IfModule mod_headers.c>  
+        <FilesMatch "\.(cur|gif|json|ico|jpe?g|png|svgz?|webp)$">  
+            SetEnvIf Origin ":" IS_CORS  
+            Header set Access-Control-Allow-Origin "*" env=IS_CORS  
+        </FilesMatch>  
+    </IfModule>  
+</IfModule>  
+```

@@ -47,12 +47,28 @@
 </template>
 
 <script>
+	import md5 from 'js-md5';
   import desc from '../assets/img/desc2.png'
   import HeaderBar from '../components/HeaderBar.vue';
   export default {
     components: {
       HeaderBar,
     },
+		mounted() {
+			var that = this;
+			var encrymm = md5('123456');
+			//http://www.phonegap100.com/appapi.php?a=getPortalList&catid=20&page=1&callback=JSON_CALLBACK
+			// this.$http.post('http://127.0.0.1:8080/wbaobei/phone/login', {sjh: '18664378720',mm: encrymm,lx: 4},{emulateJSON : true}).then(function(response){
+			// 		console.log(response.body);
+			// }, function(response){
+			// 		console.log('fail');
+			// });
+			this.$http.jsonp('http://127.0.0.1:8080/wbaobei/user/36',{emulateJSON: true}).then(function(response){
+					console.log(response.body);
+			}, function(response){
+					console.log('fail');
+			});
+		},
     data() {
       var checkPhone = (rule, value, callback) => {
         var reg = /1[0-9]{10}/;
