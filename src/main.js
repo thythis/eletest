@@ -81,6 +81,7 @@ const router = new VueRouter({
 })
 
 Vue.http.options.xhr = { withCredentials: true };
+Vue.http.options.emulateJSON = true;
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */

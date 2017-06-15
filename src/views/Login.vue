@@ -47,6 +47,7 @@
 </template>
 
 <script>
+  import myfun from '../assets/js/test.js'
 	import md5 from 'js-md5';
   import desc from '../assets/img/desc2.png'
   import HeaderBar from '../components/HeaderBar.vue';
@@ -56,18 +57,6 @@
     },
 		mounted() {
 			var that = this;
-			var encrymm = md5('123456');
-			//http://www.phonegap100.com/appapi.php?a=getPortalList&catid=20&page=1&callback=JSON_CALLBACK
-			// this.$http.post('http://127.0.0.1:8080/wbaobei/phone/login', {sjh: '18664378720',mm: encrymm,lx: 4},{emulateJSON : true}).then(function(response){
-			// 		console.log(response.body);
-			// }, function(response){
-			// 		console.log('fail');
-			// });
-			this.$http.jsonp('http://127.0.0.1:8080/wbaobei/user/36',{emulateJSON: true}).then(function(response){
-					console.log(response.body);
-			}, function(response){
-					console.log('fail');
-			});
 		},
     data() {
       var checkPhone = (rule, value, callback) => {
@@ -129,10 +118,42 @@
       },
       login() {
         this.fullscreenLoading = true;
-        setTimeout(() => {
-          this.fullscreenLoading = false;
-          this.$router.push({path:'/home'})
-        }, 2000);
+
+				var encrymm = md5(this.ruleForm2.pass);
+				var obj = {
+					sjh: this.ruleForm2.phone,
+	       	mm: encrymm,
+	       	lx: 4
+				}
+				var objstr = JSON.stringify(obj);
+
+				this.$http.post('http://127.0.0.1:8080/wbaobei/phone/login',objstr).then(function(response){
+						this.fullscreenLoading = false;
+						console.log(response.body);
+						if(response.body.code == "1") {
+							var items = {
+								yhid: response.body.yhid,
+								token: response.body.token,
+								bbList: response.body.bbList
+							}
+							myfun.save(items);
+							this.$router.push({path:'/bbmana'});
+							// this.$notify({
+							// 	title: '登录成功！',
+							// 	message: '这是一条成功的提示消息',
+							// 	type: 'success'
+							// });
+						} else {
+							this.$notify({
+								title: '登录失败！',
+								message: response.body.message,
+								type: 'warning'
+							});
+						}
+				}, function(response){
+						console.log('fail');
+				});
+
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
