@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="survey-wrapper">
-			<div class="info">
+			<div class="info" v-if="showopt">
 				<h3>评测说明</h3>
 				<p>儿童在幼儿期或多或少会出现一些行为问题，有些问题是一过性的，随着时间的推移或及时处理后，很快就会消失。
 					一些行为问题可能较严重，若不及时处理将持续到儿童期甚至成人期，将对儿童的终身健康造成危害。如果这些问题在幼儿期能够及时发现和恰当处理，可以使其消失或程度减轻。
@@ -13,28 +13,28 @@
 			</div>
 			<div class="survey-box" v-if="showbox">
 				<div class="box-header">
-					<h2 class="title">{{questionList.pgbnr}}</h2>
+					<h2 class="title">thysama</h2>
 				</div>
 				<div class="survey-content" v-if="!rflag">
-					<p class="ps">(本测试{{questionList.qlist.length}}道题，系统自动跳转，专业心理指导。)</p>
+					<p class="ps">(本测试{{questionList.length}}道题，系统自动跳转，专业心理指导。)</p>
 					<div class="progress-bar">
-						<span><strong>{{questionIndex + 1}}</strong>/{{questionList.qlist.length}}</span>
+						<span><strong>{{questionIndex + 1}}</strong>/{{questionList.length}}</span>
 						<el-progress :percentage="percent" :show-text="false"></el-progress>
 					</div>
 					<div class="question-panel">
-						<p>{{questionIndex + 1}}、{{questionList.qlist[questionIndex].qnr}}</p>
+						<p>{{questionIndex + 1}}、{{questionList[questionIndex].nr}}</p>
 					</div>
 					<div class="answer-panel">
-						<label class="answer-item" v-for="item in questionList.qlist[questionIndex].alist"  @click.prevent="myTest(item.axx)" :for="item.aid">
-							<input type="radio" name="xx" :id="item.aid">
-							<span>{{item.axx}}</span>{{item.axxnr}}
+						<label class="answer-item" v-for="item in questionList[questionIndex].xxlist"  @click.prevent="myTest(item.xh)" :for="item.fs">
+							<input type="radio" name="xx" :id="item.fs">
+							<span>{{item.xh}}</span>{{item.nr}}
 						</label>
 					</div>
 				</div>
 				<div class="resoult-panel" v-if="rflag">
-					<div class="list-item" v-for="(item, index) in questionList.qlist">
-						<span class="qbh">{{item.qbh}}</span>
-						<span class="qnr">{{item.qnr}}</span>
+					<div class="list-item" v-for="(item, index) in questionList">
+						<span class="qbh">{{item.mxxh}}</span>
+						<span class="qnr">{{item.nr}}</span>
 						<span class="answer">{{answerList[index].xh}}</span>
 					</div>
 					<button class="sub-btn" @click="subsurvey">
@@ -47,17 +47,13 @@
 </template>
 
 <script>
+	import myfun from '../assets/js/test.js'
 	export default {
+		props: {
+			pgbbh: ''
+		},
 		mounted() {
-			var that = this;
-			this.$http.get('static/test.json', {emulatejson: true}).then(function(response){
-			    // 响应成功回调
-					that.questionList = response.body[0];
-					that.percentrate = 1 / response.body[0].qlist.length * 100;
-			}, function(response){
-			    // 响应错误回调
-					console.log('fail');
-			});
+
 		},
 		data() {
 			return {
@@ -76,6 +72,16 @@
 			retest() {
 				this.showopt = false;
 				this.showbox = true;
+				var objstr = JSON.stringify({
+		      pgbbh: this.pgbbh
+		    });
+		    this.$http.post('http://127.0.0.1:8080/wbaobei/phone/hqpgbmx', objstr).then(function(response){
+		      console.log(response);
+					this.questionList = response.body.results;
+					this.percentrate = 1 / this.questionList.length * 100;
+		    }, function(response) {
+		      console.log('fail');
+		    })
 			},
 			showRst() {
 				this.$alert('您孩子的各项行为指标（视听反应、认识、语言、运动、早期社会交往等某一方面）发展与同龄儿童可能存在落后', '评估结果', {
@@ -86,18 +92,29 @@
         });
 			},
 			subsurvey() {
-				this.$notify({
-          title: '提交成功',
-          message: '需等待妇幼专家出报告，我们会及时通知您',
-					duration: 0,
-          type: 'success'
-        });
-				this.showbox = false;
-				this.showopt = true;
+				var objstr = JSON.stringify({
+					yhid: myfun.fetch().yhid,
+					bbid: myfun.fetch().bbList[0].bbid,
+		      pgbbh: this.pgbbh,
+					xxlist: this.answerList
+		    });
+		    this.$http.post('http://127.0.0.1:8080/wbaobei/phone/savepgb', objstr).then(function(response){
+		      console.log(response);
+		    }, function(response) {
+		      console.log('fail');
+		    })
+				// this.$notify({
+        //   title: '提交成功',
+        //   message: '需等待妇幼专家出报告，我们会及时通知您',
+				// 	duration: 0,
+        //   type: 'success'
+        // });
+				// this.showbox = false;
+				// this.showopt = true;
 			},
 			myTest: function(x) {
 				setTimeout(() => {
-					if(this.questionIndex == (this.questionList.qlist.length - 1)) {
+					if(this.questionIndex == (this.questionList.length - 1)) {
 						console.log(this.questionIndex);
 						this.percent += this.percentrate;
 						this.answerList.push({
@@ -148,6 +165,7 @@
 			margin: 0 auto;
 		}
 		.survey-box {
+			position: relative;
 			margin: 0 auto 40px auto;
 			width: 50%;
 			height: 670px;
@@ -164,11 +182,12 @@
 				}
 			}
 			.resoult-panel {
-				position: relative;
 				box-sizing: border-box;
 				border: 1px solid #eee;
 				padding: 0 20px;
+				padding-bottom: 52px;
 				height: 610px;
+				overflow-y: scroll;
 				.list-item {
 					padding: 10px 0;
 					border-bottom: 1px solid #ededed;
@@ -242,7 +261,7 @@
 					}
 					.el-progress {
 						display: inline-block;
-						width: 85%;
+						width: 80%;
 						vertical-align: middle;
 					}
 				}

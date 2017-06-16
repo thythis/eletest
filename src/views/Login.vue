@@ -126,7 +126,7 @@
 	       	lx: 4
 				}
 				var objstr = JSON.stringify(obj);
-
+				//18664378720
 				this.$http.post('http://127.0.0.1:8080/wbaobei/phone/login',objstr).then(function(response){
 						this.fullscreenLoading = false;
 						console.log(response.body);

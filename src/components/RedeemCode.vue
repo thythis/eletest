@@ -8,7 +8,7 @@
     </div>
     <div class="baby-list" v-if="flag">
       <el-table
-        :data="list"
+        :data="bbList"
         border
         stripe
         style="width: 100%">
@@ -17,7 +17,7 @@
           width="100">
           <template scope="scope">
             <div slot="reference" class="name-wrapper">
-              <el-tag>{{ scope.row.name }}</el-tag>
+              <el-tag>{{ scope.row.mc }}</el-tag>
             </div>
           </template>
         </el-table-column>
@@ -26,7 +26,7 @@
           width="100">
           <template scope="scope">
             <div slot="reference" class="name-wrapper">
-              <el-tag :type="{true:'primary',false:'success'}[scope.row.gendar=='男宝贝']">{{ scope.row.gendar }}</el-tag>
+              <el-tag :type="{true:'primary',false:'success'}[scope.row.xb=='1']">{{ scope.row.xb=='1'?'男宝贝':'女宝贝' }}</el-tag>
             </div>
           </template>
         </el-table-column>
@@ -35,64 +35,63 @@
           width="180">
           <template scope="scope">
             <el-icon name="time"></el-icon>
-            <span style="margin-left: 10px">{{ scope.row.birth }}</span>
+            <span style="margin-left: 10px">{{ scope.row.csrq }}</span>
           </template>
         </el-table-column>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button size="small" icon="document" @click.native.prevent="redeemGo(scope.$index)">兑换</el-button>
+            <el-button size="small" icon="document" @click.native.prevent="redeemGo(scope.row.bbid)">兑换</el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
     <div class="pgblist">
       <el-tag type="gray">已激活的评估表列表</el-tag>
-      <div class="box">
-        <div class="ribbon">
+      <div v-for="item in tclist">
+        <div class="box">
+          <div class="ribbon">
+          </div>
+          <span>{{item.xsbt}}</span>
         </div>
-        <span>大一班小明</span>
+        <el-table
+          :data="item.zdlist"
+          border
+          stripe
+          style="width: 100%">
+          <el-table-column
+            prop="mc"
+            label="筛查表">
+          </el-table-column>
+          <el-table-column
+            prop="synld"
+            label="年龄段">
+          </el-table-column>
+        </el-table>
       </div>
-      <el-table
-        :data="tableData"
-        border
-        stripe
-        style="width: 100%">
-        <el-table-column
-          prop="pgbname"
-          label="筛查表">
-        </el-table-column>
-        <el-table-column
-          prop="agerange"
-          label="年龄段">
-        </el-table-column>
-      </el-table>
-      <div class="box">
-        <div class="ribbon">
-        </div>
-        <span>大一班小明</span>
-      </div>
-      <el-table
-        :data="tableData"
-        border
-        stripe
-        style="width: 100%">
-        <el-table-column
-          prop="pgbname"
-          label="筛查表">
-        </el-table-column>
-        <el-table-column
-          prop="agerange"
-          label="年龄段">
-        </el-table-column>
-      </el-table>
+
     </div>
   </div>
 </template>
 
 <script>
+import myfun from '../assets/js/test.js'
 export default {
+  mounted() {
+    var objstr = JSON.stringify({
+      yhid: this.yhid
+    });
+    this.$http.post('http://127.0.0.1:8080/wbaobei/phone/tclist', objstr).then(function(response){
+      console.log(response);
+      this.tclist = response.body.results;
+    }, function(response) {
+      console.log('fail');
+    })
+  },
   data() {
     return {
+      yhid: myfun.fetch().yhid,
+      bbList: myfun.fetch().bbList,
+      tclist: [],
       tableData: [{
         pgbname: '自闭症筛查',
         agerange: '6月-2岁'
@@ -129,11 +128,28 @@ export default {
     exchange: function() {
       this.flag = true;
     },
-    redeemGo: function(index) {
-      this.$message({
-        type: 'success',
-        message: '兑换成功!'
+    redeemGo: function(bbid) {
+      var objstr = JSON.stringify({
+        kh: this.rcode,
+        bbid: bbid
       });
+      this.$http.post('http://127.0.0.1:8080/wbaobei/phone/ggkdh', objstr).then(function(response){
+        console.log(response);
+        if(response.body.code == "1") {
+          this.$message({
+            type: 'success',
+            message: '兑换成功!'
+          });
+        } else {
+          this.$message.error(response.body.message);
+        }
+      }, function(response) {
+        console.log('fail');
+      })
+      // this.$message({
+      //   type: 'success',
+      //   message: '兑换成功!'
+      // });
     }
   }
 }
@@ -154,7 +170,7 @@ export default {
     margin:20px auto;
   }
   .box {
-    width: 120px;
+    width: 30%;
     height: 24px;
     margin-top: 10px;
     margin-bottom: 10px;

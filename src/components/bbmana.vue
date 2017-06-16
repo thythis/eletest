@@ -29,7 +29,7 @@
           width="100">
           <template scope="scope">
             <div slot="reference" class="name-wrapper">
-              <el-tag :type="{true:'primary',false:'success'}[scope.row.xb=='1']">{{ scope.row.xb }}</el-tag>
+              <el-tag :type="{true:'primary',false:'success'}[scope.row.xb=='1']">{{ scope.row.xb=='1'?'男宝贝':'女宝贝' }}</el-tag>
             </div>
           </template>
         </el-table-column>
@@ -66,8 +66,8 @@
           </el-form-item>
           <el-form-item label="性别">
             <el-radio-group v-model="form.gendar">
-              <el-radio label="男宝贝"></el-radio>
-              <el-radio label="女宝贝"></el-radio>
+              <el-radio :label="1">男宝贝</el-radio>
+              <el-radio :label="2">女宝贝</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="出生日期">
@@ -184,9 +184,9 @@ export default {
     editRow: function(index, item) {
       this.form.type = 0;
       this.form.index = index;
-      this.form.name = item.name;
-      this.form.birth = item.birth;
-      this.form.gendar = item.gendar;
+      this.form.name = item.mc;
+      this.form.birth = item.csrq;
+      this.form.gendar = item.xb;
       this.form.bjh = item.bjh;
       this.flag = true;
     },
