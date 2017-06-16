@@ -57,6 +57,7 @@
 </template>
 
 <script>
+import myfun from '../assets/js/test.js'
 import Survey from '../components/Survey.vue';
 export default {
   components: {
@@ -68,6 +69,15 @@ export default {
     });
     this.$http.post('http://127.0.0.1:8080/wbaobei/phone/fl', objstr).then(function(response){
       this.pgblist = response.body.results[0].zdList;
+      console.log(response);
+    }, function(response) {
+      console.log('fail');
+    })
+
+    var objjjj = JSON.stringify({
+      bbid: myfun.fetch().bbList[0].bbid
+    });
+    this.$http.post('http://127.0.0.1:8080/wbaobei/phone/tc', objjjj).then(function(response){
       console.log(response);
     }, function(response) {
       console.log('fail');

@@ -1,0 +1,1022 @@
+{
+    "code": "1",
+    "results": [
+        {
+            "code": "1",
+            "lx": 2,
+            "xsbt": "2017小一班-吕X",
+            "kh": "201706010002",
+            "bbid": 91360,
+            "zdlist": [
+                {
+                    "code": "1",
+                    "pgbbh": "yexlscb",
+                    "synld": "30-84",
+                    "mc": "幼儿心理问题筛查表（幼儿园筛查）",
+                    "jsdz": "html/pgb/yexlscb.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "ns_etsjqk",
+                    "synld": "36-48",
+                    "mc": "儿童社交情况评估量表",
+                    "jsdz": "html/pgb/ns_etsjqk.html",
+                    "mf": 2,
+                    "zt": 1
+                }
+            ]
+        },
+        {
+            "code": "1",
+            "lx": 2,
+            "xsbt": "2017小一班-郑X",
+            "kh": "201706010001",
+            "bbid": 91359,
+            "zdlist": [
+                {
+                    "code": "1",
+                    "pgbbh": "yexlscb",
+                    "synld": "30-84",
+                    "mc": "幼儿心理问题筛查表（幼儿园筛查）",
+                    "jsdz": "html/pgb/yexlscb.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "ns_etsjqk",
+                    "synld": "36-48",
+                    "mc": "儿童社交情况评估量表",
+                    "jsdz": "html/pgb/ns_etsjqk.html",
+                    "mf": 2,
+                    "zt": 1
+                }
+            ]
+        },
+        {
+            "code": "1",
+            "lx": 2,
+            "xsbt": "2017大一班-gh",
+            "kh": "201705240001",
+            "bbid": 91357,
+            "zdlist": [
+                {
+                    "code": "1",
+                    "pgbbh": "cchknwj",
+                    "synld": "60-84",
+                    "mc": "长处和困难问卷",
+                    "jsdz": "html/pgb/cchknwj.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc11-15",
+                    "synld": "11-15",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 2
+                }
+            ]
+        },
+        {
+            "code": "1",
+            "lx": 2,
+            "xsbt": "2017大一班-罗朋",
+            "kh": "201704210001",
+            "bbid": 91259,
+            "zdlist": [
+                {
+                    "code": "1",
+                    "pgbbh": "yexlscb",
+                    "synld": "30-84",
+                    "mc": "幼儿心理问题筛查表（幼儿园筛查）",
+                    "jsdz": "html/pgb/yexlscb.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "xqetxw",
+                    "synld": "30-84",
+                    "mc": "学前儿童行为量表",
+                    "jsdz": "html/pgb/xqetxw.html",
+                    "mf": 2,
+                    "zt": 2
+                }
+            ]
+        },
+        {
+            "code": "1",
+            "lx": 2,
+            "xsbt": "2016大一班-罗朋",
+            "kh": "201611160001",
+            "bbid": 91259,
+            "zdlist": [
+                {
+                    "code": "1",
+                    "pgbbh": "gm_jbxx",
+                    "synld": "24-84",
+                    "mc": "基本信息（光明）",
+                    "jsdz": "html/pgb/gm_jbxx.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "yexlscb",
+                    "synld": "30-84",
+                    "mc": "幼儿心理问题筛查表（幼儿园筛查）",
+                    "jsdz": "html/pgb/yexlscb.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "qzlb",
+                    "synld": "24-84",
+                    "mc": "儿童气质量表",
+                    "jsdz": "html/pgb/qzlb.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etxwlb2-3",
+                    "synld": "24-47",
+                    "mc": "儿童行为量表(CBCL/2~3)",
+                    "jsdz": "html/pgb/etxwlb2-3.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etxwlb4-16",
+                    "synld": "48-192",
+                    "mc": "儿童行为量表(CBCL/4~16)",
+                    "jsdz": "html/pgb/etxwlb4-16.html",
+                    "mf": 2,
+                    "zt": 2
+                }
+            ]
+        },
+        {
+            "code": "1",
+            "lx": 2,
+            "xsbt": "2016中四-罗朋",
+            "kh": "201611150002",
+            "bbid": 91259,
+            "zdlist": [
+                {
+                    "code": "1",
+                    "pgbbh": "gm_jbxx",
+                    "synld": "24-84",
+                    "mc": "基本信息（光明）",
+                    "jsdz": "html/pgb/gm_jbxx.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "yexlscb",
+                    "synld": "30-84",
+                    "mc": "幼儿心理问题筛查表（幼儿园筛查）",
+                    "jsdz": "html/pgb/yexlscb.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "qzlb",
+                    "synld": "24-84",
+                    "mc": "儿童气质量表",
+                    "jsdz": "html/pgb/qzlb.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etxwlb2-3",
+                    "synld": "24-47",
+                    "mc": "儿童行为量表(CBCL/2~3)",
+                    "jsdz": "html/pgb/etxwlb2-3.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etxwlb4-16",
+                    "synld": "48-192",
+                    "mc": "儿童行为量表(CBCL/4~16)",
+                    "jsdz": "html/pgb/etxwlb4-16.html",
+                    "mf": 2,
+                    "zt": 2
+                }
+            ]
+        },
+        {
+            "code": "1",
+            "lx": 2,
+            "xsbt": "2016小一班-罗朋",
+            "kh": "201611150001",
+            "bbid": 91259,
+            "zdlist": [
+                {
+                    "code": "1",
+                    "pgbbh": "gm_jbxx",
+                    "synld": "24-84",
+                    "mc": "基本信息（光明）",
+                    "jsdz": "html/pgb/gm_jbxx.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "yexlscb",
+                    "synld": "30-84",
+                    "mc": "幼儿心理问题筛查表（幼儿园筛查）",
+                    "jsdz": "html/pgb/yexlscb.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "qzlb",
+                    "synld": "24-84",
+                    "mc": "儿童气质量表",
+                    "jsdz": "html/pgb/qzlb.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etxwlb2-3",
+                    "synld": "24-47",
+                    "mc": "儿童行为量表(CBCL/2~3)",
+                    "jsdz": "html/pgb/etxwlb2-3.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etxwlb4-16",
+                    "synld": "48-192",
+                    "mc": "儿童行为量表(CBCL/4~16)",
+                    "jsdz": "html/pgb/etxwlb4-16.html",
+                    "mf": 2,
+                    "zt": 2
+                }
+            ]
+        },
+        {
+            "code": "1",
+            "lx": 2,
+            "xsbt": "2015大一班-小张",
+            "kh": "201609900021",
+            "bbid": 80157,
+            "zdlist": [
+                {
+                    "code": "1",
+                    "pgbbh": "gm_jbxx",
+                    "synld": "24-84",
+                    "mc": "基本信息（光明）",
+                    "jsdz": "html/pgb/gm_jbxx.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "yexlscb",
+                    "synld": "30-84",
+                    "mc": "幼儿心理问题筛查表（幼儿园筛查）",
+                    "jsdz": "html/pgb/yexlscb.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc2-4",
+                    "synld": "2-4",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc5-7",
+                    "synld": "5-7",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc8-10",
+                    "synld": "8-10",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc11-15",
+                    "synld": "11-15",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc16-21",
+                    "synld": "16-21",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc22-28",
+                    "synld": "22-28",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc29-35",
+                    "synld": "29-35",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc36-47",
+                    "synld": "36-47",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc48-59",
+                    "synld": "48-59",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc60-100",
+                    "synld": "60-84",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "qzlb",
+                    "synld": "24-84",
+                    "mc": "儿童气质量表",
+                    "jsdz": "html/pgb/qzlb.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etxwlb2-3",
+                    "synld": "24-47",
+                    "mc": "儿童行为量表(CBCL/2~3)",
+                    "jsdz": "html/pgb/etxwlb2-3.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "xqetxw",
+                    "synld": "30-84",
+                    "mc": "学前儿童行为量表",
+                    "jsdz": "html/pgb/xqetxw.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etxwlb4-16",
+                    "synld": "48-192",
+                    "mc": "儿童行为量表(CBCL/4~16)",
+                    "jsdz": "html/pgb/etxwlb4-16.html",
+                    "mf": 2,
+                    "zt": 1
+                }
+            ]
+        },
+        {
+            "code": "1",
+            "lx": 2,
+            "xsbt": "2015大一班-小兵",
+            "kh": "201609900015",
+            "bbid": 75517,
+            "zdlist": [
+                {
+                    "code": "1",
+                    "pgbbh": "etxwlb2-3",
+                    "synld": "24-47",
+                    "mc": "儿童行为量表(CBCL/2~3)",
+                    "jsdz": "html/pgb/etxwlb2-3.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etxwlb4-16",
+                    "synld": "48-192",
+                    "mc": "儿童行为量表(CBCL/4~16)",
+                    "jsdz": "html/pgb/etxwlb4-16.html",
+                    "mf": 2,
+                    "zt": 1
+                }
+            ]
+        },
+        {
+            "code": "1",
+            "lx": 2,
+            "xsbt": "2015大一班-张三",
+            "kh": "201609900014",
+            "bbid": 7033,
+            "zdlist": [
+                {
+                    "code": "1",
+                    "pgbbh": "etxwlb2-3",
+                    "synld": "24-47",
+                    "mc": "儿童行为量表(CBCL/2~3)",
+                    "jsdz": "html/pgb/etxwlb2-3.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etxwlb4-16",
+                    "synld": "48-192",
+                    "mc": "儿童行为量表(CBCL/4~16)",
+                    "jsdz": "html/pgb/etxwlb4-16.html",
+                    "mf": 2,
+                    "zt": 2
+                }
+            ]
+        },
+        {
+            "code": "1",
+            "lx": 2,
+            "xsbt": "2016大一班-测试",
+            "kh": "201607110001",
+            "bbid": 6050,
+            "zdlist": [
+                {
+                    "code": "1",
+                    "pgbbh": "gm_jbxx",
+                    "synld": "24-84",
+                    "mc": "基本信息（光明）",
+                    "jsdz": "html/pgb/gm_jbxx.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "yexlscb",
+                    "synld": "30-84",
+                    "mc": "幼儿心理问题筛查表（幼儿园筛查）",
+                    "jsdz": "html/pgb/yexlscb.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "qzlb",
+                    "synld": "24-84",
+                    "mc": "儿童气质量表",
+                    "jsdz": "html/pgb/qzlb.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etxwlb4-16",
+                    "synld": "48-192",
+                    "mc": "儿童行为量表(CBCL/4~16)",
+                    "jsdz": "html/pgb/etxwlb4-16.html",
+                    "mf": 2,
+                    "zt": 2
+                }
+            ]
+        },
+        {
+            "code": "1",
+            "lx": 2,
+            "xsbt": "2016光明测试一班-小兵",
+            "kh": "201609900004",
+            "bbid": 75517,
+            "zdlist": [
+                {
+                    "code": "1",
+                    "pgbbh": "gm_jbxx",
+                    "synld": "24-84",
+                    "mc": "基本信息（光明）",
+                    "jsdz": "html/pgb/gm_jbxx.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "yexlscb",
+                    "synld": "30-84",
+                    "mc": "幼儿心理问题筛查表（幼儿园筛查）",
+                    "jsdz": "html/pgb/yexlscb.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "qzlb",
+                    "synld": "24-84",
+                    "mc": "儿童气质量表",
+                    "jsdz": "html/pgb/qzlb.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etxwlb4-16",
+                    "synld": "48-192",
+                    "mc": "儿童行为量表(CBCL/4~16)",
+                    "jsdz": "html/pgb/etxwlb4-16.html",
+                    "mf": 2,
+                    "zt": 2
+                }
+            ]
+        },
+        {
+            "code": "1",
+            "lx": 2,
+            "xsbt": "2016光明测试3班-测试七",
+            "kh": "201609900010",
+            "bbid": 71777,
+            "zdlist": [
+                {
+                    "code": "1",
+                    "pgbbh": "gm_jbxx",
+                    "synld": "24-84",
+                    "mc": "基本信息（光明）",
+                    "jsdz": "html/pgb/gm_jbxx.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "yexlscb",
+                    "synld": "30-84",
+                    "mc": "幼儿心理问题筛查表（幼儿园筛查）",
+                    "jsdz": "html/pgb/yexlscb.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "qzlb",
+                    "synld": "24-84",
+                    "mc": "儿童气质量表",
+                    "jsdz": "html/pgb/qzlb.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etxwlb2-3",
+                    "synld": "24-47",
+                    "mc": "儿童行为量表(CBCL/2~3)",
+                    "jsdz": "html/pgb/etxwlb2-3.html",
+                    "mf": 2,
+                    "zt": 2
+                }
+            ]
+        },
+        {
+            "code": "1",
+            "lx": 2,
+            "xsbt": "2016光明测试一班-测试一",
+            "kh": "201609900001",
+            "bbid": 7076,
+            "zdlist": [
+                {
+                    "code": "1",
+                    "pgbbh": "ye-czsshshnl",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "conners_parent",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etqkjs",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "yexlscb",
+                    "synld": "30-84",
+                    "mc": "幼儿心理问题筛查表（幼儿园筛查）",
+                    "jsdz": "html/pgb/yexlscb.html",
+                    "mf": 2,
+                    "zt": 2
+                }
+            ]
+        },
+        {
+            "code": "1",
+            "lx": 2,
+            "xsbt": "2015小三班-张三",
+            "kh": "100012",
+            "bbid": 7033,
+            "zdlist": [
+                {
+                    "code": "1",
+                    "pgbbh": "etxwlb2-3",
+                    "synld": "24-47",
+                    "mc": "儿童行为量表(CBCL/2~3)",
+                    "jsdz": "html/pgb/etxwlb2-3.html",
+                    "mf": 2,
+                    "zt": 1
+                }
+            ]
+        },
+        {
+            "code": "1",
+            "lx": 2,
+            "xsbt": "2015联医小小班-小小",
+            "kh": "100011",
+            "bbid": 7032,
+            "zdlist": [
+                {
+                    "code": "1",
+                    "pgbbh": "etxwlb2-3",
+                    "synld": "24-47",
+                    "mc": "儿童行为量表(CBCL/2~3)",
+                    "jsdz": "html/pgb/etxwlb2-3.html",
+                    "mf": 2,
+                    "zt": 1
+                }
+            ]
+        },
+        {
+            "code": "1",
+            "lx": 2,
+            "xsbt": "2015大一班-车",
+            "kh": "100007",
+            "bbid": 6984,
+            "zdlist": [
+                {
+                    "code": "1",
+                    "pgbbh": "yexlscb",
+                    "synld": "30-84",
+                    "mc": "幼儿心理问题筛查表（幼儿园筛查）",
+                    "jsdz": "html/pgb/yexlscb.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc2-4",
+                    "synld": "2-4",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc5-7",
+                    "synld": "5-7",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc8-10",
+                    "synld": "8-10",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc11-15",
+                    "synld": "11-15",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc16-21",
+                    "synld": "16-21",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc22-28",
+                    "synld": "22-28",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc29-35",
+                    "synld": "29-35",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc36-47",
+                    "synld": "36-47",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc48-59",
+                    "synld": "48-59",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc60-100",
+                    "synld": "60-84",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "qzlb",
+                    "synld": "24-84",
+                    "mc": "儿童气质量表",
+                    "jsdz": "html/pgb/qzlb.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "xqetxw",
+                    "synld": "30-84",
+                    "mc": "学前儿童行为量表",
+                    "jsdz": "html/pgb/xqetxw.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etxwlb4-16",
+                    "synld": "48-192",
+                    "mc": "儿童行为量表(CBCL/4~16)",
+                    "jsdz": "html/pgb/etxwlb4-16.html",
+                    "mf": 2,
+                    "zt": 1
+                }
+            ]
+        },
+        {
+            "code": "1",
+            "lx": 2,
+            "xsbt": "2015联医中一班-中一",
+            "kh": "100005",
+            "bbid": 2095,
+            "zdlist": [
+                {
+                    "code": "1",
+                    "pgbbh": "yexlscb",
+                    "synld": "30-84",
+                    "mc": "幼儿心理问题筛查表（幼儿园筛查）",
+                    "jsdz": "html/pgb/yexlscb.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "qzlb",
+                    "synld": "24-84",
+                    "mc": "儿童气质量表",
+                    "jsdz": "html/pgb/qzlb.html",
+                    "mf": 2,
+                    "zt": 1
+                }
+            ]
+        },
+        {
+            "code": "1",
+            "lx": 2,
+            "xsbt": "2015联医中一班-中一",
+            "kh": "100004",
+            "bbid": 2095,
+            "zdlist": [
+                {
+                    "code": "1",
+                    "pgbbh": "yexlscb",
+                    "synld": "30-84",
+                    "mc": "幼儿心理问题筛查表（幼儿园筛查）",
+                    "jsdz": "html/pgb/yexlscb.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etxwlb2-3",
+                    "synld": "24-47",
+                    "mc": "儿童行为量表(CBCL/2~3)",
+                    "jsdz": "html/pgb/etxwlb2-3.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etxwlb4-16",
+                    "synld": "48-192",
+                    "mc": "儿童行为量表(CBCL/4~16)",
+                    "jsdz": "html/pgb/etxwlb4-16.html",
+                    "mf": 2,
+                    "zt": 1
+                }
+            ]
+        },
+        {
+            "code": "1",
+            "lx": 2,
+            "xsbt": "2015联医小一班-刘子贤",
+            "kh": "100003",
+            "bbid": 15081,
+            "zdlist": [
+                {
+                    "code": "1",
+                    "pgbbh": "yexlscb",
+                    "synld": "30-84",
+                    "mc": "幼儿心理问题筛查表（幼儿园筛查）",
+                    "jsdz": "html/pgb/yexlscb.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc2-4",
+                    "synld": "2-4",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc5-7",
+                    "synld": "5-7",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc8-10",
+                    "synld": "8-10",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc11-15",
+                    "synld": "11-15",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc16-21",
+                    "synld": "16-21",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc22-28",
+                    "synld": "22-28",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc29-35",
+                    "synld": "29-35",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 2
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc36-47",
+                    "synld": "36-47",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc48-59",
+                    "synld": "48-59",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "etfysc60-100",
+                    "synld": "60-84",
+                    "mc": "儿童发育筛查问卷表",
+                    "jsdz": "html/pgb/etfysc.html",
+                    "mf": 2,
+                    "zt": 2
+                }
+            ]
+        },
+        {
+            "code": "1",
+            "lx": 2,
+            "xsbt": "2015联医大一班-刘子贤",
+            "kh": "100002",
+            "bbid": 15081,
+            "zdlist": [
+                {
+                    "code": "1",
+                    "pgbbh": "yexlscb",
+                    "synld": "30-84",
+                    "mc": "幼儿心理问题筛查表（幼儿园筛查）",
+                    "jsdz": "html/pgb/yexlscb.html",
+                    "mf": 2,
+                    "zt": 1
+                },
+                {
+                    "code": "1",
+                    "pgbbh": "xqetxw",
+                    "synld": "30-84",
+                    "mc": "学前儿童行为量表",
+                    "jsdz": "html/pgb/xqetxw.html",
+                    "mf": 2,
+                    "zt": 1
+                }
+            ]
+        }
+    ]
+}
