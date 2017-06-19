@@ -134,6 +134,7 @@
 							var items = {
 								yhid: response.body.yhid,
 								token: response.body.token,
+								currenbaby: 0,
 								bbList: response.body.bbList
 							}
 							myfun.save(items);

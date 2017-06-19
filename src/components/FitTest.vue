@@ -27,14 +27,15 @@
               prop="synld"
               label="年龄段">
               </el-table-column>
-              <!-- <el-table-column
+              <el-table-column
+                prop="zt"
                 label="状态">
                 <template scope="scope">
                   <el-tag
-                    :type="scope.row.tag === '已评测' ? 'gray' : 'danger'"
-                    close-transition>{{scope.row.tag}}</el-tag>
+                    :type="scope.row.zt == 1 ? 'error' : (scope.row.zt == 2?'gray':'success')"
+                    close-transition>{{scope.row.zt == 1 ? '已做' : (scope.row.zt == 2?'未做':'报告已出')}}</el-tag>
                 </template>
-              </el-table-column> -->
+              </el-table-column>
               <el-table-column
                 label="操作">
                 <template scope="scope">
@@ -64,27 +65,41 @@ export default {
     Survey
   },
   mounted() {
-    var objstr = JSON.stringify({
-      yhid: this.yhid
-    });
-    this.$http.post('http://127.0.0.1:8080/wbaobei/phone/fl', objstr).then(function(response){
-      this.pgblist = response.body.results[0].zdList;
-      console.log(response);
-    }, function(response) {
-      console.log('fail');
-    })
-
+    // var objstr = JSON.stringify({
+    //   yhid: this.yhid
+    // });
+    // this.$http.post('http://127.0.0.1:8080/wbaobei/phone/fl', objstr).then(function(response){
+    //   this.pgblist = response.body.results[0].zdList;
+    //   console.log(response);
+    // }, function(response) {
+    //   console.log('fail');
+    // })
     var objjjj = JSON.stringify({
-      bbid: myfun.fetch().bbList[0].bbid
+      yhid: myfun.fetch().yhid,
+      bbid: myfun.fetch().bbList[26].bbid,
+      // bbid: 91371,
+      flbh: "jkpg"
     });
     this.$http.post('http://127.0.0.1:8080/wbaobei/phone/tc', objjjj).then(function(response){
+      // this.pgblist = response.body.results.length >= 2?(response.body.results[0].zdlist + response.body.results[1].zdlist):(response.body.results[0].zdlist);
+      if(response.body.results.length >= 2) {
+        this.pgblist = response.body.results[1].zdlist;
+      } else {
+        this.pgblist = response.body.results[0].zdlist;
+      }
       console.log(response);
     }, function(response) {
       console.log('fail');
     })
   },
+  watch: {
+    BB_INDEX: function (val, oldVal) {
+      console.log('thhhh');
+    }
+  },
   data() {
     return {
+      bbindex: this.BB_INDEX,
       pgbbh: "",
       showsurvey: false,
       activeName: 'first',
@@ -108,9 +123,22 @@ export default {
     handleClick(tab, event) {
       console.log(tab, event);
     },
+    changebb() {
+      console.log('thyyy');
+    },
     checkSurvey(pgbbh) {
       this.showsurvey = !this.showsurvey;
       this.pgbbh = pgbbh;
+
+      // var objjjj = JSON.stringify({
+      //   bbid: myfun.fetch().bbList[1].bbid,
+      //   flbh: "jkpg"
+      // });
+      // this.$http.post('http://127.0.0.1:8080/wbaobei/phone/tc', objjjj).then(function(response){
+      //   console.log(response);
+      // }, function(response) {
+      //   console.log('fail');
+      // })
     }
   }
 }

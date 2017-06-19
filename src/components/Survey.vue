@@ -94,7 +94,7 @@
 			subsurvey() {
 				var objstr = JSON.stringify({
 					yhid: myfun.fetch().yhid,
-					bbid: myfun.fetch().bbList[0].bbid,
+					bbid: myfun.fetch().bbList[26].bbid,
 		      pgbbh: this.pgbbh,
 					xxlist: this.answerList
 		    });
@@ -118,6 +118,7 @@
 						console.log(this.questionIndex);
 						this.percent += this.percentrate;
 						this.answerList.push({
+							pgbbh: this.pgbbh,
 							mxxh: this.questionIndex + 1,
 							xh: x
 						});
@@ -126,6 +127,7 @@
 					}
 					this.percent += this.percentrate;
 					this.answerList.push({
+						pgbbh: this.pgbbh,
 						mxxh: this.questionIndex + 1,
 						xh: x
 					})

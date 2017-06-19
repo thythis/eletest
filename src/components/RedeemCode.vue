@@ -130,9 +130,11 @@ export default {
     },
     redeemGo: function(bbid) {
       var objstr = JSON.stringify({
+        yhid: this.yhid,
         kh: this.rcode,
         bbid: bbid
       });
+      console.log(bbid);
       this.$http.post('http://127.0.0.1:8080/wbaobei/phone/ggkdh', objstr).then(function(response){
         console.log(response);
         if(response.body.code == "1") {

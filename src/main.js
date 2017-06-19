@@ -4,6 +4,7 @@ import AMap from 'vue-amap';
 import 'element-ui/lib/theme-default/index.css'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
+import myfun from './assets/js/test.js'
 import App from './App'
 
 Vue.use(AMap);
@@ -13,6 +14,8 @@ Vue.use(ElementUI);
 Vue.use(VueRouter);
 
 Vue.use(VueResource);
+
+Vue.prototype.BB_INDEX = myfun.fetch().currenbaby;
 
 AMap.initAMapApiLoader({
   // 高德的key
