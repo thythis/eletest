@@ -65,23 +65,12 @@ export default {
     Survey
   },
   mounted() {
-    // var objstr = JSON.stringify({
-    //   yhid: this.yhid
-    // });
-    // this.$http.post('http://127.0.0.1:8080/wbaobei/phone/fl', objstr).then(function(response){
-    //   this.pgblist = response.body.results[0].zdList;
-    //   console.log(response);
-    // }, function(response) {
-    //   console.log('fail');
-    // })
     var objjjj = JSON.stringify({
       yhid: myfun.fetch().yhid,
-      bbid: myfun.fetch().bbList[26].bbid,
-      // bbid: 91371,
+      bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
       flbh: "jkpg"
     });
     this.$http.post('http://127.0.0.1:8080/wbaobei/phone/tc', objjjj).then(function(response){
-      // this.pgblist = response.body.results.length >= 2?(response.body.results[0].zdlist + response.body.results[1].zdlist):(response.body.results[0].zdlist);
       if(response.body.results.length >= 2) {
         this.pgblist = response.body.results[1].zdlist;
       } else {
@@ -91,15 +80,38 @@ export default {
     }, function(response) {
       console.log('fail');
     })
+
+    this.$store.commit('bblist',this.pgblist)
+
+  },
+  computed: {
+    requestTc() {
+      return this.$store.state.count
+    }
   },
   watch: {
-    BB_INDEX: function (val, oldVal) {
-      console.log('thhhh');
+    requestTc(val) {
+      var objjjj = JSON.stringify({
+        yhid: myfun.fetch().yhid,
+        bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
+        flbh: "jkpg"
+      });
+      this.$http.post('http://127.0.0.1:8080/wbaobei/phone/tc', objjjj).then(function(response){
+        if(response.body.results.length >= 2) {
+          this.pgblist = response.body.results[1].zdlist;
+        } else {
+          this.pgblist = response.body.results[0].zdlist;
+        }
+        console.log(response);
+      }, function(response) {
+        console.log('fail');
+      })
     }
   },
   data() {
     return {
-      bbindex: this.BB_INDEX,
+      yhid: myfun.fetch().yhid,
+      bbindex: myfun.fetch().currenbaby,
       pgbbh: "",
       showsurvey: false,
       activeName: 'first',
@@ -129,16 +141,6 @@ export default {
     checkSurvey(pgbbh) {
       this.showsurvey = !this.showsurvey;
       this.pgbbh = pgbbh;
-
-      // var objjjj = JSON.stringify({
-      //   bbid: myfun.fetch().bbList[1].bbid,
-      //   flbh: "jkpg"
-      // });
-      // this.$http.post('http://127.0.0.1:8080/wbaobei/phone/tc', objjjj).then(function(response){
-      //   console.log(response);
-      // }, function(response) {
-      //   console.log('fail');
-      // })
     }
   }
 }

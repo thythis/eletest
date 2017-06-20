@@ -50,6 +50,10 @@ export default {
   methods: {
     changebb() {
       this.BB_INDEX++;
+      var objj = myfun.fetch();
+      objj.currenbaby++;
+      myfun.save(objj);
+      this.$store.commit('increment')
       this.bbindex = this.BB_INDEX;
       console.log(this.BB_INDEX);
     }

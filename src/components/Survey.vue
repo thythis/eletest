@@ -8,7 +8,7 @@
 					以下是100个反映孩子日常行为的问题，<strong>请您认真阅读每一个问题根据孩子最近3个月以内的实际情况，选择最全靠的答案。每一个问题都要做出回答。</strong></p>
 			</div>
 			<div class="opt-panel" v-if="showopt">
-				<el-button type="primary" @click="retest">重新测评</el-button>
+				<el-button type="primary" @click="retest">开始测评</el-button>
 				<el-button type="warning" @click="showRst">查看报告</el-button>
 			</div>
 			<div class="survey-box" v-if="showbox">

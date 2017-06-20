@@ -4,6 +4,7 @@ import AMap from 'vue-amap';
 import 'element-ui/lib/theme-default/index.css'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
+import Vuex from 'vuex'
 import myfun from './assets/js/test.js'
 import App from './App'
 
@@ -15,7 +16,9 @@ Vue.use(VueRouter);
 
 Vue.use(VueResource);
 
-Vue.prototype.BB_INDEX = myfun.fetch().currenbaby;
+Vue.use(Vuex);
+
+Vue.prototype.BB_INDEX = 0;
 
 AMap.initAMapApiLoader({
   // 高德的key
@@ -83,6 +86,20 @@ const router = new VueRouter({
   routes
 })
 
+const store = new Vuex.Store({
+  state: {
+    count: 0,
+    bbpgblist: []
+  },
+  mutations: {
+  	increment: state => state.count++,
+    decrement: state => state.count--,
+    bblist(state, list) {
+      state.bbpgblist = list;
+    }
+  }
+})
+
 Vue.http.options.xhr = { withCredentials: true };
 Vue.http.options.emulateJSON = true;
 Vue.config.productionTip = false;
@@ -90,5 +107,6 @@ Vue.config.productionTip = false;
 /* eslint-disable no-new */
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')
