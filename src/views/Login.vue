@@ -47,12 +47,17 @@
 </template>
 
 <script>
+  import myfun from '../assets/js/test.js'
+	import md5 from 'js-md5';
   import desc from '../assets/img/desc2.png'
   import HeaderBar from '../components/HeaderBar.vue';
   export default {
     components: {
       HeaderBar,
     },
+		mounted() {
+			var that = this;
+		},
     data() {
       var checkPhone = (rule, value, callback) => {
         var reg = /1[0-9]{10}/;
@@ -113,10 +118,43 @@
       },
       login() {
         this.fullscreenLoading = true;
-        setTimeout(() => {
-          this.fullscreenLoading = false;
-          this.$router.push({path:'/home'})
-        }, 2000);
+
+				var encrymm = md5(this.ruleForm2.pass);
+				var obj = {
+					sjh: this.ruleForm2.phone,
+	       	mm: encrymm,
+	       	lx: 4
+				}
+				var objstr = JSON.stringify(obj);
+				//18664378720
+				this.$http.post('http://127.0.0.1:8080/wbaobei/phone/login',objstr).then(function(response){
+						this.fullscreenLoading = false;
+						console.log(response.body);
+						if(response.body.code == "1") {
+							var items = {
+								yhid: response.body.yhid,
+								token: response.body.token,
+								currenbaby: 0,
+								bbList: response.body.bbList
+							}
+							myfun.save(items);
+							this.$router.push({path:'/bbmana'});
+							// this.$notify({
+							// 	title: '登录成功！',
+							// 	message: '这是一条成功的提示消息',
+							// 	type: 'success'
+							// });
+						} else {
+							this.$notify({
+								title: '登录失败！',
+								message: response.body.message,
+								type: 'warning'
+							});
+						}
+				}, function(response){
+						console.log('fail');
+				});
+
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();

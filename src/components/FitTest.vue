@@ -10,35 +10,36 @@
               <span>2017小一班</span>
             </div>
             <el-table
-              :data="tableData"
+              :data="pgblist"
               border
               stripe
               style="width: 100%">
               <el-table-column
-              prop="pgbname"
+              prop="mc"
               label="筛查表">
                 <template scope="scope">
                   <el-tag
                     type="primary"
-                    close-transition>{{scope.row.pgbname}}</el-tag>
+                    close-transition>{{scope.row.mc}}</el-tag>
                 </template>
               </el-table-column>
               <el-table-column
-              prop="agerange"
+              prop="synld"
               label="年龄段">
               </el-table-column>
               <el-table-column
+                prop="zt"
                 label="状态">
                 <template scope="scope">
                   <el-tag
-                    :type="scope.row.tag === '已评测' ? 'gray' : 'danger'"
-                    close-transition>{{scope.row.tag}}</el-tag>
+                    :type="scope.row.zt == 1 ? 'error' : (scope.row.zt == 2?'gray':'success')"
+                    close-transition>{{scope.row.zt == 1 ? '已做' : (scope.row.zt == 2?'未做':'报告已出')}}</el-tag>
                 </template>
               </el-table-column>
               <el-table-column
                 label="操作">
                 <template scope="scope">
-                  <el-button size="small" icon="search" type="danger" @click.native.prevent="checkSurvey">查看详情</el-button>
+                  <el-button size="small" icon="search" type="danger" @click.native.prevent="checkSurvey(scope.row.pgbbh)">查看详情</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -46,7 +47,7 @@
           <transition name="el-fade-in">
             <div v-if="showsurvey">
               <el-button type="primary" icon="arrow-left" @click="checkSurvey">返回</el-button>
-              <survey></survey>
+              <survey :pgbbh="pgbbh"></survey>
             </div>
           </transition>
         </el-tab-pane>
@@ -57,15 +58,52 @@
 </template>
 
 <script>
+import myfun from '../assets/js/test.js'
 import Survey from '../components/Survey.vue';
 export default {
   components: {
     Survey
   },
+  mounted() {
+    // var objstr = JSON.stringify({
+    //   yhid: this.yhid
+    // });
+    // this.$http.post('http://127.0.0.1:8080/wbaobei/phone/fl', objstr).then(function(response){
+    //   this.pgblist = response.body.results[0].zdList;
+    //   console.log(response);
+    // }, function(response) {
+    //   console.log('fail');
+    // })
+    var objjjj = JSON.stringify({
+      yhid: myfun.fetch().yhid,
+      bbid: myfun.fetch().bbList[26].bbid,
+      // bbid: 91371,
+      flbh: "jkpg"
+    });
+    this.$http.post('http://127.0.0.1:8080/wbaobei/phone/tc', objjjj).then(function(response){
+      // this.pgblist = response.body.results.length >= 2?(response.body.results[0].zdlist + response.body.results[1].zdlist):(response.body.results[0].zdlist);
+      if(response.body.results.length >= 2) {
+        this.pgblist = response.body.results[1].zdlist;
+      } else {
+        this.pgblist = response.body.results[0].zdlist;
+      }
+      console.log(response);
+    }, function(response) {
+      console.log('fail');
+    })
+  },
+  watch: {
+    BB_INDEX: function (val, oldVal) {
+      console.log('thhhh');
+    }
+  },
   data() {
     return {
+      bbindex: this.BB_INDEX,
+      pgbbh: "",
       showsurvey: false,
       activeName: 'first',
+      pgblist: [],
       tableData: [{
         pgbname: '儿童行为量表',
         agerange: '2岁-4岁11月',
@@ -85,8 +123,22 @@ export default {
     handleClick(tab, event) {
       console.log(tab, event);
     },
-    checkSurvey() {
+    changebb() {
+      console.log('thyyy');
+    },
+    checkSurvey(pgbbh) {
       this.showsurvey = !this.showsurvey;
+      this.pgbbh = pgbbh;
+
+      // var objjjj = JSON.stringify({
+      //   bbid: myfun.fetch().bbList[1].bbid,
+      //   flbh: "jkpg"
+      // });
+      // this.$http.post('http://127.0.0.1:8080/wbaobei/phone/tc', objjjj).then(function(response){
+      //   console.log(response);
+      // }, function(response) {
+      //   console.log('fail');
+      // })
     }
   }
 }
@@ -99,6 +151,6 @@ export default {
 
   .test-content {
     width: 80%;
-    margin: 50px auto 0 auto;
+    margin: 50px auto 20px auto;
   }
 </style>

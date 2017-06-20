@@ -1,8 +1,9 @@
 <template lang="html">
   <div>
     <div class="baby-list" v-if="!flag">
+      <el-button type="primary" icon="plus" class="add-baby" @click="babyAdd">添加宝贝</el-button>
       <el-table
-        :data="list"
+        :data="bbList"
         border
         stripe
         style="width: 100%">
@@ -11,7 +12,7 @@
           width="180">
           <template scope="scope">
             <el-icon name="time"></el-icon>
-            <span style="margin-left: 10px">{{ scope.row.birth }}</span>
+            <span style="margin-left: 10px">{{ scope.row.csrq }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -19,7 +20,7 @@
           width="100">
           <template scope="scope">
             <div slot="reference" class="name-wrapper">
-              <el-tag>{{ scope.row.name }}</el-tag>
+              <el-tag>{{ scope.row.mc }}</el-tag>
             </div>
           </template>
         </el-table-column>
@@ -28,7 +29,7 @@
           width="100">
           <template scope="scope">
             <div slot="reference" class="name-wrapper">
-              <el-tag :type="{true:'primary',false:'success'}[scope.row.gendar=='男宝贝']">{{ scope.row.gendar }}</el-tag>
+              <el-tag :type="{true:'primary',false:'success'}[scope.row.xb=='1']">{{ scope.row.xb=='1'?'男宝贝':'女宝贝' }}</el-tag>
             </div>
           </template>
         </el-table-column>
@@ -44,11 +45,11 @@
         <el-table-column label="操作">
           <template scope="scope">
             <el-button size="small" icon="edit" @click.native.prevent="editRow(scope.$index, scope.row)">编辑</el-button>
-            <el-button size="small" icon="delete" type="danger" @click.native.prevent="delRow(scope.$index, list)">删除</el-button>
+            <el-button size="small" icon="delete" type="danger" @click.native.prevent="delRow(scope.row.bbid)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
-      <el-button type="primary" icon="plus" class="add-baby" @click="babyAdd">添加宝贝</el-button>
+
     </div>
     <transition name="el-fade-in">
       <div class="edit-panel" v-if="flag">
@@ -65,8 +66,8 @@
           </el-form-item>
           <el-form-item label="性别">
             <el-radio-group v-model="form.gendar">
-              <el-radio label="男宝贝"></el-radio>
-              <el-radio label="女宝贝"></el-radio>
+              <el-radio :label="1">男宝贝</el-radio>
+              <el-radio :label="2">女宝贝</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="出生日期">
@@ -92,6 +93,7 @@
 </template>
 
 <script>
+import myfun from '../assets/js/test.js'
 import VueImgInputer from 'vue-img-inputer';
 import baby1 from '../assets/img/baby1.jpg';
 export default {
@@ -100,6 +102,7 @@ export default {
   },
   data() {
     return {
+      bbList: myfun.fetch().bbList,
       imgval: baby1,
       pickerOptions0: {
         disabledDate(time) {
@@ -154,28 +157,36 @@ export default {
     editCancel: function() {
       this.flag = false;
     },
-    delRow: function(index, rows) {
+    delRow: function(bbid) {
       this.$confirm('确认删除一条宝宝数据?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        rows.splice(index, 1);
-        this.$message({
-          type: 'success',
-          duration: 1000,
-          message: '删除成功!'
+        var objstr = JSON.stringify({
+          bbid: bbid
         });
+        this.$http.post('http://127.0.0.1:8080/wbaobei/bb/delete',objstr).then(function(response){
+          console.log(response);
+        }, function(response){
+						console.log('fail');
+				});
+        // rows.splice(index, 1);
+        // this.$message({
+        //   type: 'success',
+        //   duration: 1000,
+        //   message: '删除成功!'
+        // });
       }).catch(() => {
-
+        console.log('shibai');
       });
     },
     editRow: function(index, item) {
       this.form.type = 0;
       this.form.index = index;
-      this.form.name = item.name;
-      this.form.birth = item.birth;
-      this.form.gendar = item.gendar;
+      this.form.name = item.mc;
+      this.form.birth = item.csrq;
+      this.form.gendar = item.xb;
       this.form.bjh = item.bjh;
       this.flag = true;
     },
@@ -222,9 +233,9 @@ export default {
   .baby-list {
     width: 90%;
     overflow: hidden;
-    margin: 50px auto 0 auto;
+    margin: 50px auto 20px auto;
     .add-baby {
-      margin-top: 20px;
+      margin-bottom: 20px;
     }
     .baby-item {
       height: 80px;

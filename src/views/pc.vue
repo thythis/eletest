@@ -7,10 +7,10 @@
           <el-col :span="5">
             <el-menu default-active="2" class="el-menu-vertical-demo">
               <div class="baby">
-                <div class="photo">
+                <div class="photo" @click="changebb">
                 </div>
                 <span class="account">17607675503</span>
-                <span class="bbname">王大力</span>
+                <span class="bbname">{{bbList[bbindex].mc}}</span>
               </div>
               <el-menu-item index="1"><i class="el-icon-message"></i><router-link to="bbmana">宝贝管理</router-link></el-menu-item>
               <el-menu-item index="2"><i class="el-icon-menu"></i><router-link to="rcode">兑换码</router-link></el-menu-item>
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import myfun from '../assets/js/test.js'
 import MainHeader from '../components/MainHeader.vue';
 import MainFooter from '../components/MainFooter.vue';
 export default {
@@ -37,6 +38,22 @@ export default {
     MainFooter,
     MainHeader
   },
+  mounted() {
+    console.log(this.bbindex);
+  },
+  data() {
+    return {
+      bbindex: this.BB_INDEX,
+      bbList: myfun.fetch().bbList,
+    }
+  },
+  methods: {
+    changebb() {
+      this.BB_INDEX++;
+      this.bbindex = this.BB_INDEX;
+      console.log(this.BB_INDEX);
+    }
+  }
 }
 </script>
 
