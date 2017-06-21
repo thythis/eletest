@@ -12,10 +12,10 @@
                 <span class="account">17607675503</span>
                 <span class="bbname">{{bbList[bbindex].mc}}</span>
               </div>
-              <el-menu-item index="1"><i class="el-icon-message"></i><router-link to="bbmana">宝贝管理</router-link></el-menu-item>
-              <el-menu-item index="2"><i class="el-icon-menu"></i><router-link to="rcode">兑换码</router-link></el-menu-item>
-              <el-menu-item index="3"><i class="el-icon-search"></i><router-link to="fittest">健康评估表</router-link></el-menu-item>
-              <el-menu-item index="4"><i class="el-icon-time"></i><router-link to="history">评估历史</router-link></el-menu-item>
+              <el-menu-item index="1" @click="gobaby(1)"><i class="el-icon-message"></i>宝贝管理</el-menu-item>
+              <el-menu-item index="2" @click="gobaby(2)"><i class="el-icon-menu"></i>兑换码</el-menu-item>
+              <el-menu-item index="3" @click="gobaby(3)"><i class="el-icon-search"></i>健康评估表</el-menu-item>
+              <el-menu-item index="4" @click="gobaby(4)"><i class="el-icon-time"></i>评估历史</el-menu-item>
             </el-menu>
           </el-col>
           <el-col :span="19" class="nr-panel">
@@ -41,21 +41,37 @@ export default {
   mounted() {
     console.log(this.bbindex);
   },
+  computed: {
+    requestTc() {
+      return this.$store.state.count
+    }
+  },
+  watch: {
+    requestTc(val) {
+      this.bbindex = this.$store.state.count;
+    }
+  },
   data() {
     return {
-      bbindex: this.BB_INDEX,
+      bbindex: this.$store.state.count,
       bbList: myfun.fetch().bbList,
     }
   },
   methods: {
     changebb() {
-      this.BB_INDEX++;
-      var objj = myfun.fetch();
-      objj.currenbaby++;
-      myfun.save(objj);
       this.$store.commit('increment')
-      this.bbindex = this.BB_INDEX;
-      console.log(this.BB_INDEX);
+      this.bbindex = this.$store.state.count;
+    },
+    gobaby(index) {
+      if(index == 1) {
+        this.$router.push('/bbmana')
+      } else if(index == 2) {
+        this.$router.push('/rcode')
+      } else if(index == 3) {
+        this.$router.push('/fittest')
+      } else if(index == 4) {
+        this.$router.push('/history')
+      }
     }
   }
 }

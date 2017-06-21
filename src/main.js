@@ -94,6 +94,9 @@ const store = new Vuex.Store({
   mutations: {
   	increment: state => state.count++,
     decrement: state => state.count--,
+    setCount(state, num) {
+      state.count = num;
+    },
     bblist(state, list) {
       state.bbpgblist = list;
     }

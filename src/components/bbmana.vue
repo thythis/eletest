@@ -6,9 +6,12 @@
         :data="bbList"
         border
         stripe
+        :default-sort = "{prop: 'csrq', order: 'descending'}"
         style="width: 100%">
         <el-table-column
           label="出生日期"
+          prop="csrq"
+          sortable
           width="180">
           <template scope="scope">
             <el-icon name="time"></el-icon>

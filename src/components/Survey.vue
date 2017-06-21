@@ -37,7 +37,7 @@
 						<span class="qnr">{{item.nr}}</span>
 						<span class="answer">{{answerList[index].xh}}</span>
 					</div>
-					<button class="sub-btn" @click="subsurvey">
+					<button class="sub-btn" @click="subsurvey" v-loading.fullscreen.lock="fullscreenLoading">
 						提交评测
 					</button>
 				</div>
@@ -50,13 +50,15 @@
 	import myfun from '../assets/js/test.js'
 	export default {
 		props: {
-			pgbbh: ''
+			pgbbh: '',
+			kh: ''
 		},
 		mounted() {
 
 		},
 		data() {
 			return {
+				fullscreenLoading: false,
 				showbox: false,
 				showopt: true,
 				rflag: false,
@@ -92,14 +94,40 @@
         });
 			},
 			subsurvey() {
+				this.fullscreenLoading = true;
 				var objstr = JSON.stringify({
 					yhid: myfun.fetch().yhid,
 					bbid: myfun.fetch().bbList[26].bbid,
 		      pgbbh: this.pgbbh,
+					kh: this.kh,
 					xxlist: this.answerList
 		    });
-		    this.$http.post('http://127.0.0.1:8080/wbaobei/phone/savepgb', objstr).then(function(response){
+		    this.$http.post('http://127.0.0.1:8080/wbaobei/phone/pgbbc', objstr).then(function(response){
 		      console.log(response);
+					this.fullscreenLoading = false;
+					var msg = "";
+					if(response.body.code == "1") {
+						if(response.body.jg == "3"){
+							msg = response.body.remark;
+						}
+						this.$confirm(msg, '提交成功', {
+		          confirmButtonText: '确定',
+		          type: 'success'
+		        }).then(() => {
+
+		        }).catch(() => {
+
+		        });
+					} else {
+						this.$confirm(response.body.message, '提交失败', {
+		          confirmButtonText: '确定',
+		          type: 'error'
+		        }).then(() => {
+
+		        }).catch(() => {
+
+		        });
+					}
 		    }, function(response) {
 		      console.log('fail');
 		    })
