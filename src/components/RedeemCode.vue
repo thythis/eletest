@@ -47,12 +47,15 @@
     </div>
     <div class="pgblist">
       <el-tag type="gray">已激活的评估表列表</el-tag>
-      <div v-for="item in tclist">
-        <div class="box">
+      <div class="jhlb" v-for="item in tclist">
+        <div class="paper-clip-icon">
+        </div>
+        <div class="paper">{{item.xsbt}}</div>
+        <!-- <div class="box">
           <div class="ribbon">
           </div>
           <span>{{item.xsbt}}</span>
-        </div>
+        </div> -->
         <el-table
           :data="item.zdlist"
           border
@@ -157,6 +160,7 @@ export default {
 }
 </script>
 <style lang="scss">
+  $MAIN_COLOR: #4fc1e9;
   .exchange-part {
     width: 80%;
     margin: 50px auto 0 auto;
@@ -169,7 +173,71 @@ export default {
   }
   .pgblist {
     width: 80%;
-    margin:20px auto;
+    margin: 20px auto;
+    .jhlb {
+      position: relative;
+    }
+    .el-table {
+      z-index: 2;
+    }
+    .paper-clip-icon,
+    .paper-clip-icon::after,
+    .paper-clip-icon::before {
+      border-color: $MAIN_COLOR!important;
+    }
+    .paper-clip-icon {
+      margin-top: 50px;
+      width: 16px;
+      height: 16px;
+      border-bottom: none;
+      border-left: 4px solid;
+      border-right: 4px solid;
+      border-top: none;
+      position: relative;
+      z-index: 5;
+      left: 26px;
+      top: -28px;
+    }
+    .paper-clip-icon::before {
+      position: absolute;
+      content: "";
+      top: -16px;
+      right: -4px;
+      width: 10px;
+      height: 12px;
+      border-top-left-radius: 40px;
+      border-top-right-radius: 40px;
+      border-bottom: none;
+      border-left: 4px solid;
+      border-right: 4px solid;
+      border-top: 4px solid;
+    }
+    .paper-clip-icon::after {
+      position: absolute;
+      content: "";
+      bottom: -18px;
+      right: 2px;
+      width: 4px;
+      height: 30px;
+      border-bottom-left-radius: 40px;
+      border-bottom-right-radius: 40px;
+      border-top: none;
+      border-left: 4px solid;
+      border-right: 4px solid;
+      border-bottom: 4px solid;
+    }
+    .paper {
+      width: 98%;
+      margin-left: 10px;
+      height: 30px;
+      position: absolute;
+      top: -13px;
+      line-height: 30px;
+      text-indent: 40px;
+      color: $MAIN_COLOR;
+      // box-shadow: 0 0 10px rgba(0,0,0,.1);
+      background: #f1f1f1;
+    }
   }
   .box {
     width: 30%;
