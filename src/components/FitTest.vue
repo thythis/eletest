@@ -42,7 +42,7 @@
                   <el-table-column
                     label="操作">
                     <template scope="scope">
-                      <el-button size="small" icon="search" type="danger" @click.native.prevent="checkSurvey(scope.row.pgbbh)">查看详情</el-button>
+                      <el-button size="small" icon="search" type="danger" @click.native.prevent="checkSurvey(scope.row.pgbbh, scope.row.bbpgbid)">查看详情</el-button>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -50,7 +50,7 @@
               <transition name="el-fade-in">
                 <div v-if="showsurvey">
                   <el-button type="primary" icon="arrow-left" @click="checkSurvey">返回</el-button>
-                  <survey :pgbbh="pgbbh" :kh="kh"></survey>
+                  <survey :bbinfo="bbinfo"></survey>
                 </div>
               </transition>
             </el-tab-pane>
@@ -87,7 +87,7 @@
                   <el-table-column
                     label="操作">
                     <template scope="scope">
-                      <el-button size="small" icon="search" type="danger" @click.native.prevent="checkSurvey(scope.row.pgbbh)">查看详情</el-button>
+                      <el-button size="small" icon="search" type="danger" @click.native.prevent="checkSurvey(scope.row.pgbbh, scope.row.bbpgbid)">查看详情</el-button>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -95,7 +95,7 @@
               <transition name="el-fade-in">
                 <div v-if="showsurvey">
                   <el-button type="primary" icon="arrow-left" @click="checkSurvey">返回</el-button>
-                  <survey :pgbbh="pgbbh" :kh="kh"></survey>
+                  <survey :bbinfo="bbinfo"></survey>
                 </div>
               </transition>
             </el-tab-pane>
@@ -125,7 +125,7 @@ export default {
       this.loading = false;
       if(response.body.results.length >= 2) {
         this.pgblist = response.body.results[1].zdlist;
-        this.kh = response.body.results[1].kh;
+        this.bbinfo.kh = response.body.results[1].kh;
       } else {
         this.pgblist = response.body.results[0].zdlist;
       }
@@ -156,7 +156,7 @@ export default {
         this.loading = false;
         if(response.body.results.length >= 2) {
           this.pgblist = response.body.results[1].zdlist;
-          this.kh = response.body.results[1].kh;
+          this.bbinfo.kh = response.body.results[1].kh;
         } else {
           this.pgblist = response.body.results[0].zdlist;
         }
@@ -173,8 +173,11 @@ export default {
       bbindex: myfun.fetch().currenbaby,
       bbname: myfun.fetch().bbList[this.$store.state.count].mc,
       bbList: myfun.fetch().bbList,
-      pgbbh: "",
-      kh: "",
+      bbinfo: {
+        pgbbh: "",
+        bbpgbid: 0,
+        kh: "",
+      },
       loading: false,
       showsurvey: false,
       activeName: 'first',
@@ -220,7 +223,7 @@ export default {
         this.loading = false;
         if(response.body.results.length >= 2) {
           this.pgblist = response.body.results[1].zdlist;
-          this.kh = response.body.results[1].kh;
+          this.bbinfo.kh = response.body.results[1].kh;
         } else {
           this.pgblist = response.body.results[0].zdlist;
         }
@@ -233,9 +236,11 @@ export default {
     changebb() {
       console.log('thyyy');
     },
-    checkSurvey(pgbbh) {
+    checkSurvey(pgbbh, bbpgbid) {
+      console.log(bbpgbid);
       this.showsurvey = !this.showsurvey;
-      this.pgbbh = pgbbh;
+      this.bbinfo.pgbbh = pgbbh;
+      this.bbinfo.bbpgbid = bbpgbid;
     }
   }
 }

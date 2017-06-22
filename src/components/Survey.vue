@@ -50,11 +50,13 @@
 	import myfun from '../assets/js/test.js'
 	export default {
 		props: {
-			pgbbh: '',
-			kh: ''
+			bbinfo: {
+				pgbbh: '',
+				bbpgbid: 0,
+				kh: ''
+			}
 		},
 		mounted() {
-
 		},
 		data() {
 			return {
@@ -75,7 +77,7 @@
 				this.showopt = false;
 				this.showbox = true;
 				var objstr = JSON.stringify({
-		      pgbbh: this.pgbbh
+		      pgbbh: this.bbinfo.pgbbh
 		    });
 		    this.$http.post('http://127.0.0.1:8080/wbaobei/phone/hqpgbmx', objstr).then(function(response){
 		      console.log(response);
@@ -86,20 +88,31 @@
 		    })
 			},
 			showRst() {
-				this.$alert('您孩子的各项行为指标（视听反应、认识、语言、运动、早期社会交往等某一方面）发展与同龄儿童可能存在落后', '评估结果', {
-          confirmButtonText: '确定',
-          callback: action => {
-
-          }
-        });
+				console.log(this.bbinfo.bbpgbid);
+				var objjjj = JSON.stringify({
+		      yhid: myfun.fetch().yhid,
+		      // bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
+					bbpgbid: this.bbinfo.bbpgbid
+		    });
+		    this.$http.post('http://127.0.0.1:8080/wbaobei/phone/report',objjjj).then(function(response){
+		      console.log(response);
+		    }, function(response){
+		        console.log('fail');
+		    });
+				// this.$alert('您孩子的各项行为指标（视听反应、认识、语言、运动、早期社会交往等某一方面）发展与同龄儿童可能存在落后', '评估结果', {
+        //   confirmButtonText: '确定',
+        //   callback: action => {
+				//
+        //   }
+        // });
 			},
 			subsurvey() {
 				this.fullscreenLoading = true;
 				var objstr = JSON.stringify({
 					yhid: myfun.fetch().yhid,
 					bbid: myfun.fetch().bbList[26].bbid,
-		      pgbbh: this.pgbbh,
-					kh: this.kh,
+		      pgbbh: this.bbinfo.pgbbh,
+					kh: this.bbinfo.kh,
 					xxlist: this.answerList
 		    });
 		    this.$http.post('http://127.0.0.1:8080/wbaobei/phone/pgbbc', objstr).then(function(response){
@@ -146,7 +159,7 @@
 						console.log(this.questionIndex);
 						this.percent += this.percentrate;
 						this.answerList.push({
-							pgbbh: this.pgbbh,
+							pgbbh: this.bbinfo.pgbbh,
 							mxxh: this.questionIndex + 1,
 							xh: x
 						});
@@ -155,7 +168,7 @@
 					}
 					this.percent += this.percentrate;
 					this.answerList.push({
-						pgbbh: this.pgbbh,
+						pgbbh: this.bbinfo.pgbbh,
 						mxxh: this.questionIndex + 1,
 						xh: x
 					})

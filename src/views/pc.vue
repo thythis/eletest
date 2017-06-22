@@ -59,7 +59,11 @@ export default {
   },
   methods: {
     changebb() {
-      this.$store.commit('increment')
+      if(this.$store.state.count == (this.bbList.length-1)) {
+        this.$store.commit('setCount', 0);
+      } else {
+        this.$store.commit('increment')
+      }
       this.bbindex = this.$store.state.count;
     },
     gobaby(index) {

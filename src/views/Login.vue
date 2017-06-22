@@ -29,7 +29,7 @@
 		        </div>
 		      </div>
 	          <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" class="demo-ruleForm">
-	              <el-input v-model.number="ruleForm2.phone"  placeholder="请输入手机号">
+	              <el-input :autofocus="!fullscreenLoading" v-model.number="ruleForm2.phone"  placeholder="请输入手机号">
 	              	<template slot="prepend"><i class="iconfont icon-person"></i></template>
 	              </el-input>
 

@@ -79,7 +79,19 @@
 </template>
 
 <script>
+import myfun from '../assets/js/test.js'
 export default {
+  mounted() {
+    var objjjj = JSON.stringify({
+      yhid: myfun.fetch().yhid,
+      bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
+    });
+    this.$http.post('http://127.0.0.1:8080/wbaobei/phone/pgbrecord',objjjj).then(function(response){
+      console.log(response);
+    }, function(response){
+        console.log('fail');
+    });
+  },
   data() {
     return {
       tableData: [{

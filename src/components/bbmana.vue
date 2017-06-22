@@ -86,7 +86,7 @@
           </el-form-item>
 
           <el-form-item>
-            <el-button type="primary" @click="saveEdit">保存</el-button>
+            <el-button type="primary" @click="saveEdit" v-loading.fullscreen.lock="fullscreenLoading">保存</el-button>
             <el-button @click="editCancel">取消</el-button>
           </el-form-item>
         </el-form>
@@ -106,6 +106,9 @@ export default {
   data() {
     return {
       bbList: myfun.fetch().bbList,
+      fullscreenLoading: false,
+      yhid: myfun.fetch().yhid,
+      fbirth: "",
       imgval: baby1,
       pickerOptions0: {
         disabledDate(time) {
@@ -141,6 +144,7 @@ export default {
         name: '',
         birth: '',
         gendar: '',
+        bbid: 0,
         bjh: ''
       }
     }
@@ -166,20 +170,31 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
+        this.fullscreenLoading = true;
         var objstr = JSON.stringify({
+          yhid: this.yhid,
           bbid: bbid
         });
-        this.$http.post('http://127.0.0.1:8080/wbaobei/bb/delete',objstr).then(function(response){
+        this.$http.post('http://127.0.0.1:8080/wbaobei/phone/bbsc',objstr).then(function(response){
+          this.fullscreenLoading = false;
           console.log(response);
+          var item = myfun.fetch();
+          for (var bb in item.bbList) {
+            if (item.bbList[bb].bbid == bbid) {
+              item.bbList.splice(bb, 1);
+              break;
+            }
+          }
+          this.bbList = item.bbList;
+          myfun.save(item);
+          this.$message({
+            type: 'success',
+            duration: 1000,
+            message: '删除成功!'
+          });
         }, function(response){
 						console.log('fail');
 				});
-        // rows.splice(index, 1);
-        // this.$message({
-        //   type: 'success',
-        //   duration: 1000,
-        //   message: '删除成功!'
-        // });
       }).catch(() => {
         console.log('shibai');
       });
@@ -189,7 +204,9 @@ export default {
       this.form.index = index;
       this.form.name = item.mc;
       this.form.birth = item.csrq;
+      this.fbirth = item.csrq;
       this.form.gendar = item.xb;
+      this.form.bbid = item.bbid;
       this.form.bjh = item.bjh;
       this.flag = true;
     },
@@ -199,10 +216,45 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
+          this.fullscreenLoading = true;
+
           if(this.form.type == 1) {
             this.form.birth = this.form.birth.getFullYear() + '-' +
             (this.form.birth.getMonth() + 1 > 9 ? this.form.birth.getMonth() + 1 : '0' + (this.form.birth.getMonth() + 1)) + '-' +
             (this.form.birth.getDate() > 9 ? this.form.birth.getDate() : '0' + this.form.birth.getDate());
+
+            var objjjj = JSON.stringify({
+              yhid: this.yhid,
+              mc: this.form.name,
+              xb: this.form.gendar,
+              csrq: this.form.birth,
+            });
+            this.$http.post('http://127.0.0.1:8080/wbaobei/phone/bbbc', objjjj).then(function(response){
+              this.fullscreenLoading = false;
+              console.log(response);
+              if(response.body.code == "1") {
+                var newbb = response.body;
+                console.log(newbb);
+                this.bbList.push(newbb);
+                var item = myfun.fetch();
+                item.bbList = this.bbList;
+                myfun.save(item);
+                this.flag = false;
+                this.$message({
+                  type: 'success',
+                  message: '保存成功!'
+                });
+              } else {
+                this.flag = false;
+                this.$message({
+                  type: 'error',
+                  message: response.body.message
+                });
+              }
+            }, function(response) {
+              console.log('fail');
+            })
+
             this.list.push({
               name: this.form.name,
               gendar: this.form.gendar,
@@ -210,20 +262,48 @@ export default {
               birth: this.form.birth
             })
           } else {
-            this.list[this.form.index].name = this.form.name;
-            this.list[this.form.index].gendar = this.form.gendar;
-            this.list[this.form.index].bjh = this.form.bjh;
-            if(!(this.list[this.form.index].birth === this.form.birth)) {
-              this.list[this.form.index].birth = this.form.birth.getFullYear() + '-' +
+            if(!(this.fbirth === this.form.birth)) {
+              this.fbirth = this.form.birth.getFullYear() + '-' +
               (this.form.birth.getMonth() + 1 > 9 ? this.form.birth.getMonth() + 1 : '0' + (this.form.birth.getMonth() + 1)) + '-' +
               (this.form.birth.getDate() > 9 ? this.form.birth.getDate() : '0' + this.form.birth.getDate());
             }
+            var objjjj = JSON.stringify({
+              yhid: this.yhid,
+              bbid: this.form.bbid,
+              mc: this.form.name,
+              xb: this.form.gendar,
+              csrq: this.fbirth,
+            });
+            this.$http.post('http://127.0.0.1:8080/wbaobei/phone/bbxg', objjjj).then(function(response){
+              this.fullscreenLoading = false;
+              console.log(response);
+              if(response.body.code == "1") {
+                // console.log(this.form.index);
+                var item = myfun.fetch();
+                for (var bb in item.bbList) {
+                  if (item.bbList[bb].bbid == this.form.bbid) {
+                    item.bbList[bb] = response.body;
+                    break;
+                  }
+                }
+                this.bbList = item.bbList;
+                myfun.save(item);
+                this.flag = false;
+                this.$message({
+                  type: 'success',
+                  message: '保存成功!'
+                });
+              } else {
+                this.flag = false;
+                this.$message({
+                  type: 'error',
+                  message: response.body.message
+                });
+              }
+            }, function(response) {
+              console.log('fail');
+            })
           }
-          this.flag = false;
-          this.$message({
-            type: 'success',
-            message: '保存成功!'
-          });
         }).catch(() => {
 
         });

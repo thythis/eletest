@@ -191,17 +191,19 @@ export default {
       height: 16px;
       border-bottom: none;
       border-left: 4px solid;
+      border-top-left-radius: 3px;
       border-right: 4px solid;
       border-top: none;
       position: relative;
       z-index: 5;
-      left: 26px;
-      top: -28px;
+      left: 21px;
+      top: -9px;
+      transform:rotate(30deg);
     }
     .paper-clip-icon::before {
       position: absolute;
       content: "";
-      top: -16px;
+      top: -15px;
       right: -4px;
       width: 10px;
       height: 12px;
