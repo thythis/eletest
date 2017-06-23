@@ -6,46 +6,50 @@
           <el-tabs v-model="activeName" @tab-click="handleBaby">
             <el-tab-pane label="健康评估" name="first">
               <div v-if="!showsurvey">
-                <div class="box">
-                  <div class="ribbon">
+                <div v-for="item in pgblist">
+                  <div class="box">
+                    <div class="ribbon">
+                    </div>
+                    <span>{{item.xsbt}}</span>
                   </div>
-                  <span>{{bbname}}</span>
+                  <el-table
+                    :data="item.zdlist"
+                    :default-sort = "{prop: 'synld', order: 'descending'}"
+                    v-loading.body="loading"
+                    border
+                    stripe
+                    style="width: 100%">
+                        <el-table-column
+                        prop="mc"
+                        label="筛查表">
+                          <template scope="scope">
+                            <el-tag
+                            type="primary"
+                            close-transition>{{scope.row.mc}}</el-tag>
+                          </template>
+                        </el-table-column>
+                        <el-table-column
+                          prop="synld"
+                          sortable
+                          label="年龄段">
+                        </el-table-column>
+                        <el-table-column
+                        prop="zt"
+                        label="状态">
+                        <template scope="scope">
+                          <el-tag
+                          :type="scope.row.zt == 1 ? 'primary' : (scope.row.zt == 2?'gray':'success')"
+                          close-transition>{{scope.row.zt == 1 ? '已做' : (scope.row.zt == 2?'可评测':'报告已出')}}</el-tag>
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                      label="操作">
+                      <template scope="scope">
+                        <el-button size="small" icon="search" type="danger" @click.native.prevent="checkSurvey(scope.row.pgbbh, scope.row.bbpgbid)">查看详情</el-button>
+                      </template>
+                    </el-table-column>
+                  </el-table>
                 </div>
-                <el-table
-                  :data="pgblist"
-                  v-loading.body="loading"
-                  border
-                  stripe
-                  style="width: 100%">
-                  <el-table-column
-                  prop="mc"
-                  label="筛查表">
-                    <template scope="scope">
-                      <el-tag
-                        type="primary"
-                        close-transition>{{scope.row.mc}}</el-tag>
-                    </template>
-                  </el-table-column>
-                  <el-table-column
-                  prop="synld"
-                  label="年龄段">
-                  </el-table-column>
-                  <el-table-column
-                    prop="zt"
-                    label="状态">
-                    <template scope="scope">
-                      <el-tag
-                        :type="scope.row.zt == 1 ? 'primary' : (scope.row.zt == 2?'gray':'success')"
-                        close-transition>{{scope.row.zt == 1 ? '已做' : (scope.row.zt == 2?'可评测':'报告已出')}}</el-tag>
-                    </template>
-                  </el-table-column>
-                  <el-table-column
-                    label="操作">
-                    <template scope="scope">
-                      <el-button size="small" icon="search" type="danger" @click.native.prevent="checkSurvey(scope.row.pgbbh, scope.row.bbpgbid)">查看详情</el-button>
-                    </template>
-                  </el-table-column>
-                </el-table>
               </div>
               <transition name="el-fade-in">
                 <div v-if="showsurvey">
@@ -56,41 +60,43 @@
             </el-tab-pane>
             <el-tab-pane label="健康监控" name="second">
               <div v-if="!showsurvey">
-                <el-table
-                  :data="pgblist"
-                  v-loading.body="loading"
-                  border
-                  stripe
-                  style="width: 100%">
-                  <el-table-column
-                  prop="mc"
-                  label="筛查表">
-                    <template scope="scope">
-                      <el-tag
-                        type="primary"
-                        close-transition>{{scope.row.mc}}</el-tag>
-                    </template>
-                  </el-table-column>
-                  <el-table-column
-                  prop="synld"
-                  label="年龄段">
-                  </el-table-column>
-                  <el-table-column
-                    prop="zt"
-                    label="状态">
-                    <template scope="scope">
-                      <el-tag
-                        :type="scope.row.zt == 1 ? 'primary' : (scope.row.zt == 2?'gray':'success')"
-                        close-transition>{{scope.row.zt == 1 ? '已做' : (scope.row.zt == 2?'可评测':'报告已出')}}</el-tag>
-                    </template>
-                  </el-table-column>
-                  <el-table-column
-                    label="操作">
-                    <template scope="scope">
-                      <el-button size="small" icon="search" type="danger" @click.native.prevent="checkSurvey(scope.row.pgbbh, scope.row.bbpgbid)">查看详情</el-button>
-                    </template>
-                  </el-table-column>
-                </el-table>
+                <div v-for="item in pgblist">
+                  <el-table
+                    :data="item.zdlist"
+                    v-loading.body="loading"
+                    border
+                    stripe
+                    style="width: 100%">
+                    <el-table-column
+                    prop="mc"
+                    label="筛查表">
+                      <template scope="scope">
+                        <el-tag
+                          type="primary"
+                          close-transition>{{scope.row.mc}}</el-tag>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                    prop="synld"
+                    label="年龄段">
+                    </el-table-column>
+                    <el-table-column
+                      prop="zt"
+                      label="状态">
+                      <template scope="scope">
+                        <el-tag
+                          :type="scope.row.zt == 1 ? 'primary' : (scope.row.zt == 2?'gray':'success')"
+                          close-transition>{{scope.row.zt == 1 ? '已做' : (scope.row.zt == 2?'可评测':'报告已出')}}</el-tag>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      label="操作">
+                      <template scope="scope">
+                        <el-button size="small" icon="search" type="danger" @click.native.prevent="checkSurvey(scope.row.pgbbh, scope.row.bbpgbid)">查看详情</el-button>
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                </div>
               </div>
               <transition name="el-fade-in">
                 <div v-if="showsurvey">
@@ -123,12 +129,37 @@ export default {
     this.loading = true;
     this.$http.post('http://127.0.0.1:8080/wbaobei/phone/tc', objjjj).then(function(response){
       this.loading = false;
-      if(response.body.results.length >= 2) {
-        this.pgblist = response.body.results[1].zdlist;
-        this.bbinfo.kh = response.body.results[1].kh;
-      } else {
-        this.pgblist = response.body.results[0].zdlist;
-      }
+      this.pgblist = response.body.results;
+      // if(response.body.results.length >= 2) {
+      //   this.pgblist = response.body.results[1].zdlist;
+      //   this.bbinfo.kh = response.body.results[1].kh;
+      // } else {
+      //   this.pgblist = response.body.results[0].zdlist;
+      // }
+
+      // for (var i = 0; i < this.pgblist.length; i++) {
+			// 	var arr = $rootScope.pgblist[i].synld.split('-');
+			// 	arr[0] = parseInt(arr[0]);
+			// 	arr[1] = parseInt(arr[1]);
+			// 	if(arr[0] >= 12) {
+			// 		var mon = arr[0] % 12;
+			// 		arr[0] = Math.floor(arr[0]/12);
+			// 		mon>0?arr[0]=arr[0]+"岁"+mon+"月":arr[0]=arr[0]+"岁";
+			// 	} else {
+			// 		arr[0] += "月";
+			// 	}
+      //
+			// 	if(arr[1] >= 12) {
+			// 		var mon = arr[1] % 12;
+			// 		arr[1] = Math.floor(arr[1]/12);
+			// 		mon>0?arr[1]=arr[1]+"岁"+mon+"月":arr[1]=arr[1]+"岁";
+			// 	} else {
+			// 		arr[1] += "月";
+			// 	}
+			// 	var str = arr[0] + "-" + arr[1];
+			// 	$scope.ageList.push(str);
+			// }
+
       console.log(response);
     }, function(response) {
       this.loading = false;
@@ -154,12 +185,7 @@ export default {
       });
       this.$http.post('http://127.0.0.1:8080/wbaobei/phone/tc', objjjj).then(function(response){
         this.loading = false;
-        if(response.body.results.length >= 2) {
-          this.pgblist = response.body.results[1].zdlist;
-          this.bbinfo.kh = response.body.results[1].kh;
-        } else {
-          this.pgblist = response.body.results[0].zdlist;
-        }
+        this.pgblist = response.body.results;
         console.log(response);
       }, function(response) {
         this.loading = false;
@@ -221,12 +247,7 @@ export default {
       }
       this.$http.post('http://127.0.0.1:8080/wbaobei/phone/tc', objjjj).then(function(response){
         this.loading = false;
-        if(response.body.results.length >= 2) {
-          this.pgblist = response.body.results[1].zdlist;
-          this.bbinfo.kh = response.body.results[1].kh;
-        } else {
-          this.pgblist = response.body.results[0].zdlist;
-        }
+        this.pgblist = response.body.results;
         console.log(response);
       }, function(response) {
         this.loading = false;

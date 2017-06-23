@@ -234,7 +234,6 @@ export default {
               console.log(response);
               if(response.body.code == "1") {
                 var newbb = response.body;
-                console.log(newbb);
                 this.bbList.push(newbb);
                 var item = myfun.fetch();
                 item.bbList = this.bbList;

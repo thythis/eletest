@@ -43,6 +43,9 @@
 				</div>
 			</div>
 		</div>
+		<div class="report-panel" v-html="reportData" v-if="showreport">
+			{{reportData}}
+		</div>
 	</div>
 </template>
 
@@ -61,6 +64,8 @@
 		data() {
 			return {
 				fullscreenLoading: false,
+				reportData: "",
+				showreport: false,
 				showbox: false,
 				showopt: true,
 				rflag: false,
@@ -96,6 +101,11 @@
 		    });
 		    this.$http.post('http://127.0.0.1:8080/wbaobei/phone/report',objjjj).then(function(response){
 		      console.log(response);
+					var REG_BODY = /<body[^>]*>([\s\S]*)<\/body>/;
+				  var result = REG_BODY.exec(response.body.result);
+					// console.log(result[1]);
+					this.reportData = result[1];
+					this.showreport = true;
 		    }, function(response){
 		        console.log('fail');
 		    });
@@ -184,6 +194,20 @@
 	$MAIN_COLOR: #4fc1e9;
 	.el-message-box {
 		width: 760px;
+	}
+	.report-panel {
+		padding: 20px;
+		width: auto;
+		height: auto;
+		position: absolute;
+		z-index: 333;
+		overflow: auto;
+		background: rgb(249, 242, 221);
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		margin: auto;
 	}
 	.survey-wrapper {
 		.info {
