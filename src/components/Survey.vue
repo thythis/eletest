@@ -8,8 +8,9 @@
 					以下是100个反映孩子日常行为的问题，<strong>请您认真阅读每一个问题根据孩子最近3个月以内的实际情况，选择最全靠的答案。每一个问题都要做出回答。</strong></p>
 			</div>
 			<div class="opt-panel" v-if="showopt">
-				<el-button type="primary" @click="retest">开始测评</el-button>
-				<el-button type="warning" @click="showRst">查看报告</el-button>
+				<el-button type="primary" @click="retest">{{this.bbinfo.zt==2?'开始测评':'重新测评'}}</el-button>
+				<el-button type="success" @click="showRst" v-if="ztflag">查看报告</el-button>
+				<el-button type="warning" @click="showRecord" v-if="jlflag">查看记录</el-button>
 			</div>
 			<div class="survey-box" v-if="showbox">
 				<div class="box-header">
@@ -35,17 +36,28 @@
 					<div class="list-item" v-for="(item, index) in questionList">
 						<span class="qbh">{{item.mxxh}}</span>
 						<span class="qnr">{{item.nr}}</span>
-						<span class="answer">{{answerList[index].xh}}</span>
+						<span class="answer">{{item.bbpgbid!=null?item.xxnr:answerList[index].xh}}</span>
 					</div>
-					<button class="sub-btn" @click="subsurvey" v-loading.fullscreen.lock="fullscreenLoading">
+					<button class="sub-btn" v-if="questionList[0].bbpgbid!=null?!subflag:subflag" @click="subsurvey" v-loading.fullscreen.lock="fullscreenLoading">
 						提交评测
 					</button>
 				</div>
 			</div>
 		</div>
-		<div class="report-panel" v-html="reportData" v-if="showreport">
+		<!-- <div class="report-panel" v-html="reportData" v-if="showreport">
 			{{reportData}}
-		</div>
+		</div> -->
+		<el-dialog
+		  title="提示"
+		  :visible.sync="showreport">
+		  <div v-html="reportData">
+		  	{{reportData}}
+		  </div>
+		  <span slot="footer" class="dialog-footer">
+		    <el-button @click="showreport = false">取 消</el-button>
+		    <el-button type="primary" @click="showreport = false">确 定</el-button>
+		  </span>
+		</el-dialog>
 	</div>
 </template>
 
@@ -56,20 +68,30 @@
 			bbinfo: {
 				pgbbh: '',
 				bbpgbid: 0,
-				kh: ''
+				kh: '',
+				zt: 0
 			}
 		},
 		mounted() {
+			if(this.bbinfo.zt == 3) {
+				this.ztflag = true;
+			}
+			if(this.bbinfo.zt == 2) {
+				this.jlflag = false;
+			}
 		},
 		data() {
 			return {
+				ztflag: false,
+				subflag: true,
+				jlflag: true,
 				fullscreenLoading: false,
 				reportData: "",
 				showreport: false,
 				showbox: false,
 				showopt: true,
 				rflag: false,
-				questionList: '',
+				questionList: [],
 				questionIndex: 0,
 				percentrate: 0,
 				choice: "",
@@ -79,8 +101,6 @@
 		},
 		methods: {
 			retest() {
-				this.showopt = false;
-				this.showbox = true;
 				var objstr = JSON.stringify({
 		      pgbbh: this.bbinfo.pgbbh
 		    });
@@ -88,6 +108,9 @@
 		      console.log(response);
 					this.questionList = response.body.results;
 					this.percentrate = 1 / this.questionList.length * 100;
+					this.showopt = false;
+					this.rflag = false;
+					this.showbox = true;
 		    }, function(response) {
 		      console.log('fail');
 		    })
@@ -116,6 +139,22 @@
         //   }
         // });
 			},
+			showRecord() {
+				// this.showbox = true;
+				var objjjj = JSON.stringify({
+		      yhid: myfun.fetch().yhid,
+		      // bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
+					bbpgbid: this.bbinfo.bbpgbid
+		    });
+		    this.$http.post('http://127.0.0.1:8080/wbaobei/phone/bbpgbxq',objjjj).then(function(response){
+		      console.log(response);
+					this.questionList = response.body.results;
+					this.showbox = true;
+					this.rflag = true;
+		    }, function(response){
+		        console.log('fail');
+		    });
+			},
 			subsurvey() {
 				this.fullscreenLoading = true;
 				var objstr = JSON.stringify({
@@ -130,9 +169,7 @@
 					this.fullscreenLoading = false;
 					var msg = "";
 					if(response.body.code == "1") {
-						if(response.body.jg == "3"){
-							msg = response.body.remark;
-						}
+						msg = response.body.remark;
 						this.$confirm(msg, '提交成功', {
 		          confirmButtonText: '确定',
 		          type: 'success'
@@ -228,8 +265,9 @@
 			}
 		}
 		.opt-panel {
-			width: 200px;
-			margin: 0 auto;
+			display: flex;
+			justify-content: center;
+			margin-bottom: 20px;
 		}
 		.survey-box {
 			position: relative;
@@ -274,7 +312,7 @@
 					.qnr {
 						display: inline-block;
 						float: left;
-						width: 80%;
+						width: 75%;
 						height: 28px;
 						line-height: 28px;
 						overflow: hidden;

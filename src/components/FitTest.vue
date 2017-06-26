@@ -1,5 +1,5 @@
 <template lang="html">
-  <div>
+  <div  v-loading.body="reqloading">
     <div class="test-content">
       <el-tabs v-model="bbname" type="card" @tab-click="handleClick">
         <el-tab-pane v-for="item in bbList" :label="item.mc" :name="item.mc">
@@ -38,14 +38,14 @@
                         label="状态">
                         <template scope="scope">
                           <el-tag
-                          :type="scope.row.zt == 1 ? 'primary' : (scope.row.zt == 2?'gray':'success')"
+                          :type="scope.row.zt == 1 ? 'gray' : (scope.row.zt == 2?'primary':'success')"
                           close-transition>{{scope.row.zt == 1 ? '已做' : (scope.row.zt == 2?'可评测':'报告已出')}}</el-tag>
                         </template>
                       </el-table-column>
                       <el-table-column
                       label="操作">
                       <template scope="scope">
-                        <el-button size="small" icon="search" type="danger" @click.native.prevent="checkSurvey(scope.row.pgbbh, scope.row.bbpgbid)">查看详情</el-button>
+                        <el-button size="small" icon="search" type="danger" @click.native.prevent="checkSurvey(scope.row.pgbbh, scope.row.bbpgbid, scope.row.zt)">查看详情</el-button>
                       </template>
                     </el-table-column>
                   </el-table>
@@ -92,7 +92,7 @@
                     <el-table-column
                       label="操作">
                       <template scope="scope">
-                        <el-button size="small" icon="search" type="danger" @click.native.prevent="checkSurvey(scope.row.pgbbh, scope.row.bbpgbid)">查看详情</el-button>
+                        <el-button size="small" icon="search" type="danger" @click.native.prevent="checkSurvey(scope.row.pgbbh, scope.row.bbpgbid, scope.row.zt)">查看详情</el-button>
                       </template>
                     </el-table-column>
                   </el-table>
@@ -126,10 +126,14 @@ export default {
       bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
       flbh: "jkpg"
     });
-    this.loading = true;
+    // this.loading = true;
+    this.reqloading = true;
     this.$http.post('http://127.0.0.1:8080/wbaobei/phone/tc', objjjj).then(function(response){
-      this.loading = false;
+      // this.loading = false;
+      this.reqloading = false;
       this.pgblist = response.body.results;
+      // this.pgblist = myfun.changeAge(this.pgblist);
+      console.log(this.pgblist);
       // if(response.body.results.length >= 2) {
       //   this.pgblist = response.body.results[1].zdlist;
       //   this.bbinfo.kh = response.body.results[1].kh;
@@ -205,6 +209,7 @@ export default {
         kh: "",
       },
       loading: false,
+      reqloading: false,
       showsurvey: false,
       activeName: 'first',
       activeBaby: myfun.fetch().bbList[0].mc,
@@ -257,11 +262,11 @@ export default {
     changebb() {
       console.log('thyyy');
     },
-    checkSurvey(pgbbh, bbpgbid) {
-      console.log(bbpgbid);
+    checkSurvey(pgbbh, bbpgbid, zt) {
       this.showsurvey = !this.showsurvey;
       this.bbinfo.pgbbh = pgbbh;
       this.bbinfo.bbpgbid = bbpgbid;
+      this.bbinfo.zt = zt;
     }
   }
 }

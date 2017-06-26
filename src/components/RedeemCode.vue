@@ -6,11 +6,12 @@
       </el-input>
       <el-button type="primary" @click="exchange">兑换</el-button>
     </div>
-    <div class="baby-list" v-if="flag">
+    <el-dialog title="选择宝宝兑换评估表" :visible.sync="flag">
       <el-table
         :data="bbList"
         border
         stripe
+        :default-sort = "{prop: 'csrq', order: 'descending'}"
         style="width: 100%">
         <el-table-column
           label="姓名"
@@ -32,6 +33,8 @@
         </el-table-column>
         <el-table-column
           label="出生日期"
+          prop="csrq"
+          sortable
           width="180">
           <template scope="scope">
             <el-icon name="time"></el-icon>
@@ -44,7 +47,10 @@
           </template>
         </el-table-column>
       </el-table>
-    </div>
+    </el-dialog>
+    <!-- <div class="baby-list" v-if="flag">
+
+    </div> -->
     <div class="pgblist">
       <el-tag type="gray">已激活的评估表列表</el-tag>
       <div class="jhlb" v-for="item in tclist">
@@ -161,6 +167,10 @@ export default {
 </script>
 <style lang="scss">
   $MAIN_COLOR: #4fc1e9;
+  .el-dialog--small {
+    height: 80%;
+    overflow-y: scroll;
+  }
   .exchange-part {
     width: 80%;
     margin: 50px auto 0 auto;

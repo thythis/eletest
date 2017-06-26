@@ -2,6 +2,13 @@
   <div>
     <main-header></main-header>
     <div class="pc-wrapper">
+      <div class="step-bar">
+        <el-steps :space="200" :active="1">
+          <el-step title="步骤 1" description="在左边“导航栏”中进入“宝贝管理”，输入幼儿资料并保存（宝宝真实姓名）"></el-step>
+          <el-step title="步骤 2" description="在左边“导航栏”中进入“兑换码”，输入儿童心理筛查兑换卡背面的兑换码"></el-step>
+          <el-step title="步骤 3" description="在左边“导航栏”中进入“健康评估表”填写有“可评测”标识的心理调查问卷，填写完毕后，请提交"></el-step>
+        </el-steps>
+      </div>
       <div class="pc-content">
         <el-row>
           <el-col :span="5">
@@ -88,6 +95,10 @@ export default {
   .pc-wrapper {
     overflow: hidden;
     padding-top: 50px;
+    .step-bar {
+      display: flex;
+      justify-content: center;
+    }
     .pc-content {
       width: 75%;
       height: 820px;

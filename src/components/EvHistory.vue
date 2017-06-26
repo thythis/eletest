@@ -1,79 +1,53 @@
 <template lang="html">
   <div>
     <div class="history-panel">
-      <el-tag type="gray">已评估的记录</el-tag>
-      <div class="box">
-        <div class="ribbon">
+      <el-tag class="toptag" type="gray">已评估的记录</el-tag>
+      <div class="hisitem" v-for="item in hisList">
+        <div class="box">
+          <div class="ribbon">
+          </div>
+          <span>{{item.mc}}</span>
         </div>
-        <span>大一班小明</span>
+        <el-table
+          :data="item.list"
+          :default-sort = "{prop: 'pgrq', order: 'descending'}"
+          border
+          stripe
+          style="width: 100%">
+          <el-table-column
+            prop="pgrq"
+            sortable
+            label="评估日期">
+            <!-- <template scope="scope">
+              {{scope.row.list[0].pgrq}}
+            </template> -->
+          </el-table-column>
+          <el-table-column
+            prop="mc"
+            label="筛查表">
+          </el-table-column>
+          <el-table-column
+            prop="synld"
+            label="年龄段">
+            <!-- <template scope="scope">
+              {{scope.row.list[0].synld}}
+            </template> -->
+          </el-table-column>
+          <el-table-column
+            prop="jg"
+            label="结果"
+            width="100"
+            :filters="[{ text: '正常', value: '正常' }, { text: '可疑', value: '可疑' }]"
+            :filter-method="filterTag"
+            filter-placement="bottom-end">
+            <template scope="scope">
+              <el-tag
+                :type="scope.row.jg == '1' ? 'success' : 'warning'"
+                close-transition>{{scope.row.jg == '1' ? '正常' : '可疑'}}</el-tag>
+            </template>
+          </el-table-column>
+        </el-table>
       </div>
-      <el-table
-        :data="tableData"
-        border
-        stripe
-        style="width: 100%">
-        <el-table-column
-          prop="subtime"
-          label="提交时间">
-        </el-table-column>
-        <el-table-column
-          prop="pgbname"
-          label="筛查表">
-        </el-table-column>
-        <el-table-column
-          prop="agerange"
-          label="年龄段">
-        </el-table-column>
-        <el-table-column
-          prop="tag"
-          label="结果"
-          width="100"
-          :filters="[{ text: '正常', value: '正常' }, { text: '可疑', value: '可疑' }]"
-          :filter-method="filterTag"
-          filter-placement="bottom-end">
-          <template scope="scope">
-            <el-tag
-              :type="scope.row.tag === '正常' ? 'success' : 'warning'"
-              close-transition>{{scope.row.tag}}</el-tag>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div class="box">
-        <div class="ribbon">
-        </div>
-        <span>大一班小明</span>
-      </div>
-      <el-table
-        :data="tableData"
-        border
-        stripe
-        style="width: 100%">
-        <el-table-column
-          prop="subtime"
-          label="提交时间">
-        </el-table-column>
-        <el-table-column
-          prop="pgbname"
-          label="筛查表">
-        </el-table-column>
-        <el-table-column
-          prop="agerange"
-          label="年龄段">
-        </el-table-column>
-        <el-table-column
-          prop="tag"
-          label="结果"
-          width="100"
-          :filters="[{ text: '正常', value: '正常' }, { text: '可疑', value: '可疑' }]"
-          :filter-method="filterTag"
-          filter-placement="bottom-end">
-          <template scope="scope">
-            <el-tag
-              :type="scope.row.tag === '正常' ? 'success' : 'warning'"
-              close-transition>{{scope.row.tag}}</el-tag>
-          </template>
-        </el-table-column>
-      </el-table>
     </div>
   </div>
 </template>
@@ -88,12 +62,34 @@ export default {
     });
     this.$http.post('http://127.0.0.1:8080/wbaobei/phone/pgbrecord',objjjj).then(function(response){
       console.log(response);
+      this.hisList = response.body.results;
     }, function(response){
         console.log('fail');
     });
   },
+  computed: {
+    requestTc() {
+      return this.$store.state.count
+    }
+  },
+  watch: {
+    requestTc(val) {
+      var objjjj = JSON.stringify({
+        yhid: myfun.fetch().yhid,
+        bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
+      });
+      this.$http.post('http://127.0.0.1:8080/wbaobei/phone/pgbrecord', objjjj).then(function(response){
+        console.log(response);
+        this.hisList = response.body.results;
+      }, function(response) {
+        this.loading = false;
+        console.log('fail');
+      })
+    }
+  },
   data() {
     return {
+      hisList: [],
       tableData: [{
         subtime: '2017-01-20',
         pgbname: '自闭症筛查',
@@ -124,5 +120,14 @@ export default {
   .history-panel {
     width: 80%;
     margin: 50px auto 0 auto;
+    .toptag {
+      margin-bottom: 20px;
+    }
+    .hisitem {
+      margin-bottom: 20px;
+    }
+    .box {
+      width: 100%;
+    }
   }
 </style>
