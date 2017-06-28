@@ -3,7 +3,7 @@
     <header-bar v-bind:img-data="imgData" txt="我还没注册,现在就" path="reg" btntxt="注册"></header-bar>
 		<div class="log-form-wrapper">
 		  <el-row type="flex" justify="center">
-        <el-col :span="10">
+        <el-col :xs="16" :sm="14" :md="14" :lg="10">
           <div class="Linfo">
             <div class="bac_desc"></div>
             <div class="code-container">
@@ -22,7 +22,7 @@
             </div>
           </div>
         </el-col>
-		    <el-col :span="4" class="bg-white">
+		    <el-col :xs="7" :sm="6" :md="6" :lg="4" class="bg-white">
 		      <div class="form-banner">
 		        <div class="fb-outline">
 		          <span>用户登录</span>
@@ -182,7 +182,7 @@
   }
 
   .log-form-wrapper .Linfo {
-    padding: 38px 0 0 52px;
+    /*padding: 38px 0 0 52px;*/
   }
 
   .log-form-wrapper .Linfo .bac_desc {
@@ -192,8 +192,9 @@
   }
 
   .log-form-wrapper .Linfo .code-container {
-    border: 3px dashed #e2eceb;
+    border: 1px dashed #e2eceb;
     width: 399px;
+		opacity: 0.75;
     margin-top: 15px;
     margin-left: 5px;
     padding-top: 30px;

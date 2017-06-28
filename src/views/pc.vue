@@ -1,6 +1,6 @@
 <template lang="html">
   <div>
-    <main-header></main-header>
+    <main-header :yhsjh="yhsjh"></main-header>
     <div class="pc-wrapper">
       <div class="step-bar">
         <el-steps :space="200" :active="active">
@@ -53,7 +53,7 @@ export default {
     MainHeader
   },
   mounted() {
-    
+
   },
   computed: {
     requestTc() {
@@ -69,7 +69,7 @@ export default {
     return {
       bbindex: this.$store.state.count,
       bbList: myfun.fetch().bbList,
-      yhsjh:  '',
+      yhsjh:   myfun.fetch().yhsjh,
       active: 0,
       fstep: false,
       sstep: false,

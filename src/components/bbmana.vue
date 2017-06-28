@@ -3,6 +3,7 @@
     <div class="baby-list" v-if="!flag">
       <el-button type="primary" icon="plus" class="add-baby" @click="babyAdd">添加宝贝</el-button>
       <el-table
+        height="680"
         :data="bbList"
         border
         stripe
@@ -37,6 +38,7 @@
           </template>
         </el-table-column>
         <el-table-column
+          width="200"
           label="保健号"
           >
           <template scope="scope">
@@ -45,7 +47,8 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column
+          label="操作">
           <template scope="scope">
             <el-button size="small" icon="edit" @click.native.prevent="editRow(scope.$index, scope.row)">编辑</el-button>
             <el-button size="small" icon="delete" type="danger" @click.native.prevent="delRow(scope.row.bbid)">删除</el-button>

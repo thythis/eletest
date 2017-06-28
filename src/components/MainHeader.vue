@@ -7,7 +7,7 @@
 					已服务健康评估人数 <strong class="hcount">473,608</strong>
 				</div>
 				<ul class="rList">
-					<li class="reg"><a><i class="iconfont icon-person"></i>{{yhsjh||'注册'}}</a> / <a>{{yhsjh==null?'登陆':'退出'}}</a></li>
+					<li class="reg"><a @click="yhch(1)"><i class="iconfont icon-person"></i>{{yhsjh||'注册'}}</a> / <a @click="yhch(2)">{{yhsjh==null?'登陆':'退出'}}</a></li>
 					<li><a class="drop">下载APP</a></li>
 					<li class="drop-down">
 						<a class="drop">关注微信</a>
@@ -119,7 +119,21 @@
 					}]
 			}
 		},
-		mounted() {
+		methods: {
+			yhch(index) {
+				if(index == 1) {
+					if(this.yhsjh) {
+						this.$router.push('bbmana');
+					} else {
+						this.$router.push('reg');
+					}
+				} else {
+					if(this.yhsjh) {
+						localStorage.removeItem('bdata');
+					}
+					this.$router.push('login');
+				}
+			}
 		}
 	}
 </script>
