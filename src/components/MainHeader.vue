@@ -7,7 +7,7 @@
 					已服务健康评估人数 <strong class="hcount">473,608</strong>
 				</div>
 				<ul class="rList">
-					<li class="reg"><router-link to="login"><i class="iconfont icon-person"></i>登录</router-link> / <router-link to="reg">注册</router-link></li>
+					<li class="reg"><a><i class="iconfont icon-person"></i>{{yhsjh||'注册'}}</a> / <a>{{yhsjh==null?'登陆':'退出'}}</a></li>
 					<li><a class="drop">下载APP</a></li>
 					<li class="drop-down">
 						<a class="drop">关注微信</a>
@@ -16,7 +16,7 @@
 						</div>
 					</li>
 				</ul>
-				
+
 			</div>
 		</div>
 		<div class="search-bar-wrapper">
@@ -94,23 +94,27 @@
 </template>
 
 <script>
+	import myfun from '../assets/js/test.js'
 	import banner1 from '../assets/img/banner1.png';
 	import banner2 from '../assets/img/banner2.png';
 	import banner3 from '../assets/img/banner3.png';
 	import Animate from 'animate.css';
 	export default {
+		props: {
+			yhsjh: '',
+		},
 		data() {
 			return {
 				show: true,
 				list: [
 					{
-						img: banner1, 
+						img: banner1,
 						txt: '为您提供6岁以下宝宝的喂养、护理、疾病及成长发育最专业、新颖、贴心的育儿资讯。让您更快获取一步儿童健康专业知识，及时分享更多的育儿知识，呵护宝贝健康成长！'
 					},{
-						img: banner2, 
+						img: banner2,
 						txt: '卫宝贝系列产品是一款面向儿科类的专科产品，针对幼儿园儿童心理筛查，为医院、幼儿园，家长提供了全面的解决方案。'
 					},{
-						img: banner3, 
+						img: banner3,
 						txt: '个人中心，宝贝成长历程，育儿知识收藏，宝贝档案管理，宝贝健康档案管理。一键登录，随手记录，随时查阅，为宝贝成长的每一步进行实时关注，与宝贝一同成长！'
 					}]
 			}
@@ -154,7 +158,7 @@
 	}
 
 	.top-bar-wrapper .top-bar .rList {
-		float: right;		
+		float: right;
 	}
 
 	.top-bar-wrapper .top-bar .rList li {
@@ -199,7 +203,7 @@
 		border: 1px solid #eee;
 		background: #fff;
 		z-index: 998;
-		display: none; 
+		display: none;
 	}
 
 	.top-bar-wrapper .top-bar .rList li.drop-down a.drop {
@@ -247,7 +251,7 @@
 	}
 
 	.search-bar-wrapper .search-bar .logo {
-		float: left;		
+		float: left;
 		height: 90px;
 		line-height: 90px;
 	}
@@ -266,7 +270,7 @@
 	}
 
 	.search-bar-wrapper .search-bar .content {
-		float: right;		
+		float: right;
 		height: 40px;
 		line-height: 40px;
 		padding: 25px 0;
@@ -302,7 +306,7 @@
 		width: 286px;
 		height: 40px;
 		background: #e75788;
-		border-radius: 40px; 
+		border-radius: 40px;
 	}
 
 	.search-bar-wrapper .search-bar .content .search-panel i {
@@ -328,7 +332,7 @@
 		margin-left: 14px;
 		height: 40px;
 		line-height: 40px;
-		padding-top: 5px;		
+		padding-top: 5px;
 	}
 
 	.search-bar-wrapper .search-bar .content .search-btn i {
@@ -337,7 +341,7 @@
 	}
 
 	.search-bar-wrapper .search-bar .main-serv {
-		float: left;		
+		float: left;
 		height: 40px;
 		line-height: 40px;
 		padding: 25px 0;
@@ -352,7 +356,7 @@
 		background: #e75788;
 		margin-left: 20px;
 		color: #fff;
-		font-size: 12px;	
+		font-size: 12px;
 		text-align: center;
 	}
 
@@ -369,7 +373,7 @@
 	}
 
 	.nav-bar-wrapper .nav-bar {
-		text-align: center;		
+		text-align: center;
 	}
 
 	.nav-bar-wrapper .nav-bar a {
@@ -388,7 +392,7 @@
 
 	.nav-bar-wrapper .nav-bar a.hover {
 		color: #e75788;
-		border-bottom: 2px solid #e75788;	
+		border-bottom: 2px solid #e75788;
 	}
 
 

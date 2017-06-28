@@ -23,7 +23,7 @@
 						<el-progress :percentage="percent" :show-text="false"></el-progress>
 					</div>
 					<div class="question-panel">
-						<p>{{questionIndex + 1}}、{{questionList[questionIndex].nr}}</p>
+						<p>{{questionList[questionIndex].mxxh}}、{{questionList[questionIndex].nr}}</p>
 					</div>
 					<div class="answer-panel">
 						<label class="answer-item" v-for="item in questionList[questionIndex].xxlist"  @click.prevent="myTest(item.xh)" :for="item.fs">
@@ -44,9 +44,6 @@
 				</div>
 			</div>
 		</div>
-		<!-- <div class="report-panel" v-html="reportData" v-if="showreport">
-			{{reportData}}
-		</div> -->
 		<el-dialog
 		  title="提示"
 		  :visible.sync="showreport">
@@ -62,6 +59,7 @@
 </template>
 
 <script>
+	import {hqpgbmx, getReport,bbpgbxq,savePgb} from '@/config/env'
 	import myfun from '../assets/js/test.js'
 	export default {
 		props: {
@@ -82,6 +80,10 @@
 		},
 		data() {
 			return {
+				hqpgbmx,
+				getReport,
+				bbpgbxq,
+				savePgb,
 				ztflag: false,
 				subflag: true,
 				jlflag: true,
@@ -104,7 +106,7 @@
 				var objstr = JSON.stringify({
 		      pgbbh: this.bbinfo.pgbbh
 		    });
-		    this.$http.post('http://127.0.0.1:8080/wbaobei/phone/hqpgbmx', objstr).then(function(response){
+		    this.$http.post(this.hqpgbmx, objstr).then(function(response){
 		      console.log(response);
 					this.questionList = response.body.results;
 					this.percentrate = 1 / this.questionList.length * 100;
@@ -122,7 +124,7 @@
 		      // bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
 					bbpgbid: this.bbinfo.bbpgbid
 		    });
-		    this.$http.post('http://127.0.0.1:8080/wbaobei/phone/report',objjjj).then(function(response){
+		    this.$http.post(this.getReport,objjjj).then(function(response){
 		      console.log(response);
 					var REG_BODY = /<body[^>]*>([\s\S]*)<\/body>/;
 				  var result = REG_BODY.exec(response.body.result);
@@ -132,21 +134,14 @@
 		    }, function(response){
 		        console.log('fail');
 		    });
-				// this.$alert('您孩子的各项行为指标（视听反应、认识、语言、运动、早期社会交往等某一方面）发展与同龄儿童可能存在落后', '评估结果', {
-        //   confirmButtonText: '确定',
-        //   callback: action => {
-				//
-        //   }
-        // });
 			},
 			showRecord() {
 				// this.showbox = true;
 				var objjjj = JSON.stringify({
 		      yhid: myfun.fetch().yhid,
-		      // bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
 					bbpgbid: this.bbinfo.bbpgbid
 		    });
-		    this.$http.post('http://127.0.0.1:8080/wbaobei/phone/bbpgbxq',objjjj).then(function(response){
+		    this.$http.post(this.bbpgbxq,objjjj).then(function(response){
 		      console.log(response);
 					this.questionList = response.body.results;
 					this.showbox = true;
@@ -164,7 +159,7 @@
 					kh: this.bbinfo.kh,
 					xxlist: this.answerList
 		    });
-		    this.$http.post('http://127.0.0.1:8080/wbaobei/phone/pgbbc', objstr).then(function(response){
+		    this.$http.post(this.savePgb, objstr).then(function(response){
 		      console.log(response);
 					this.fullscreenLoading = false;
 					var msg = "";
@@ -191,14 +186,6 @@
 		    }, function(response) {
 		      console.log('fail');
 		    })
-				// this.$notify({
-        //   title: '提交成功',
-        //   message: '需等待妇幼专家出报告，我们会及时通知您',
-				// 	duration: 0,
-        //   type: 'success'
-        // });
-				// this.showbox = false;
-				// this.showopt = true;
 			},
 			myTest: function(x) {
 				setTimeout(() => {
@@ -207,7 +194,7 @@
 						this.percent += this.percentrate;
 						this.answerList.push({
 							pgbbh: this.bbinfo.pgbbh,
-							mxxh: this.questionIndex + 1,
+							mxxh: this.questionList[this.questionIndex].mxxh,
 							xh: x
 						});
 						this.rflag = true;
@@ -231,20 +218,6 @@
 	$MAIN_COLOR: #4fc1e9;
 	.el-message-box {
 		width: 760px;
-	}
-	.report-panel {
-		padding: 20px;
-		width: auto;
-		height: auto;
-		position: absolute;
-		z-index: 333;
-		overflow: auto;
-		background: rgb(249, 242, 221);
-		left: 0;
-		right: 0;
-		top: 0;
-		bottom: 0;
-		margin: auto;
 	}
 	.survey-wrapper {
 		.info {

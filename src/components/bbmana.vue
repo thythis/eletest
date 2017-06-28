@@ -96,6 +96,7 @@
 </template>
 
 <script>
+import {addBaby, editBaby, delBaby} from '@/config/env'
 import myfun from '../assets/js/test.js'
 import VueImgInputer from 'vue-img-inputer';
 import baby1 from '../assets/img/baby1.jpg';
@@ -105,6 +106,9 @@ export default {
   },
   data() {
     return {
+      addBaby,
+      editBaby,
+      delBaby,
       bbList: myfun.fetch().bbList,
       fullscreenLoading: false,
       yhid: myfun.fetch().yhid,
@@ -116,27 +120,6 @@ export default {
         }
       },
       flag: false,
-      list: [{
-        name: '宝贝一',
-        gendar: '男宝贝',
-        bjh: '12345678910',
-        birth: '2017-1-15'
-      },{
-        name: '宝贝二',
-        gendar: '男宝贝',
-        bjh: '12345678910',
-        birth: '2017-1-15'
-      },{
-        name: '宝贝三',
-        gendar: '男宝贝',
-        bjh: '12345678910',
-        birth: '2017-1-15'
-      },{
-        name: '宝贝四',
-        gendar: '男宝贝',
-        bjh: '12345678910',
-        birth: '2017-1-15'
-      }],
       form: {
         picValue: '',
         index: 0,
@@ -175,7 +158,7 @@ export default {
           yhid: this.yhid,
           bbid: bbid
         });
-        this.$http.post('http://127.0.0.1:8080/wbaobei/phone/bbsc',objstr).then(function(response){
+        this.$http.post(this.delBaby,objstr).then(function(response){
           this.fullscreenLoading = false;
           console.log(response);
           var item = myfun.fetch();
@@ -229,7 +212,7 @@ export default {
               xb: this.form.gendar,
               csrq: this.form.birth,
             });
-            this.$http.post('http://127.0.0.1:8080/wbaobei/phone/bbbc', objjjj).then(function(response){
+            this.$http.post(this.addBaby, objjjj).then(function(response){
               this.fullscreenLoading = false;
               console.log(response);
               if(response.body.code == "1") {
@@ -273,7 +256,7 @@ export default {
               xb: this.form.gendar,
               csrq: this.fbirth,
             });
-            this.$http.post('http://127.0.0.1:8080/wbaobei/phone/bbxg', objjjj).then(function(response){
+            this.$http.post(this.editBaby, objjjj).then(function(response){
               this.fullscreenLoading = false;
               console.log(response);
               if(response.body.code == "1") {

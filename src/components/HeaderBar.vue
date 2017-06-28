@@ -1,15 +1,15 @@
 <template>
 	<div class="header-wrapper">
 		<el-row type="flex" justify="center">
-		  <el-col :span="14">
+		  <el-col :xs="22" :sm="18" :md="18" :lg="14">
 		  	<div class="grid-content">
 		  		<el-row type="flex" justify="space-between">
-		  			<el-col :span="13" class="logo">
+		  			<el-col :xs="10" :sm="14" :md="15" :lg="16" class="logo">
 		  				<router-link to="home"><img :src="imgSrc" alt=""></router-link>
-		  				
+
 		  				<img class="desc" v-bind:src="imgData.desc" alt="">
 		  			</el-col>
-		  			<el-col :span="5"  class="LEntry">
+		  			<el-col :xs="14" :sm="10" :md="9" :lg="8" class="LEntry">
 		  				<span v-text="txt"></span>
 		  				<router-link :to="{path: path}"><el-button type="success" class="login-btn" v-text="btntxt"></el-button></router-link>
 		  			</el-col>
@@ -55,7 +55,7 @@ import logo from '../assets/img/logo.png'
 	}
 
 	.logo img.desc {
-		margin-left: 27px;
+		margin-left: 10px;
 	}
 
 	.LEntry span {

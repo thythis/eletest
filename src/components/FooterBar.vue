@@ -6,16 +6,12 @@
 		  		<ul>
 		  			<li>
 		  				<a href="#">关于我们</a>
-		  				<a href="#">帮助中心</a>
-		  				<a href="#">意见反馈</a>
-		  				<a href="#">黄牛举报</a>
-		  				<a href="#">医院加盟</a>
-		  				<a href="#" class="nb">帐号申诉</a>
+		  				<a href="#" class="nb">产品中心</a>
 		  			</li>
 		  			<li>
-		  				互联网药品信息服务资格证书编号(粤ICP备09019668号)-经营性-2014-0010 粤公网安备 44030502000004号
+		  				卫宝贝 © 2015 粤ICP备15063302号-1
 		  			</li>
-		  			<li class="three">Copyright ©2005-2017 91160.com,ALL Rights Reserved</li>
+		  			<!-- <li class="three">Copyright ©2005-2017 91160.com,ALL Rights Reserved</li> -->
 		  		</ul>
 		  	</div>
 		  </el-col>

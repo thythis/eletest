@@ -31,6 +31,7 @@
                         <el-table-column
                           prop="synld"
                           sortable
+                          :formatter="ageFormat"
                           label="年龄段">
                         </el-table-column>
                         <el-table-column
@@ -115,6 +116,7 @@
 
 <script>
 import myfun from '../assets/js/test.js'
+import {getTC} from '@/config/env'
 import Survey from '../components/Survey.vue';
 export default {
   components: {
@@ -126,44 +128,10 @@ export default {
       bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
       flbh: "jkpg"
     });
-    // this.loading = true;
     this.reqloading = true;
-    this.$http.post('http://127.0.0.1:8080/wbaobei/phone/tc', objjjj).then(function(response){
-      // this.loading = false;
+    this.$http.post(this.getTC, objjjj).then(function(response){
       this.reqloading = false;
       this.pgblist = response.body.results;
-      // this.pgblist = myfun.changeAge(this.pgblist);
-      console.log(this.pgblist);
-      // if(response.body.results.length >= 2) {
-      //   this.pgblist = response.body.results[1].zdlist;
-      //   this.bbinfo.kh = response.body.results[1].kh;
-      // } else {
-      //   this.pgblist = response.body.results[0].zdlist;
-      // }
-
-      // for (var i = 0; i < this.pgblist.length; i++) {
-			// 	var arr = $rootScope.pgblist[i].synld.split('-');
-			// 	arr[0] = parseInt(arr[0]);
-			// 	arr[1] = parseInt(arr[1]);
-			// 	if(arr[0] >= 12) {
-			// 		var mon = arr[0] % 12;
-			// 		arr[0] = Math.floor(arr[0]/12);
-			// 		mon>0?arr[0]=arr[0]+"岁"+mon+"月":arr[0]=arr[0]+"岁";
-			// 	} else {
-			// 		arr[0] += "月";
-			// 	}
-      //
-			// 	if(arr[1] >= 12) {
-			// 		var mon = arr[1] % 12;
-			// 		arr[1] = Math.floor(arr[1]/12);
-			// 		mon>0?arr[1]=arr[1]+"岁"+mon+"月":arr[1]=arr[1]+"岁";
-			// 	} else {
-			// 		arr[1] += "月";
-			// 	}
-			// 	var str = arr[0] + "-" + arr[1];
-			// 	$scope.ageList.push(str);
-			// }
-
       console.log(response);
     }, function(response) {
       this.loading = false;
@@ -171,7 +139,6 @@ export default {
     })
 
     this.$store.commit('bblist',this.pgblist)
-
   },
   computed: {
     requestTc() {
@@ -187,7 +154,7 @@ export default {
         bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
         flbh: "jkpg"
       });
-      this.$http.post('http://127.0.0.1:8080/wbaobei/phone/tc', objjjj).then(function(response){
+      this.$http.post(this.getTC, objjjj).then(function(response){
         this.loading = false;
         this.pgblist = response.body.results;
         console.log(response);
@@ -199,6 +166,7 @@ export default {
   },
   data() {
     return {
+      getTC,
       yhid: myfun.fetch().yhid,
       bbindex: myfun.fetch().currenbaby,
       bbname: myfun.fetch().bbList[this.$store.state.count].mc,
@@ -214,19 +182,6 @@ export default {
       activeName: 'first',
       activeBaby: myfun.fetch().bbList[0].mc,
       pgblist: [],
-      tableData: [{
-        pgbname: '儿童行为量表',
-        agerange: '2岁-4岁11月',
-        tag: '已评测',
-      }, {
-        pgbname: '自闭症筛查',
-        agerange: '6月-2岁',
-        tag: '可查看报告',
-      }, {
-        pgbname: '自闭症筛查',
-        agerange: '6月-2岁',
-        tag: '可查看报告',
-      }],
     };
   },
   methods: {
@@ -250,7 +205,7 @@ export default {
           flbh: "jkjk"
         });
       }
-      this.$http.post('http://127.0.0.1:8080/wbaobei/phone/tc', objjjj).then(function(response){
+      this.$http.post(this.getTC, objjjj).then(function(response){
         this.loading = false;
         this.pgblist = response.body.results;
         console.log(response);
@@ -258,6 +213,32 @@ export default {
         this.loading = false;
         console.log('fail');
       })
+    },
+    ageFormat(row, col) {
+      var agerange = row.synld;
+      if (agerange == undefined) {
+         return "";
+      }
+      var arr = agerange.split('-');
+      arr[0] = parseInt(arr[0]);
+      arr[1] = parseInt(arr[1]);
+      if(arr[0] >= 12) {
+        var mon = arr[0] % 12;
+        arr[0] = Math.floor(arr[0]/12);
+        mon>0?arr[0]=arr[0]+"岁"+mon+"月":arr[0]=arr[0]+"岁";
+      } else {
+        arr[0] += "月";
+      }
+
+      if(arr[1] >= 12) {
+        var mon = arr[1] % 12;
+        arr[1] = Math.floor(arr[1]/12);
+        mon>0?arr[1]=arr[1]+"岁"+mon+"月":arr[1]=arr[1]+"岁";
+      } else {
+        arr[1] += "月";
+      }
+      var str = arr[0] + "-" + arr[1];
+      return str;
     },
     changebb() {
       console.log('thyyy');

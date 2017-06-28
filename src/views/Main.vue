@@ -19,7 +19,7 @@
 				  </el-col>
 				  <el-col :span="12">
 				  	<div class="menu-item">
-						<img src="../assets/img/menu2.png" alt="">	
+						<img src="../assets/img/menu2.png" alt="">
 						<div class="gradient"></div>
 						<div class="content">
 							<p>
@@ -40,7 +40,7 @@
 				  </el-col>
 				  <el-col :span="12">
 				  	<div class="menu-item">
-				  		<img src="../assets/img/menu3.png" alt="">	
+				  		<img src="../assets/img/menu3.png" alt="">
 				  		<div class="gradient"></div>
 				  		<div class="content">
 				  			<h3>合作双赢 携手共创</h3>
@@ -111,7 +111,7 @@
 			}
 		},
 		methods: {
-			
+
 		}
 	}
 </script>
@@ -146,10 +146,6 @@
 			height: 100%;
 			opacity: 0;
 			position: absolute;
-			/*transition: all .5s linear;
-			-moz-transition: all .5s linear; 
-			-webkit-transition: all .5s linear;
-			-o-transition: all .5s linear; */
 		}
 	}
 

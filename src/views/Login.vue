@@ -47,6 +47,7 @@
 </template>
 
 <script>
+	import {loginUrl} from '@/config/env'
   import myfun from '../assets/js/test.js'
 	import md5 from 'js-md5';
   import desc from '../assets/img/desc2.png'
@@ -86,6 +87,7 @@
         }
       };
       return {
+				loginUrl,
         fullscreenLoading: false,
         imgData: {
           desc: desc
@@ -127,23 +129,20 @@
 				}
 				var objstr = JSON.stringify(obj);
 				//18664378720
-				this.$http.post('http://127.0.0.1:8080/wbaobei/phone/login',objstr).then(function(response){
+				this.$http.post(this.loginUrl,objstr).then(function(response){
 						this.fullscreenLoading = false;
 						console.log(response.body);
 						if(response.body.code == "1") {
 							var items = {
+								yhsjh: this.ruleForm2.phone,
 								yhid: response.body.yhid,
 								token: response.body.token,
 								currenbaby: 0,
 								bbList: response.body.bbList
 							}
 							myfun.save(items);
+							myfun.loginFlag(true);
 							this.$router.push({path:'/bbmana'});
-							// this.$notify({
-							// 	title: '登录成功！',
-							// 	message: '这是一条成功的提示消息',
-							// 	type: 'success'
-							// });
 						} else {
 							this.$notify({
 								title: '登录失败！',
@@ -201,6 +200,10 @@
     padding-bottom: 20px;
     background: #fff;
   }
+
+	.log-form-wrapper .Linfo .code-container ul {
+		display: flex;
+	}
 
   .log-form-wrapper .Linfo .code-container li {
     display: inline-block;

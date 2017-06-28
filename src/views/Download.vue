@@ -98,12 +98,6 @@
 
 		.app_img {
 			.el-carousel__item {
-				// &:nth-child(1), &:nth-child(2) {
-				// 	width: 641px;
-				// }
-				// &:nth-child(3) {
-				// 	width: 825px;
-				// }
 				img {
 					width: 100%;
 					height: 100%;

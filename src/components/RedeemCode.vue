@@ -48,20 +48,12 @@
         </el-table-column>
       </el-table>
     </el-dialog>
-    <!-- <div class="baby-list" v-if="flag">
-
-    </div> -->
     <div class="pgblist">
       <el-tag type="gray">已激活的评估表列表</el-tag>
       <div class="jhlb" v-for="item in tclist">
         <div class="paper-clip-icon">
         </div>
         <div class="paper">{{item.xsbt}}</div>
-        <!-- <div class="box">
-          <div class="ribbon">
-          </div>
-          <span>{{item.xsbt}}</span>
-        </div> -->
         <el-table
           :data="item.zdlist"
           border
@@ -84,12 +76,13 @@
 
 <script>
 import myfun from '../assets/js/test.js'
+import {getTclist, ggkdh} from '@/config/env'
 export default {
   mounted() {
     var objstr = JSON.stringify({
       yhid: this.yhid
     });
-    this.$http.post('http://127.0.0.1:8080/wbaobei/phone/tclist', objstr).then(function(response){
+    this.$http.post(this.getTclist, objstr).then(function(response){
       console.log(response);
       this.tclist = response.body.results;
     }, function(response) {
@@ -98,39 +91,14 @@ export default {
   },
   data() {
     return {
+      getTclist,
+      ggkdh,
       yhid: myfun.fetch().yhid,
       bbList: myfun.fetch().bbList,
       tclist: [],
-      tableData: [{
-        pgbname: '自闭症筛查',
-        agerange: '6月-2岁'
-      }, {
-        pgbname: '自闭症筛查',
-        agerange: '6月-2岁'
-      }, {
-        pgbname: '自闭症筛查',
-        agerange: '6月-2岁'
-      }],
       activeNames: ['1'],
       rcode: '',
       flag: false,
-      list: [{
-        name: '宝贝一',
-        gendar: '男宝贝',
-        birth: '2017-1-15'
-      },{
-        name: '宝贝二',
-        gendar: '男宝贝',
-        birth: '2017-1-15'
-      },{
-        name: '宝贝三',
-        gendar: '男宝贝',
-        birth: '2017-1-15'
-      },{
-        name: '宝贝四',
-        gendar: '男宝贝',
-        birth: '2017-1-15'
-      }],
     }
   },
   methods: {
@@ -144,7 +112,7 @@ export default {
         bbid: bbid
       });
       console.log(bbid);
-      this.$http.post('http://127.0.0.1:8080/wbaobei/phone/ggkdh', objstr).then(function(response){
+      this.$http.post(this.ggkdh, objstr).then(function(response){
         console.log(response);
         if(response.body.code == "1") {
           this.$message({
@@ -157,10 +125,6 @@ export default {
       }, function(response) {
         console.log('fail');
       })
-      // this.$message({
-      //   type: 'success',
-      //   message: '兑换成功!'
-      // });
     }
   }
 }
