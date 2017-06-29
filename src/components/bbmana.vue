@@ -3,12 +3,11 @@
     <div class="baby-list" v-if="!flag">
       <el-button type="primary" icon="plus" class="add-baby" @click="babyAdd">添加宝贝</el-button>
       <el-table
-        height="680"
         :data="bbList"
         border
         stripe
         :default-sort = "{prop: 'csrq', order: 'descending'}"
-        style="width: 100%">
+        style="width: 100%;">
         <el-table-column
           label="出生日期"
           prop="csrq"

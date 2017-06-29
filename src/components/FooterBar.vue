@@ -56,9 +56,24 @@
     	border-right: 1px solid #81818e;
     }
 
+		.grid-content ul li a:link {
+			color: #81818e;
+			text-decoration: none;
+		}
+
+		.grid-content ul li a:visited {
+			color: #81818e;
+			text-decoration: none;
+		}
+
     .grid-content ul li a:hover {
-    	text-decoration: underline;
+    	color: #676767;
     }
+
+		.grid-content ul li a:active {
+			color: #4fc1e9;
+			text-decoration: underline;
+		}
 
     .grid-content ul li a.nb {
     	border: none;

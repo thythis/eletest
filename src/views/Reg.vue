@@ -1,6 +1,6 @@
 <template>
 	<div>
-    <header-bar v-bind:img-data="imgData" txt="我已注册,现在就" path="login" btntxt="登录"></header-bar>
+    <header-bar v-bind:img-data="imgData" txt="我已注册，现在就" path="login" btntxt="登录"></header-bar>
 		<div class="reg-form-wrapper">
 		  <el-row :gutter="10" type="flex" justify="center">
 		    <el-col :xs="24" :sm="20" :md="18" :lg="14" class="bg-white">
@@ -257,7 +257,7 @@
     display: inline-block;
     height: 59px;
     line-height: 59px;
-    border-bottom: 2px solid #3780a1;
+    border-bottom: 2px solid #4fc1e9;
     font-weight: 400;
     font-size: 22px;
     color: #333;
@@ -286,7 +286,7 @@
 
   .reg-form-wrapper .el-form-item .aoi {
     cursor: pointer;
-    color: #3c9fc9;
+    color: #4fc1e9;
   }
 
   .rPanel {

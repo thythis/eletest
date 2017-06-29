@@ -53,7 +53,6 @@
       <div class="jhlb" v-for="item in tclist">
         <div class="paper-clip-icon">
         </div>
-        <div class="paper">{{item.xsbt}}</div>
         <el-table
           :data="item.zdlist"
           border
@@ -61,7 +60,7 @@
           style="width: 100%">
           <el-table-column
             prop="mc"
-            label="筛查表">
+            :label="item.xsbt">
           </el-table-column>
           <el-table-column
             prop="synld"
@@ -150,6 +149,9 @@ export default {
     margin: 20px auto;
     .jhlb {
       position: relative;
+      .el-table th>.cell {
+        color: #4fc1e9;
+      }
     }
     .el-table {
       z-index: 2;
@@ -170,8 +172,8 @@ export default {
       border-top: none;
       position: relative;
       z-index: 5;
-      left: 21px;
-      top: -9px;
+      left: 8px;
+      top: 3px;
       transform:rotate(30deg);
     }
     .paper-clip-icon::before {
@@ -211,7 +213,6 @@ export default {
       line-height: 30px;
       text-indent: 40px;
       color: $MAIN_COLOR;
-      // box-shadow: 0 0 10px rgba(0,0,0,.1);
       background: #f1f1f1;
     }
   }

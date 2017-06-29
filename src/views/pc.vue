@@ -132,6 +132,7 @@ export default {
       .el-button {
         height: 40px;
         margin-top: 10px;
+        margin-left: 20px;
       }
     }
     .pc-content {

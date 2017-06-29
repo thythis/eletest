@@ -6,7 +6,7 @@
 		  		<el-row type="flex" justify="space-between">
 		  			<el-col :xs="10" :sm="14" :md="15" :lg="16" class="logo">
 		  				<router-link to="home"></router-link>
-							<span>卫宝贝，您宝贝的健康管家。</span>
+							<span>卫宝贝您宝贝的健康管家</span>
 							<!-- <img :src="imgSrc" alt=""> -->
 		  				<!-- <img class="desc" v-bind:src="imgData.desc" alt=""> -->
 		  			</el-col>
@@ -64,7 +64,7 @@ import logo from '../assets/img/logo.png'
 		display: inline-block;
 		flex: 1;
 		color: #666;
-		font-size: 18px;
+		font-size: 20px;
 		text-indent: 10px;
 	}
 

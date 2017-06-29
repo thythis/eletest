@@ -8,9 +8,16 @@
 				</div>
 				<ul class="rList">
 					<li class="reg"><a @click="yhch(1)"><i class="iconfont icon-person"></i>{{yhsjh||'注册'}}</a> / <a @click="yhch(2)">{{yhsjh==null?'登陆':'退出'}}</a></li>
-					<li><a class="drop">下载APP</a></li>
+					<li  class="drop-down">
+						<a class="drop">下载APP</a>
+						<div class="drop-box">
+							<img src="../assets/img/wx.jpg" height="100" width="100" alt="">
+						</div>
+					</li>
 					<li class="drop-down">
-						<a class="drop">关注微信</a>
+						<a class="drop">
+							关注微信
+						</a>
 						<div class="drop-box">
 							<img src="../assets/img/wx.jpg" height="100" width="100" alt="">
 						</div>
@@ -191,6 +198,14 @@
 		margin-right: 15px;
 	}
 
+	.top-bar-wrapper .top-bar .rList li:nth-child(2) .drop-box {
+		right: 230px;
+	}
+
+	.top-bar-wrapper .top-bar .rList li:nth-child(3) .drop-box {
+		right: 127px;
+	}
+
 	.top-bar-wrapper .top-bar .rList li:nth-child(3) {
 		margin-right: 105px;
 	}
@@ -201,33 +216,39 @@
 	}
 
 	.top-bar-wrapper .top-bar .rList li a {
+		display: inline-block;
+		height: 26px;
+		line-height: 30px;
 		font-size: 12px;
 		color: #666;
 	}
 
 	.top-bar-wrapper .top-bar .rList li.drop-down {
-		position: relative;
+		/*position: relative;*/
 	}
 
 	.top-bar-wrapper .top-bar .rList li.drop-down .drop-box {
 		position: absolute;
-		top: 40px;
-		left: -35px;
+		top: 36px;
+
 		padding: 10px 20px 0 20px;
 		border: 1px solid #eee;
 		background: #fff;
-		z-index: 998;
+		z-index: 990;
+		margin-top: -1px;
 		display: none;
 	}
 
 	.top-bar-wrapper .top-bar .rList li.drop-down a.drop {
-		padding: 10px;
+		background: #fff;
+		position: relative;
+		padding: 0 10px;
 		z-index: 999;
 	}
 
 	.top-bar-wrapper .top-bar .rList li.drop-down a.drop:after {
 		content: '';
-		margin-left: 6px;
+		margin-left: 3px;
 		width: 14px;
 		height: 9px;
 		display: inline-block;
@@ -236,7 +257,7 @@
 
 	.top-bar-wrapper .top-bar .rList li.drop-down a.drop:hover {
 		border: 1px solid #eee;
-		border-bottom: 1px solid #fff;
+		border-bottom: none;
 	}
 
 	.top-bar-wrapper .top-bar .rList li.drop-down:hover .drop-box{

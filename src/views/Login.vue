@@ -1,6 +1,6 @@
 <template>
 	<div>
-    <header-bar v-bind:img-data="imgData" txt="我还没注册,现在就" path="reg" btntxt="注册"></header-bar>
+    <header-bar v-bind:img-data="imgData" txt="我还没注册，现在就" path="reg" btntxt="注册"></header-bar>
 		<div class="log-form-wrapper">
 		  <el-row type="flex" justify="center">
         <el-col :xs="16" :sm="14" :md="14" :lg="10">
@@ -243,10 +243,10 @@
     line-height: 49px;
     width: 153px;
     text-align: center;
-    border-bottom: 2px solid #0996d4;
+    border-bottom: 2px solid #4fc1e9;
     font-weight: 400;
     font-size: 18px;
-    color: #0996d4;
+    color: #4fc1e9;
   }
 
   .pt60 {
