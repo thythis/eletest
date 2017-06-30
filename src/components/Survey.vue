@@ -111,7 +111,15 @@
 					console.log(response);
 					if(response.body.results[0].lx == 4) {
 						// return response.body.results[0].jsdz;
-						this.$http.get("http://127.0.0.1:8080/wbaobei/" + response.body.results[0].jsdz,{emulateHTTP: true}).then(function(response) {
+						//"http://csweb.wbaobei.com.cn/" + response.body.results[0].jsdz
+						this.$http({
+	            url: "http://csweb.wbaobei.com.cn/" + response.body.results[0].jsdz,
+	            method: 'get',
+	            // 设置请求头
+	            headers: {
+	                'Content-Type': 'text/html'
+	            }
+		        }).then(function(response) {
 
 						}, function(response) {
 
