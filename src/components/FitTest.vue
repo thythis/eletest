@@ -258,6 +258,50 @@ export default {
     font-size: 16px;
   }
 
+  .box {
+    width: 30%;
+    height: 24px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background: #f1f1f1;
+    box-shadow: 0 0 15px rgba(0,0,0,.1);
+    span {
+      margin-left: 20px;
+      font-size: 16px;
+      color: #4fc1e9;
+    }
+    .ribbon {
+      width: 10px;
+      height: 20px;
+      float: left;
+      position: relative;
+      margin-bottom: 12px;
+      color: #48576a;
+      background: #4fc1e9;
+      top: -3px;
+      left: 10px;
+      &:before {
+        content: '';
+        position: absolute;
+        height: 0;
+        width: 0;
+        border-bottom: 3px solid #4fc1c9;
+        border-right: 3px solid transparent;
+        right: -3px;
+      }
+      &:after {
+        content: '';
+        position: absolute;
+        height: 0;
+        width: 0;
+        border-left: 5px solid #4fc1e9;
+        border-right: 5px solid #4fc1e9;
+        border-bottom: 5px solid transparent;
+        bottom: -5px;
+      }
+    }
+  }
+
   .test-content {
     width: 80%;
     margin: 50px auto 20px auto;

@@ -57,7 +57,7 @@
           :data="item.zdlist"
           border
           stripe
-          style="width: 100%">
+          style="width: 100%;">
           <el-table-column
             prop="mc"
             :label="item.xsbt">
@@ -128,7 +128,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
   $MAIN_COLOR: #4fc1e9;
   .el-dialog--small {
     height: 80%;
@@ -150,7 +150,7 @@ export default {
     .jhlb {
       position: relative;
       .el-table th>.cell {
-        color: #4fc1e9;
+        color: $MAIN_COLOR!important;
       }
     }
     .el-table {

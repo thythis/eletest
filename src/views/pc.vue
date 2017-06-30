@@ -13,7 +13,7 @@
       <div class="pc-content">
         <el-row>
           <el-col :span="5">
-            <el-menu default-active="2" class="el-menu-vertical-demo">
+            <el-menu default-active="1" class="el-menu-vertical-demo">
               <div class="baby">
                 <div class="photo" @click="changebb">
                 </div>
