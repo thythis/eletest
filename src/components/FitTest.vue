@@ -1,115 +1,116 @@
 <template lang="html">
   <div  v-loading.body="reqloading">
     <div class="test-content">
-      <el-tabs v-model="bbname" type="card" @tab-click="handleClick">
-        <el-tab-pane v-for="item in bbList" :label="item.mc" :name="item.mc">
-          <el-tabs v-model="activeName" @tab-click="handleBaby">
-            <el-tab-pane label="健康评估" name="first">
-              <div v-if="!showsurvey">
-                <div v-for="item in pgblist">
-                  <div class="box">
-                    <div class="ribbon">
-                    </div>
-                    <span>{{item.xsbt}}</span>
+        <div class="list-panel">
+          <strong>宝宝列表：</strong>
+          <a v-for="(item, index) in bbList"
+              :class="[{hover: isBaby(index)}]"
+              @click="changebb(index)">{{item.mc}}</a>
+        </div>
+        <el-tabs v-model="activeName" @tab-click="handleBaby">
+          <el-tab-pane label="健康评估" name="first">
+            <div v-if="!showsurvey">
+              <div v-for="item in pgblist">
+                <div class="box">
+                  <div class="ribbon">
                   </div>
-                  <el-table
-                    :data="item.zdlist"
-                    :default-sort = "{prop: 'synld', order: 'descending'}"
-                    v-loading.body="loading"
-                    border
-                    stripe
-                    style="width: 100%">
-                        <el-table-column
-                        prop="mc"
-                        label="筛查表">
-                          <template scope="scope">
-                            <el-tag
-                            type="primary"
-                            close-transition>{{scope.row.mc}}</el-tag>
-                          </template>
-                        </el-table-column>
-                        <el-table-column
-                          prop="synld"
-                          sortable
-                          :formatter="ageFormat"
-                          label="年龄段">
-                        </el-table-column>
-                        <el-table-column
-                        prop="zt"
-                        label="状态">
+                  <span>{{item.xsbt}}</span>
+                </div>
+                <el-table
+                  :data="item.zdlist"
+                  :default-sort = "{prop: 'synld', order: 'descending'}"
+                  v-loading.body="loading"
+                  border
+                  stripe
+                  style="width: 100%">
+                      <el-table-column
+                      prop="mc"
+                      label="筛查表">
                         <template scope="scope">
                           <el-tag
-                          :type="scope.row.zt == 1 ? 'gray' : (scope.row.zt == 2?'primary':'success')"
-                          close-transition>{{scope.row.zt == 1 ? '已做' : (scope.row.zt == 2?'可评测':'报告已出')}}</el-tag>
+                          type="primary"
+                          close-transition>{{scope.row.mc}}</el-tag>
                         </template>
                       </el-table-column>
                       <el-table-column
-                      label="操作">
-                      <template scope="scope">
-                        <el-button size="small" icon="search" type="danger" @click.native.prevent="checkSurvey(scope.row.pgbbh, scope.row.bbpgbid, scope.row.zt)">查看详情</el-button>
-                      </template>
-                    </el-table-column>
-                  </el-table>
-                </div>
-              </div>
-              <transition name="el-fade-in">
-                <div v-if="showsurvey">
-                  <el-button type="primary" icon="arrow-left" @click="checkSurvey">返回</el-button>
-                  <survey :bbinfo="bbinfo"></survey>
-                </div>
-              </transition>
-            </el-tab-pane>
-            <el-tab-pane label="健康监控" name="second">
-              <div v-if="!showsurvey">
-                <div v-for="item in pgblist">
-                  <el-table
-                    :data="item.zdlist"
-                    v-loading.body="loading"
-                    border
-                    stripe
-                    style="width: 100%">
-                    <el-table-column
-                    prop="mc"
-                    label="筛查表">
-                      <template scope="scope">
-                        <el-tag
-                          type="primary"
-                          close-transition>{{scope.row.mc}}</el-tag>
-                      </template>
-                    </el-table-column>
-                    <el-table-column
-                    prop="synld"
-                    label="年龄段">
-                    </el-table-column>
-                    <el-table-column
+                        prop="synld"
+                        sortable
+                        :formatter="ageFormat"
+                        label="年龄段">
+                      </el-table-column>
+                      <el-table-column
                       prop="zt"
                       label="状态">
                       <template scope="scope">
                         <el-tag
-                          :type="scope.row.zt == 1 ? 'primary' : (scope.row.zt == 2?'gray':'success')"
-                          close-transition>{{scope.row.zt == 1 ? '已做' : (scope.row.zt == 2?'可评测':'报告已出')}}</el-tag>
+                        :type="scope.row.zt == 1 ? 'gray' : (scope.row.zt == 2?'primary':'success')"
+                        close-transition>{{scope.row.zt == 1 ? '已做' : (scope.row.zt == 2?'可评测':'报告已出')}}</el-tag>
                       </template>
                     </el-table-column>
                     <el-table-column
-                      label="操作">
-                      <template scope="scope">
-                        <el-button size="small" icon="search" type="danger" @click.native.prevent="checkSurvey(scope.row.pgbbh, scope.row.bbpgbid, scope.row.zt)">查看详情</el-button>
-                      </template>
-                    </el-table-column>
-                  </el-table>
-                </div>
+                    label="操作">
+                    <template scope="scope">
+                      <el-button size="small" icon="search" type="danger" @click.stop="checkSurvey(scope.row.pgbbh, scope.row.bbpgbid, scope.row.zt)">查看详情</el-button>
+                    </template>
+                  </el-table-column>
+                </el-table>
               </div>
-              <transition name="el-fade-in">
-                <div v-if="showsurvey">
-                  <el-button type="primary" icon="arrow-left" @click="checkSurvey">返回</el-button>
-                  <survey :bbinfo="bbinfo"></survey>
-                </div>
-              </transition>
-            </el-tab-pane>
-          </el-tabs>
-        </el-tab-pane>
-      </el-tabs>
-
+            </div>
+            <transition name="el-fade-in">
+              <div v-if="showsurvey">
+                <el-button type="primary" icon="arrow-left" @click="showsurvey= false">返回</el-button>
+                <survey :bbinfo="bbinfo"></survey>
+              </div>
+            </transition>
+          </el-tab-pane>
+          <el-tab-pane label="健康监控" name="second">
+            <div v-if="!showsurvey2">
+              <div v-for="item in pgblist">
+                <el-table
+                  :data="item.zdlist"
+                  v-loading.body="loading"
+                  border
+                  stripe
+                  style="width: 100%">
+                  <el-table-column
+                  prop="mc"
+                  label="筛查表">
+                    <template scope="scope">
+                      <el-tag
+                        type="primary"
+                        close-transition>{{scope.row.mc}}</el-tag>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                  prop="synld"
+                  label="年龄段">
+                  </el-table-column>
+                  <el-table-column
+                    prop="zt"
+                    label="状态">
+                    <template scope="scope">
+                      <el-tag
+                        :type="scope.row.zt == 1 ? 'primary' : (scope.row.zt == 2?'gray':'success')"
+                        close-transition>{{scope.row.zt == 1 ? '已做' : (scope.row.zt == 2?'可评测':'报告已出')}}</el-tag>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="操作">
+                    <template scope="scope">
+                      <el-button size="small" icon="search" type="danger" @click.stop="checkSurvey(scope.row.pgbbh, scope.row.bbpgbid, scope.row.zt)">查看详情</el-button>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </div>
+            </div>
+            <transition name="el-fade-in">
+              <div v-if="showsurvey2">
+                <el-button type="primary" icon="arrow-left" @click="showsurvey2= false">返回</el-button>
+                <survey :bbinfo="bbinfo"></survey>
+              </div>
+            </transition>
+          </el-tab-pane>
+        </el-tabs>
     </div>
   </div>
 </template>
@@ -123,6 +124,7 @@ export default {
     Survey
   },
   mounted() {
+    console.log('此处不需要点击就回运行')
     var objjjj = JSON.stringify({
       yhid: myfun.fetch().yhid,
       bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
@@ -147,12 +149,19 @@ export default {
   },
   watch: {
     requestTc(val) {
-      this.bbname = myfun.fetch().bbList[this.$store.state.count].mc;
+      this.showsurvey = false;
+      this.showsurvey2 = false;
       this.loading = true;
+      var flbh = "";
+      if(this.activeName == "first") {
+        flbh = "jkpg";
+      } else {
+        flbh = "jkjk";
+      }
       var objjjj = JSON.stringify({
         yhid: myfun.fetch().yhid,
         bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
-        flbh: "jkpg"
+        flbh: flbh
       });
       this.$http.post(this.getTC, objjjj).then(function(response){
         this.loading = false;
@@ -167,6 +176,7 @@ export default {
   data() {
     return {
       getTC,
+      bbindex: 5,
       yhid: myfun.fetch().yhid,
       bbindex: myfun.fetch().currenbaby,
       bbname: myfun.fetch().bbList[this.$store.state.count].mc,
@@ -179,26 +189,27 @@ export default {
       loading: false,
       reqloading: false,
       showsurvey: false,
+      showsurvey2: false,
       activeName: 'first',
       activeBaby: myfun.fetch().bbList[0].mc,
       pgblist: [],
     };
   },
   methods: {
-    handleClick(tab, event) {
-      var num = parseInt(tab.index);
-      console.log(num);
-      this.$store.commit('setCount',num);
+    changebb(index) {
+      this.$store.commit('setCount', index);
     },
     handleBaby(tab, event) {
       this.loading = true;
       if(tab.index == "0") {
+        this.showsurvey2 = false;
         var objjjj = JSON.stringify({
           yhid: myfun.fetch().yhid,
           bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
           flbh: "jkpg"
         });
       } else if(tab.index == "1") {
+        this.showsurvey = false;
         var objjjj = JSON.stringify({
           yhid: myfun.fetch().yhid,
           bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
@@ -240,11 +251,18 @@ export default {
       var str = arr[0] + "-" + arr[1];
       return str;
     },
-    changebb() {
-      console.log('thyyy');
+    isBaby(index) {
+      if(this.$store.state.count == index) {
+        return true;
+      }
+      return false;
     },
     checkSurvey(pgbbh, bbpgbid, zt) {
-      this.showsurvey = !this.showsurvey;
+      if(this.activeName == "first") {
+        this.showsurvey = !this.showsurvey;
+      } else {
+        this.showsurvey2 = !this.showsurvey2;
+      }
       this.bbinfo.pgbbh = pgbbh;
       this.bbinfo.bbpgbid = bbpgbid;
       this.bbinfo.zt = zt;
@@ -304,6 +322,27 @@ export default {
 
   .test-content {
     width: 80%;
-    margin: 50px auto 20px auto;
+    margin: 10px auto 20px auto;
+    .list-panel {
+      padding: 20px 0;
+      strong {
+        color: #656564;
+      }
+      a {
+        margin-right: 10px;
+        display: inline-block;
+        height: 26px;
+        line-height: 26px;
+        padding: 0 10px;
+        &:hover {
+          color: #4fc1e9;
+        }
+        &.hover {
+          background: #4fc1e9;
+          color: #fff;
+          border-radius: 3px;
+        }
+      }
+    }
   }
 </style>

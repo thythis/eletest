@@ -77,17 +77,7 @@
 			if(this.bbinfo.zt == 2) {
 				this.jlflag = false;
 			}
-			var objstr = JSON.stringify({
-				pgbbh: this.bbinfo.pgbbh
-			});
-			this.$http.post(this.hqpgbmx, objstr).then(function(response){
-				console.log(response);
-				if(response.body.results[0].lx == 4) {
-					console.log(response.body.results[0].jsdz);
-				}
-			}, function(response) {
-				console.log('fail');
-			})
+			this.getTest();
 		},
 		data() {
 			return {
@@ -113,6 +103,24 @@
 			}
 		},
 		methods: {
+			getTest() {
+				var objstr = JSON.stringify({
+					pgbbh: this.bbinfo.pgbbh
+				});
+				this.$http.post(this.hqpgbmx, objstr).then(function(response){
+					console.log(response);
+					if(response.body.results[0].lx == 4) {
+						// return response.body.results[0].jsdz;
+						this.$http.get("http://127.0.0.1:8080/wbaobei/" + response.body.results[0].jsdz,{emulateHTTP: true}).then(function(response) {
+
+						}, function(response) {
+
+						})
+					}
+				}, function(response) {
+					console.log('fail');
+				})
+			},
 			retest() {
 				var objstr = JSON.stringify({
 		      pgbbh: this.bbinfo.pgbbh
