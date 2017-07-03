@@ -24,13 +24,15 @@
 					</div>
 					<div class="question-panel">
 						<p>{{questionList[questionIndex].nbbh||questionList[questionIndex].mxxh}}、{{questionList[questionIndex].nr.replace("XXX","___")}}<el-input-number v-if="questionList[questionIndex].lx==3" size="small" v-model="num"></el-input-number></p>
-						<el-button v-if="(questionList[questionIndex].lx==3)||(questionList[questionIndex].lx==2)" type="primary" @click="next">下一题</el-button>
+						<el-button v-if="(questionList[questionIndex].lx==3)||(questionList[questionIndex].lx==2)" type="primary" @click="next(questionList[questionIndex].lx)">下一题</el-button>
 					</div>
 					<div class="answer-panel">
-						<label :class="[styles]" v-for="(item,index) in questionList[questionIndex].xxlist"  @click.prevent="myTest(item.xh, questionList[questionIndex].lx,index)" :for="item.fs">
-							<input :type="questionList[questionIndex].lx==1?'radio':'checkbox'" :value="item.xh" name="xx" :id="item.fs">
-							<span :class="mindex == index?'select-span':''">{{item.xh}}</span>{{item.nr}}
-						</label>
+						<div v-for="(item,index) in questionList[questionIndex].xxlist">
+							<input type="checkbox" :value="item.xh" name="xx" :id="'c'+item.xh"  v-model="xhlist">
+							<label :class="[styles]"   @click.prevent="myTest(item.xh, questionList[questionIndex].lx,index)" :for="'c'+item.xh">
+								<span>{{item.xh}}</span>{{item.nr}}
+							</label>
+						</div>
 					</div>
 				</div>
 				<div class="resoult-panel" v-if="rflag">
@@ -104,7 +106,8 @@
 				blanks: "___",
 				styles: "answer-item",
 				num: 0,
-				answerList: []
+				answerList: [],
+				xhlist: []
 			}
 		},
 		methods: {
@@ -216,7 +219,22 @@
 		      console.log('fail');
 		    })
 			},
-			next() {
+			next(lx) {
+				if(lx == 2) {
+					var str = this.xhlist.join('#');
+					this.answerList.push({
+						pgbbh: this.bbinfo.pgbbh,
+						mxxh: this.questionList[this.questionIndex].mxxh,
+						xh: str
+					})
+					this.xhlist.length = 0;
+				} else if(lx == 3) {
+					this.answerList.push({
+						pgbbh: this.bbinfo.pgbbh,
+						mxxh: this.questionList[this.questionIndex].mxxh,
+						xh: this.num
+					})
+				}
 				this.questionIndex++;
 			},
 			myTest: function(x, lx,index) {
@@ -236,12 +254,19 @@
 						return;
 					}
 					this.percent += this.percentrate;
-					this.answerList.push({
-						pgbbh: this.bbinfo.pgbbh,
-						mxxh: this.questionIndex + 1,
-						xh: x
-					})
+					if(lx == 2) {
+						if(this.xhlist.indexOf(x) >= 0) {
+							this.xhlist.splice(this.xhlist.indexOf(x),1);
+						} else {
+							this.xhlist.push(x);
+						}
+					}
 					if(lx == 1) {
+						this.answerList.push({
+							pgbbh: this.bbinfo.pgbbh,
+							mxxh: this.questionList[this.questionIndex].mxxh,
+							xh: x
+						})
 						this.questionIndex++;
 						this.mindex = 999;
 						// this.styles = "answer-item hover"
@@ -390,6 +415,16 @@
 					}
 				}
 				.answer-panel {
+					input {
+						position: absolute;
+						clip: rect(0, 0, 0, 0);
+						&:checked ~ .answer-item {
+							span {
+								background: $MAIN_COLOR;
+								color: #fff;
+							}
+						}
+					}
 					.answer-item {
 						display: block;
 						position: relative;
@@ -397,14 +432,14 @@
 						height: 48px;
 						line-height: 48px;
 						font-size: 14px;
-						input {
-							position: absolute;
-							clip: rect(0, 0, 0, 0);
-							&:checked ~ span {
-								background: $MAIN_COLOR;
-								color: #fff;
-							}
-						}
+						// input {
+						// 	position: absolute;
+						// 	clip: rect(0, 0, 0, 0);
+						// 	&:checked ~ span {
+						// 		background: $MAIN_COLOR;
+						// 		color: #fff;
+						// 	}
+						// }
 						&:hover {
 							cursor: pointer;
 							::after {
