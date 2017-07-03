@@ -4,8 +4,8 @@
         <div class="list-panel">
           <strong>宝宝列表：</strong>
           <a v-for="(item, index) in bbList"
-              :class="[{hover: isBaby(index)}]"
-              @click="changebb(index)">{{item.mc}}</a>
+          :class="[{hover: isBaby(index)}]"
+          @click="changebb(index)">{{item.mc}}</a>
         </div>
         <el-tabs v-model="activeName" @tab-click="handleBaby">
           <el-tab-pane label="健康评估" name="first">
@@ -325,6 +325,7 @@ export default {
     margin: 10px auto 20px auto;
     .list-panel {
       padding: 20px 0;
+      border-bottom: 1px dashed #d1dee5;
       strong {
         color: #656564;
       }

@@ -23,12 +23,13 @@
 						<el-progress :percentage="percent" :show-text="false"></el-progress>
 					</div>
 					<div class="question-panel">
-						<p>{{questionList[questionIndex].mxxh}}、{{questionList[questionIndex].nr}}</p>
+						<p>{{questionList[questionIndex].nbbh||questionList[questionIndex].mxxh}}、{{questionList[questionIndex].nr.replace("XXX","___")}}<el-input-number v-if="questionList[questionIndex].lx==3" size="small" v-model="num"></el-input-number></p>
+						<el-button v-if="(questionList[questionIndex].lx==3)||(questionList[questionIndex].lx==2)" type="primary" @click="next">下一题</el-button>
 					</div>
 					<div class="answer-panel">
-						<label class="answer-item" v-for="item in questionList[questionIndex].xxlist"  @click.prevent="myTest(item.xh)" :for="item.fs">
-							<input type="radio" name="xx" :id="item.fs">
-							<span>{{item.xh}}</span>{{item.nr}}
+						<label :class="[styles]" v-for="(item,index) in questionList[questionIndex].xxlist"  @click.prevent="myTest(item.xh, questionList[questionIndex].lx,index)" :for="item.fs">
+							<input :type="questionList[questionIndex].lx==1?'radio':'checkbox'" :value="item.xh" name="xx" :id="item.fs">
+							<span :class="mindex == index?'select-span':''">{{item.xh}}</span>{{item.nr}}
 						</label>
 					</div>
 				</div>
@@ -77,7 +78,7 @@
 			if(this.bbinfo.zt == 2) {
 				this.jlflag = false;
 			}
-			this.getTest();
+			// this.getTest();
 		},
 		data() {
 			return {
@@ -99,6 +100,10 @@
 				percentrate: 0,
 				choice: "",
 				percent: 0,
+				mindex: 999,
+				blanks: "___",
+				styles: "answer-item",
+				num: 0,
 				answerList: []
 			}
 		},
@@ -112,15 +117,8 @@
 					if(response.body.results[0].lx == 4) {
 						// return response.body.results[0].jsdz;
 						//"http://csweb.wbaobei.com.cn/" + response.body.results[0].jsdz
-						this.$http({
-	            url: "http://csweb.wbaobei.com.cn/" + response.body.results[0].jsdz,
-	            method: 'get',
-	            // 设置请求头
-	            headers: {
-	                'Content-Type': 'text/html'
-	            }
-		        }).then(function(response) {
-
+						this.$http.post("http://127.0.0.1:8080/wbaobei/" + response.body.results[0].jsdz).then(function(response) {
+							console.log(response);
 						}, function(response) {
 
 						})
@@ -135,6 +133,10 @@
 		    });
 		    this.$http.post(this.hqpgbmx, objstr).then(function(response){
 		      console.log(response);
+					if(response.body.results[0].lx == 4) {
+						response.body.results.splice(0,1);
+					} else {
+					}
 					this.questionList = response.body.results;
 					this.percentrate = 1 / this.questionList.length * 100;
 					this.showopt = false;
@@ -214,7 +216,13 @@
 		      console.log('fail');
 		    })
 			},
-			myTest: function(x) {
+			next() {
+				this.questionIndex++;
+			},
+			myTest: function(x, lx,index) {
+				console.log(index);
+				this.mindex = index;
+				// this.styles = "answer-item hover"
 				setTimeout(() => {
 					if(this.questionIndex == (this.questionList.length - 1)) {
 						console.log(this.questionIndex);
@@ -233,7 +241,11 @@
 						mxxh: this.questionIndex + 1,
 						xh: x
 					})
-					this.questionIndex++;
+					if(lx == 1) {
+						this.questionIndex++;
+						this.mindex = 999;
+						// this.styles = "answer-item hover"
+					}
 					console.log(this.answerList);
         }, 300);
 			}
@@ -422,6 +434,11 @@
 							line-height: 20px;
 							font-size: 12px;
 							margin-right: 10px;
+							&.select-span {
+								background: $MAIN_COLOR;
+								color: #fff;
+								cursor: pointer;
+							}
 							&:hover {
 								background: $MAIN_COLOR;
 								color: #fff;
