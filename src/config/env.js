@@ -21,9 +21,7 @@ let editBaby = baseUrl + '/phone/bbxg';
 let delBaby = baseUrl + '/phone/bbsc';
 
 // if (process.env.NODE_ENV == 'development') {
-// 	baseUrl = 'http://localhost:8090';
 // }else{
-// 	baseUrl = 'http://cangdu.org:8001';
 // }
 
 export {

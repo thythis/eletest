@@ -3,9 +3,9 @@
 		<div class="survey-wrapper">
 			<div class="info" v-if="showopt">
 				<h3>评测说明</h3>
-				<p>儿童在幼儿期或多或少会出现一些行为问题，有些问题是一过性的，随着时间的推移或及时处理后，很快就会消失。
-					一些行为问题可能较严重，若不及时处理将持续到儿童期甚至成人期，将对儿童的终身健康造成危害。如果这些问题在幼儿期能够及时发现和恰当处理，可以使其消失或程度减轻。
-					以下是100个反映孩子日常行为的问题，<strong>请您认真阅读每一个问题根据孩子最近3个月以内的实际情况，选择最全靠的答案。每一个问题都要做出回答。</strong></p>
+				<div class="pgb-desc" v-html="pgbinfo">
+
+				</div>
 			</div>
 			<div class="opt-panel" v-if="showopt">
 				<el-button type="primary" @click="retest">{{this.bbinfo.zt==2?'开始测评':'重新测评'}}</el-button>
@@ -22,14 +22,23 @@
 						<span><strong>{{questionIndex + 1}}</strong>/{{questionList.length}}</span>
 						<el-progress :percentage="percent" :show-text="false"></el-progress>
 					</div>
+					<!-- <el-input v-if="questionList[questionIndex].lx==3" size="mini" placeholder="填写" v-model="num"></el-input> -->
 					<div class="question-panel">
-						<p>{{questionList[questionIndex].nbbh||questionList[questionIndex].mxxh}}、{{questionList[questionIndex].nr.replace("XXX","___")}}<el-input-number v-if="questionList[questionIndex].lx==3" size="small" v-model="num"></el-input-number></p>
+						<el-form>
+						<p>{{questionList[questionIndex].nbbh||questionList[questionIndex].mxxh}}、
+							<span v-if="(questionList[questionIndex].lx==1)||(questionList[questionIndex].lx==2)||(!questionList[questionIndex].lx)">{{questionList[questionIndex].nr}}</span>
+							<span v-for="(item,index) in processNr" v-if="questionList[questionIndex].lx==3">
+								{{item}}
+								<el-input type="number" v-if="(questionList[questionIndex].lx==3)&&(index<(processNr.length-1))" size="mini" placeholder="填写" v-model="num[index]"></el-input>
+							</span>
+						</p>
 						<el-button v-if="(questionList[questionIndex].lx==3)||(questionList[questionIndex].lx==2)" type="primary" @click="next(questionList[questionIndex].lx)">下一题</el-button>
+					</el-form>
 					</div>
 					<div class="answer-panel">
 						<div v-for="(item,index) in questionList[questionIndex].xxlist">
 							<input type="checkbox" :value="item.xh" name="xx" :id="'c'+item.xh"  v-model="xhlist">
-							<label :class="[styles]"   @click.prevent="myTest(item.xh, questionList[questionIndex].lx,index)" :for="'c'+item.xh">
+							<label class="answer-item"   @click.prevent="myTest(item.xh, questionList[questionIndex].lx,index)" :for="'c'+item.xh">
 								<span>{{item.xh}}</span>{{item.nr}}
 							</label>
 						</div>
@@ -80,7 +89,7 @@
 			if(this.bbinfo.zt == 2) {
 				this.jlflag = false;
 			}
-			// this.getTest();
+			this.getTest();
 		},
 		data() {
 			return {
@@ -93,6 +102,7 @@
 				jlflag: true,
 				fullscreenLoading: false,
 				reportData: "",
+				pgbinfo: "",
 				showreport: false,
 				showbox: false,
 				showopt: true,
@@ -104,10 +114,29 @@
 				percent: 0,
 				mindex: 999,
 				blanks: "___",
-				styles: "answer-item",
-				num: 0,
+				num: [],
 				answerList: [],
 				xhlist: []
+			}
+		},
+		computed: {
+			processNr: function() {
+				if(this.questionList[this.questionIndex].mxList) {
+					var arr = [];
+					for (var i = 0; i < this.questionList[this.questionIndex].mxList.length; i++) {
+						arr.push(this.questionList[this.questionIndex].mxList[i].nr);
+					}
+					return arr.join('').split("XXX");
+				}
+				return this.questionList[this.questionIndex].nr.split("XXX");
+			},
+			isRequired: function() {
+				for (var i = 0; i < this.num.length; i++) {
+					if(!this.num[i]) {
+						return true;
+					}
+				}
+				return false;
 			}
 		},
 		methods: {
@@ -120,8 +149,9 @@
 					if(response.body.results[0].lx == 4) {
 						// return response.body.results[0].jsdz;
 						//"http://csweb.wbaobei.com.cn/" + response.body.results[0].jsdz
-						this.$http.post("http://127.0.0.1:8080/wbaobei/" + response.body.results[0].jsdz).then(function(response) {
+						this.$http.post("/baseurl/" + response.body.results[0].jsdz).then(function(response) {
 							console.log(response);
+							this.pgbinfo = response.body;
 						}, function(response) {
 
 						})
@@ -201,7 +231,8 @@
 		          confirmButtonText: '确定',
 		          type: 'success'
 		        }).then(() => {
-
+							this.showbox = false;
+							this.showopt = true;
 		        }).catch(() => {
 
 		        });
@@ -229,18 +260,25 @@
 					})
 					this.xhlist.length = 0;
 				} else if(lx == 3) {
-					this.answerList.push({
-						pgbbh: this.bbinfo.pgbbh,
-						mxxh: this.questionList[this.questionIndex].mxxh,
-						xh: this.num
-					})
+					for (var i = 0; i < this.num.length; i++) {
+						if(this.questionList[this.questionIndex].mxList) {
+							var mxxh = this.questionList[this.questionIndex].mxList[i].mxxh;
+						} else {
+							var mxxh = this.questionList[this.questionIndex].mxxh;
+						}
+						this.answerList.push({
+							pgbbh: this.bbinfo.pgbbh,
+							mxxh: mxxh,
+							xh: this.num[i]
+						})
+					}
+					this.num.length = 0;
 				}
 				this.questionIndex++;
 			},
 			myTest: function(x, lx,index) {
 				console.log(index);
 				this.mindex = index;
-				// this.styles = "answer-item hover"
 				setTimeout(() => {
 					if(this.questionIndex == (this.questionList.length - 1)) {
 						console.log(this.questionIndex);
@@ -261,7 +299,7 @@
 							this.xhlist.push(x);
 						}
 					}
-					if(lx == 1) {
+					if((lx == 1)||!lx) {
 						this.answerList.push({
 							pgbbh: this.bbinfo.pgbbh,
 							mxxh: this.questionList[this.questionIndex].mxxh,
@@ -269,7 +307,6 @@
 						})
 						this.questionIndex++;
 						this.mindex = 999;
-						// this.styles = "answer-item hover"
 					}
 					console.log(this.answerList);
         }, 300);
@@ -282,6 +319,10 @@
 	$MAIN_COLOR: #4fc1e9;
 	.el-message-box {
 		width: 760px;
+	}
+	.el-input--mini {
+		width: 60px;
+		margin: 0 5px;
 	}
 	.survey-wrapper {
 		.info {
@@ -432,14 +473,6 @@
 						height: 48px;
 						line-height: 48px;
 						font-size: 14px;
-						// input {
-						// 	position: absolute;
-						// 	clip: rect(0, 0, 0, 0);
-						// 	&:checked ~ span {
-						// 		background: $MAIN_COLOR;
-						// 		color: #fff;
-						// 	}
-						// }
 						&:hover {
 							cursor: pointer;
 							::after {
