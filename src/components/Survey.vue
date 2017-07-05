@@ -3,9 +3,7 @@
 		<div class="survey-wrapper">
 			<div class="info" v-if="showopt">
 				<h3>评测说明</h3>
-				<div class="pgb-desc" v-html="pgbinfo">
-
-				</div>
+				<div class="pgb-desc" v-html="pgbinfo"></div>
 			</div>
 			<div class="opt-panel" v-if="showopt">
 				<el-button type="primary" @click="retest">{{this.bbinfo.zt==2?'开始测评':'重新测评'}}</el-button>
@@ -22,14 +20,13 @@
 						<span><strong>{{questionIndex + 1}}</strong>/{{questionList.length}}</span>
 						<el-progress :percentage="percent" :show-text="false"></el-progress>
 					</div>
-					<!-- <el-input v-if="questionList[questionIndex].lx==3" size="mini" placeholder="填写" v-model="num"></el-input> -->
 					<div class="question-panel">
 						<el-form>
 						<p>{{questionList[questionIndex].nbbh||questionList[questionIndex].mxxh}}、
 							<span v-if="(questionList[questionIndex].lx==1)||(questionList[questionIndex].lx==2)||(!questionList[questionIndex].lx)">{{questionList[questionIndex].nr}}</span>
 							<span v-for="(item,index) in processNr" v-if="questionList[questionIndex].lx==3">
 								{{item}}
-								<el-input type="number" v-if="(questionList[questionIndex].lx==3)&&(index<(processNr.length-1))" size="mini" placeholder="填写" v-model="num[index]"></el-input>
+								<el-input v-if="(questionList[questionIndex].lx==3)&&(index<(processNr.length-1))" size="mini" placeholder="填写" v-model="num[index]"></el-input>
 							</span>
 						</p>
 						<el-button v-if="(questionList[questionIndex].lx==3)||(questionList[questionIndex].lx==2)" type="primary" @click="next(questionList[questionIndex].lx)">下一题</el-button>
@@ -38,17 +35,17 @@
 					<div class="answer-panel">
 						<div v-for="(item,index) in questionList[questionIndex].xxlist">
 							<input type="checkbox" :value="item.xh" name="xx" :id="'c'+item.xh"  v-model="xhlist">
-							<label class="answer-item"   @click.prevent="myTest(item.xh, questionList[questionIndex].lx,index)" :for="'c'+item.xh">
+							<label class="answer-item"   @click.prevent="myTest(item.xh, index)" :for="'c'+item.xh">
 								<span>{{item.xh}}</span>{{item.nr}}
 							</label>
 						</div>
 					</div>
 				</div>
 				<div class="resoult-panel" v-if="rflag">
-					<div class="list-item" v-for="(item, index) in questionList">
+					<div class="list-item" v-for="(item, index) in answerList">
 						<span class="qbh">{{item.mxxh}}</span>
-						<span class="qnr">{{item.nr}}</span>
-						<span class="answer">{{item.bbpgbid!=null?item.xxnr:answerList[index].xh}}</span>
+						<span class="qnr">{{item.tmnr}}</span>
+						<span class="answer">{{item.xh}}</span>
 					</div>
 					<button class="sub-btn" v-if="questionList[0].bbpgbid!=null?!subflag:subflag" @click="subsurvey" v-loading.fullscreen.lock="fullscreenLoading">
 						提交评测
@@ -108,11 +105,12 @@
 				showopt: true,
 				rflag: false,
 				questionList: [],
+				questionListMap: new Map(),
+				mxxhMap: new Map(),
 				questionIndex: 0,
 				percentrate: 0,
 				choice: "",
 				percent: 0,
-				mindex: 999,
 				blanks: "___",
 				num: [],
 				answerList: [],
@@ -147,14 +145,12 @@
 				this.$http.post(this.hqpgbmx, objstr).then(function(response){
 					console.log(response);
 					if(response.body.results[0].lx == 4) {
-						// return response.body.results[0].jsdz;
-						//"http://csweb.wbaobei.com.cn/" + response.body.results[0].jsdz
 						this.$http.post("/baseurl/" + response.body.results[0].jsdz).then(function(response) {
 							console.log(response);
 							this.pgbinfo = response.body;
 						}, function(response) {
 
-						})
+						});
 					}
 				}, function(response) {
 					console.log('fail');
@@ -171,6 +167,10 @@
 					} else {
 					}
 					this.questionList = response.body.results;
+					for (var i = 0; i < this.questionList.length; i++) {
+						this.questionListMap.set(this.questionList[i].nbbh, this.questionList[i].mxxh);
+						this.mxxhMap.set(this.questionList[i].mxxh, i);
+					}
 					this.percentrate = 1 / this.questionList.length * 100;
 					this.showopt = false;
 					this.rflag = false;
@@ -190,7 +190,6 @@
 		      console.log(response);
 					var REG_BODY = /<body[^>]*>([\s\S]*)<\/body>/;
 				  var result = REG_BODY.exec(response.body.result);
-					// console.log(result[1]);
 					this.reportData = result[1];
 					this.showreport = true;
 		    }, function(response){
@@ -198,7 +197,6 @@
 		    });
 			},
 			showRecord() {
-				// this.showbox = true;
 				var objjjj = JSON.stringify({
 		      yhid: myfun.fetch().yhid,
 					bbpgbid: this.bbinfo.bbpgbid
@@ -276,40 +274,58 @@
 				}
 				this.questionIndex++;
 			},
-			myTest: function(x, lx,index) {
-				console.log(index);
-				this.mindex = index;
-				setTimeout(() => {
-					if(this.questionIndex == (this.questionList.length - 1)) {
-						console.log(this.questionIndex);
-						this.percent += this.percentrate;
-						this.answerList.push({
-							pgbbh: this.bbinfo.pgbbh,
-							mxxh: this.questionList[this.questionIndex].mxxh,
-							xh: x
-						});
-						this.rflag = true;
-						return;
+			myTest: function(x, index) {
+				var lx = this.questionList[this.questionIndex].lx;
+				if(this.questionList[this.questionIndex].gz) {
+					var gz = this.questionList[this.questionIndex].gz.split("#");
+				}
+				if(lx == 2) {
+					if(this.xhlist.indexOf(x) >= 0) {
+						this.xhlist.splice(this.xhlist.indexOf(x),1);
+					} else {
+						this.xhlist.push(x);
 					}
-					this.percent += this.percentrate;
-					if(lx == 2) {
-						if(this.xhlist.indexOf(x) >= 0) {
-							this.xhlist.splice(this.xhlist.indexOf(x),1);
+				} else if((lx == 1)||!lx) {
+					setTimeout(() => {
+						if(this.questionIndex == (this.questionList.length - 1)) {
+							console.log(this.questionIndex);
+							this.percent += this.percentrate;
+							this.answerList.push({
+								pgbbh: this.bbinfo.pgbbh,
+								mxxh: this.questionList[this.questionIndex].mxxh,
+								xh: x
+							});
+							this.rflag = true;
+							return;
 						} else {
-							this.xhlist.push(x);
+							this.percent += this.percentrate;
+							this.answerList.push({
+								pgbbh: this.bbinfo.pgbbh,
+								tmnr: this.questionList[this.questionIndex].nr,
+								mxxh: this.questionList[this.questionIndex].mxxh,
+								xh: x
+							});
+							if(gz&&(gz[0] != "")) {
+								for (var i = 0; i < gz.length; i++) {
+									let arr = gz[i].split("@");
+									if(x == arr[0]) {
+										if(arr[1] == "end") {
+											this.questionIndex = this.questionList.length - 1;
+											break;
+										} else {
+											var skipIndex = this.questionListMap.get(arr[1]);
+											this.questionIndex = this.mxxhMap.get(skipIndex);
+											break;
+										}
+									}
+								}
+							} else {
+								this.questionIndex++;
+							}
+							console.log(this.answerList);
 						}
-					}
-					if((lx == 1)||!lx) {
-						this.answerList.push({
-							pgbbh: this.bbinfo.pgbbh,
-							mxxh: this.questionList[this.questionIndex].mxxh,
-							xh: x
-						})
-						this.questionIndex++;
-						this.mindex = 999;
-					}
-					console.log(this.answerList);
-        }, 300);
+					}, 300);
+				}
 			}
 		}
 	}

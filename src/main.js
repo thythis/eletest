@@ -204,6 +204,10 @@ Vue.http.options.xhr = { withCredentials: true };
 Vue.http.options.emulateJSON = true;
 Vue.config.productionTip = false;
 
+// Vue.directive('chkdata', function (el, binding) {
+//   el.style.backgroundColor = binding.value
+// })
+
 /* eslint-disable no-new */
 new Vue({
   router,
