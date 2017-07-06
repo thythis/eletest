@@ -30,7 +30,7 @@
 									<el-input size="mini" onblur="myblur" v-if="(questionList[questionIndex].lx==3)&&(index<(processNr.length-1))" placeholder="填写" v-model="num[index]"></el-input>
 								</el-tooltip> -->
 								<!-- <el-tooltip  content="点击关闭 tooltip 功能" placement="bottom" effect="light"> -->
-									<input class="blankipt" v-chkdata="{ gz: questionList[questionIndex].mxList?questionList[questionIndex].mxList[index].gz:questionList[questionIndex].gz }" v-if="(questionList[questionIndex].lx==3)&&(index<(processNr.length-1))" placeholder="填写" v-model="num[index]" />
+									<input class="blankipt" v-chkdata="{ gz: questionList[questionIndex].mxList?questionList[questionIndex].mxList[index].gz:questionList[questionIndex].gz }" v-if="index<(processNr.length-1)" placeholder="填写" v-model="num[index]" />
 								<!-- </el-tooltip> -->
 							</span>
 						</p>
@@ -50,7 +50,7 @@
 					<div class="list-item" v-for="(item, index) in answerList">
 						<span class="qbh">{{item.mxxh}}</span>
 						<span class="qnr">{{item.tmnr}}</span>
-						<span class="answer">{{item.xh}}</span>
+						<span class="answer">{{item.lx==1?item.xxnr:item.xh}}</span>
 					</div>
 					<button class="sub-btn" v-if="questionList[0].bbpgbid!=null?!subflag:subflag" @click="subsurvey" v-loading.fullscreen.lock="fullscreenLoading">
 						提交评测
@@ -103,6 +103,7 @@
 								let num = parseInt(el.value);
 								arr[0] = parseInt(arr[0]);
 								arr[1] = parseInt(arr[1]);
+								console.log(el.style);
 								if((!el.value.match(/^\d+$/)) || ((num < arr[0]) || (num > arr[1]))) {
 									el.value = "";
 									el.focus();
@@ -293,6 +294,8 @@
 					this.answerList.push({
 						pgbbh: this.bbinfo.pgbbh,
 						mxxh: this.questionList[this.questionIndex].mxxh,
+						lx: this.questionList[this.questionIndex].lx,
+						tmnr: this.questionList[this.questionIndex].nr,
 						xh: str
 					})
 					this.xhlist.length = 0;
@@ -306,6 +309,8 @@
 						this.answerList.push({
 							pgbbh: this.bbinfo.pgbbh,
 							mxxh: mxxh,
+							lx: this.questionList[this.questionIndex].lx,
+							tmnr: this.questionList[this.questionIndex].nr||this.questionList[this.questionIndex].mxList[i].nr,
 							xh: this.num[i]
 						})
 					}
@@ -331,6 +336,9 @@
 							this.answerList.push({
 								pgbbh: this.bbinfo.pgbbh,
 								mxxh: this.questionList[this.questionIndex].mxxh,
+								lx: this.questionList[this.questionIndex].lx,
+								tmnr: this.questionList[this.questionIndex].nr,
+								xxnr: this.questionList[this.questionIndex].xxlist[index].nr,
 								xh: x
 							});
 							this.rflag = true;
@@ -338,8 +346,10 @@
 						} else {
 							this.answerList.push({
 								pgbbh: this.bbinfo.pgbbh,
-								tmnr: this.questionList[this.questionIndex].nr,
 								mxxh: this.questionList[this.questionIndex].mxxh,
+								lx: this.questionList[this.questionIndex].lx,
+								tmnr: this.questionList[this.questionIndex].nr,
+								xxnr: this.questionList[this.questionIndex].xxlist[index].nr,
 								xh: x
 							});
 							if(gz&&(gz[0] != "")) {
