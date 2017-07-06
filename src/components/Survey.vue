@@ -26,7 +26,12 @@
 							<span v-if="(questionList[questionIndex].lx==1)||(questionList[questionIndex].lx==2)||(!questionList[questionIndex].lx)">{{questionList[questionIndex].nr}}</span>
 							<span v-for="(item,index) in processNr" v-if="questionList[questionIndex].lx==3">
 								{{item}}
-								<el-input v-if="(questionList[questionIndex].lx==3)&&(index<(processNr.length-1))" size="mini" placeholder="填写" v-model="num[index]"></el-input>
+								<!-- <el-tooltip :disabled="showtip" :content="item" placement="bottom" effect="light">
+									<el-input size="mini" onblur="myblur" v-if="(questionList[questionIndex].lx==3)&&(index<(processNr.length-1))" placeholder="填写" v-model="num[index]"></el-input>
+								</el-tooltip> -->
+								<!-- <el-tooltip  content="点击关闭 tooltip 功能" placement="bottom" effect="light"> -->
+									<input class="blankipt" v-chkdata="{ gz: questionList[questionIndex].mxList?questionList[questionIndex].mxList[index].gz:questionList[questionIndex].gz }" v-if="(questionList[questionIndex].lx==3)&&(index<(processNr.length-1))" placeholder="填写" v-model="num[index]" />
+								<!-- </el-tooltip> -->
 							</span>
 						</p>
 						<el-button v-if="(questionList[questionIndex].lx==3)||(questionList[questionIndex].lx==2)" type="primary" @click="next(questionList[questionIndex].lx)">下一题</el-button>
@@ -88,6 +93,27 @@
 			}
 			this.getTest();
 		},
+		directives: {
+			chkdata: {
+				inserted: function (el, binding) {
+						let gz = binding.value.gz;
+						el.onblur = function() {
+							if(gz) {
+								let arr = gz.split('-');
+								let num = parseInt(el.value);
+								arr[0] = parseInt(arr[0]);
+								arr[1] = parseInt(arr[1]);
+								if((!el.value.match(/^\d+$/)) || ((num < arr[0]) || (num > arr[1]))) {
+									el.value = "";
+									el.focus();
+								} else {
+
+								}
+							}
+						}
+        }
+			}
+		},
 		data() {
 			return {
 				hqpgbmx,
@@ -110,7 +136,6 @@
 				questionIndex: 0,
 				percentrate: 0,
 				choice: "",
-				percent: 0,
 				blanks: "___",
 				num: [],
 				answerList: [],
@@ -118,6 +143,18 @@
 			}
 		},
 		computed: {
+			percent: function() {
+				return this.questionIndex * this.percentrate;
+			},
+			showtip: function() {
+				for (var i = 0; i < this.num.length; i++) {
+					if(this.num[i].match(/^\d+$/)) {
+						this.num[i] = "";
+						return true;
+					}
+				}
+				return false;
+			},
 			processNr: function() {
 				if(this.questionList[this.questionIndex].mxList) {
 					var arr = [];
@@ -138,6 +175,9 @@
 			}
 		},
 		methods: {
+			myblur() {
+				console.log('thhhhhh');
+			},
 			getTest() {
 				var objstr = JSON.stringify({
 					pgbbh: this.bbinfo.pgbbh
@@ -183,7 +223,6 @@
 				console.log(this.bbinfo.bbpgbid);
 				var objjjj = JSON.stringify({
 		      yhid: myfun.fetch().yhid,
-		      // bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
 					bbpgbid: this.bbinfo.bbpgbid
 		    });
 		    this.$http.post(this.getReport,objjjj).then(function(response){
@@ -289,7 +328,6 @@
 					setTimeout(() => {
 						if(this.questionIndex == (this.questionList.length - 1)) {
 							console.log(this.questionIndex);
-							this.percent += this.percentrate;
 							this.answerList.push({
 								pgbbh: this.bbinfo.pgbbh,
 								mxxh: this.questionList[this.questionIndex].mxxh,
@@ -298,7 +336,6 @@
 							this.rflag = true;
 							return;
 						} else {
-							this.percent += this.percentrate;
 							this.answerList.push({
 								pgbbh: this.bbinfo.pgbbh,
 								tmnr: this.questionList[this.questionIndex].nr,
@@ -311,14 +348,15 @@
 									if(x == arr[0]) {
 										if(arr[1] == "end") {
 											this.questionIndex = this.questionList.length - 1;
-											break;
+											return;
 										} else {
 											var skipIndex = this.questionListMap.get(arr[1]);
 											this.questionIndex = this.mxxhMap.get(skipIndex);
-											break;
+											return;
 										}
 									}
 								}
+								this.questionIndex++;
 							} else {
 								this.questionIndex++;
 							}
@@ -466,6 +504,15 @@
 				}
 				.question-panel {
 					padding: 0 30px 55px 25px;
+					.blankipt {
+						width: 50px;
+						outline: none;
+						border-radius: 5px;
+						text-align: center;
+						&:focus {
+							border: 1px solid #4fc1e9;
+						}
+					}
 					p {
 						line-height: 32px;
 						font-size: 16px;

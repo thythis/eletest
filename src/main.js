@@ -205,7 +205,7 @@ Vue.http.options.emulateJSON = true;
 Vue.config.productionTip = false;
 
 // Vue.directive('chkdata', function (el, binding) {
-//   el.style.backgroundColor = binding.value
+//   console.log(binding.value.gz);
 // })
 
 /* eslint-disable no-new */
