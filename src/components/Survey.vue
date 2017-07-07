@@ -29,9 +29,9 @@
 								<!-- <el-tooltip :disabled="showtip" :content="item" placement="bottom" effect="light">
 									<el-input size="mini" onblur="myblur" v-if="(questionList[questionIndex].lx==3)&&(index<(processNr.length-1))" placeholder="填写" v-model="num[index]"></el-input>
 								</el-tooltip> -->
-								<!-- <el-tooltip  content="点击关闭 tooltip 功能" placement="bottom" effect="light"> -->
+								<el-tooltip :content="gzinfo[index]" placement="bottom" effect="light">
 									<input class="blankipt" v-chkdata="{ gz: questionList[questionIndex].mxList?questionList[questionIndex].mxList[index].gz:questionList[questionIndex].gz }" v-if="index<(processNr.length-1)" placeholder="填写" v-model="num[index]" />
-								<!-- </el-tooltip> -->
+								</el-tooltip>
 							</span>
 						</p>
 						<el-button v-if="(questionList[questionIndex].lx==3)||(questionList[questionIndex].lx==2)" type="primary" @click="next(questionList[questionIndex].lx)">下一题</el-button>
@@ -49,8 +49,8 @@
 				<div class="resoult-panel" v-if="rflag">
 					<div class="list-item" v-for="(item, index) in answerList">
 						<span class="qbh">{{item.mxxh}}</span>
-						<span class="qnr">{{item.tmnr}}</span>
-						<span class="answer">{{item.lx==1?item.xxnr:item.xh}}</span>
+						<span class="qnr">{{item.tmnr||item.nr}}</span>
+						<span class="answer">{{item.lx?(item.lx==1?item.xxnr:item.xh):item.xxnr}}</span>
 					</div>
 					<button class="sub-btn" v-if="questionList[0].bbpgbid!=null?!subflag:subflag" @click="subsurvey" v-loading.fullscreen.lock="fullscreenLoading">
 						提交评测
@@ -103,7 +103,6 @@
 								let num = parseInt(el.value);
 								arr[0] = parseInt(arr[0]);
 								arr[1] = parseInt(arr[1]);
-								console.log(el.style);
 								if((!el.value.match(/^\d+$/)) || ((num < arr[0]) || (num > arr[1]))) {
 									el.value = "";
 									el.focus();
@@ -139,6 +138,8 @@
 				choice: "",
 				blanks: "___",
 				num: [],
+				gzinfo: [],
+				showtip: [],
 				answerList: [],
 				xhlist: []
 			}
@@ -147,22 +148,32 @@
 			percent: function() {
 				return this.questionIndex * this.percentrate;
 			},
-			showtip: function() {
-				for (var i = 0; i < this.num.length; i++) {
-					if(this.num[i].match(/^\d+$/)) {
-						this.num[i] = "";
-						return true;
-					}
-				}
-				return false;
-			},
+			// showtip: function() {
+			// 	for (var i = 0; i < this.num.length; i++) {
+			// 		if(this.num[i].match(/^\d+$/)) {
+			// 			this.num[i] = "";
+			// 			return true;
+			// 		}
+			// 	}
+			// 	return false;
+			// },
 			processNr: function() {
 				if(this.questionList[this.questionIndex].mxList) {
 					var arr = [];
 					for (var i = 0; i < this.questionList[this.questionIndex].mxList.length; i++) {
 						arr.push(this.questionList[this.questionIndex].mxList[i].nr);
+						if(this.questionList[this.questionIndex].mxList[i].gz) {
+							this.gzinfo[i] = this.questionList[this.questionIndex].mxList[i].gz;
+						} else {
+							this.gzinfo[i] = "任意填写"
+						}
 					}
 					return arr.join('').split("XXX");
+				}
+				if(this.questionList[this.questionIndex].gz) {
+					this.gzinfo[0] = this.questionList[this.questionIndex].gz;
+				} else {
+					this.gzinfo[0] = "任意填写"
 				}
 				return this.questionList[this.questionIndex].nr.split("XXX");
 			},
@@ -185,6 +196,7 @@
 				});
 				this.$http.post(this.hqpgbmx, objstr).then(function(response){
 					console.log(response);
+					this.questionList = response.body.results;
 					if(response.body.results[0].lx == 4) {
 						this.$http.post("/baseurl/" + response.body.results[0].jsdz).then(function(response) {
 							console.log(response);
@@ -198,16 +210,9 @@
 				})
 			},
 			retest() {
-				var objstr = JSON.stringify({
-		      pgbbh: this.bbinfo.pgbbh
-		    });
-		    this.$http.post(this.hqpgbmx, objstr).then(function(response){
-		      console.log(response);
-					if(response.body.results[0].lx == 4) {
-						response.body.results.splice(0,1);
-					} else {
+					if(this.questionList[0].lx == 4) {
+						this.questionList.splice(0,1);
 					}
-					this.questionList = response.body.results;
 					for (var i = 0; i < this.questionList.length; i++) {
 						this.questionListMap.set(this.questionList[i].nbbh, this.questionList[i].mxxh);
 						this.mxxhMap.set(this.questionList[i].mxxh, i);
@@ -216,9 +221,6 @@
 					this.showopt = false;
 					this.rflag = false;
 					this.showbox = true;
-		    }, function(response) {
-		      console.log('fail');
-		    })
 			},
 			showRst() {
 				console.log(this.bbinfo.bbpgbid);
@@ -243,9 +245,10 @@
 		    });
 		    this.$http.post(this.bbpgbxq,objjjj).then(function(response){
 		      console.log(response);
-					this.questionList = response.body.results;
+					this.answerList = response.body.results;
 					this.showbox = true;
 					this.rflag = true;
+					this.subflag = false;
 		    }, function(response){
 		        console.log('fail');
 		    });
@@ -332,7 +335,6 @@
 				} else if((lx == 1)||!lx) {
 					setTimeout(() => {
 						if(this.questionIndex == (this.questionList.length - 1)) {
-							console.log(this.questionIndex);
 							this.answerList.push({
 								pgbbh: this.bbinfo.pgbbh,
 								mxxh: this.questionList[this.questionIndex].mxxh,

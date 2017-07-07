@@ -124,7 +124,6 @@ export default {
     Survey
   },
   mounted() {
-    console.log('此处不需要点击就回运行')
     var objjjj = JSON.stringify({
       yhid: myfun.fetch().yhid,
       bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
@@ -134,13 +133,13 @@ export default {
     this.$http.post(this.getTC, objjjj).then(function(response){
       this.reqloading = false;
       this.pgblist = response.body.results;
-      console.log(response);
+      // console.log(response);
     }, function(response) {
       this.loading = false;
       console.log('fail');
     })
 
-    this.$store.commit('bblist',this.pgblist)
+    // this.$store.commit('bblist',this.pgblist)
   },
   computed: {
     requestTc() {
@@ -166,7 +165,7 @@ export default {
       this.$http.post(this.getTC, objjjj).then(function(response){
         this.loading = false;
         this.pgblist = response.body.results;
-        console.log(response);
+        // console.log(response);
       }, function(response) {
         this.loading = false;
         console.log('fail');

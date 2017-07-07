@@ -83,6 +83,8 @@
 
 <script>
   import desc from '../assets/img/desc.png'
+	import {regUrl, getYzm} from '@/config/env'
+	import md5 from 'js-md5';
   import HeaderBar from '../components/HeaderBar.vue';
   export default {
     components: {
@@ -167,12 +169,15 @@
         imgData: {
           desc: desc
         },
+				regUrl,
+				getYzm,
 				showproto: false,
         txt: 'thy',
         ruleForm2: {
           pass: '',
           checkPass: '',
           phone: '',
+					dxid: 0,
           msgcode: '',
           checked: true
         },
@@ -194,39 +199,60 @@
     },
     methods: {
       submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            this.$notify({
-              title: '恭喜您！',
-              message: '注册成功',
-              type: 'success'
-            });
-          } else {
-            this.$notify({
-              title: '注册失败',
-              type: 'error'
-            });
-            return false;
-          }
-        });
+				var encrymm = md5(this.ruleForm2.pass);
+				var obj = {
+					sjh: this.ruleForm2.phone,
+					mm: encrymm,
+					dxid: this.ruleForm2.dxid,
+					yzm: this.ruleForm2.msgcode
+				}
+				var objstr = JSON.stringify(obj);
+
+				this.$http.post(this.regUrl, objstr).then(function(response){
+						console.log(response);
+				}, function(response){
+						console.log('fail');
+				});
+
+        // this.$refs[formName].validate((valid) => {
+        //   if (valid) {
+        //     this.$notify({
+        //       title: '恭喜您！',
+        //       message: '注册成功',
+        //       type: 'success'
+        //     });
+        //   } else {
+        //     this.$notify({
+        //       title: '注册失败',
+        //       type: 'error'
+        //     });
+        //     return false;
+        //   }
+        // });
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
       },
       openProto() {
 				this.showproto = true;
-        // this.$alert('这是一段内容这是一段内容这是一段内容这是一段内容这是一段内容这是一段内容这是一段内容这是一段内容这是一段内容这是一段内容这是一段内容这是一段内容这是一段内容这是一段内容', '卫宝贝用户许可协议', {
-        //   confirmButtonText: '同意',
-        //   callback: action => {
-        //   }
-        // });
       },
       sendCode() {
-        this.$message({
-          message: '验证码已发送',
-          type: 'info',
-          duration: 2000
-        })
+				var obj = {
+					sjh: this.ruleForm2.phone
+				}
+				var objstr = JSON.stringify(obj);
+
+				this.$http.post(this.getYzm, objstr).then(function(response){
+						console.log(response);
+						this.ruleForm2.dxid = response.body.dxid;
+				}, function(response){
+						console.log('fail');
+				});
+        // this.$message({
+        //   message: '验证码已发送',
+        //   type: 'info',
+        //   duration: 2000
+        // })
       },
       golog() {
       	this.$router.push({path:'/login'})

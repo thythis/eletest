@@ -36,9 +36,10 @@
 	              <el-input type="password" v-model="ruleForm2.pass"  placeholder="请输入密码">
 	              	<template slot="prepend"><i class="iconfont icon-lock"></i></template>
 	              </el-input>
-
+								<div class="forgetmm">
+									<router-link to="forget">忘记密码</router-link>
+								</div>
 	              <el-button type="success" size="large" class="log-btn" @click="login" v-loading.fullscreen.lock="fullscreenLoading">登录</el-button>
-
 	          </el-form>
 		    </el-col>
 		  </el-row>
@@ -129,9 +130,8 @@
 				}
 				var objstr = JSON.stringify(obj);
 				//18664378720
-				this.$http.post(this.loginUrl,objstr).then(function(response){
+				this.$http.post("/logurl/phone/login",objstr).then(function(response){
 						this.fullscreenLoading = false;
-						console.log(response.body);
 						if(response.body.code == "1") {
 							var items = {
 								yhsjh: this.ruleForm2.phone,
@@ -281,8 +281,22 @@
     margin-bottom: 24px;
   }
 
+	.forgetmm {
+		/*margin-top: 5px;*/
+
+		display: flex;
+		width: 80%;
+		margin: 5px auto 0 auto;
+		justify-content: flex-end;
+	}
+
+	.forgetmm a {
+		color: #4fc1e9;
+		text-decoration: underline;
+	}
+
   .log-btn {
-  	margin-top: 30px;
+  	margin-top: 25px;
   	margin-bottom: 10px;
   	width: 80%;
   }

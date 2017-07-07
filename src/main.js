@@ -136,6 +136,10 @@ const routes = [{
 		{
 			path: '/login',
 			component: resolve => require(['./views/Login'], resolve)
+		},
+		{
+			path: '/forget',
+			component: resolve => require(['./views/forget'], resolve)
 		}
 	]
 },{
