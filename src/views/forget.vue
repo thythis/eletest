@@ -22,10 +22,10 @@
 		            </el-form-item>
 		            <el-form-item label="短信验证码" prop="msgcode">
 		              <el-input v-model.number="ruleForm2.msgcode"  placeholder="请输入短信验证码" class="msg-code"></el-input>
-		              <el-button  type="success" @click="sendCode">获取短信验证码</el-button>
+		              <el-button  type="success" :disabled="yzmflag" @click="sendCode">获取短信验证码</el-button>
 		            </el-form-item>
 		            <el-form-item>
-		              <el-button class="sub-btn" type="primary" size="large" @click="next">下一步</el-button>
+		              <el-button :disabled="nextstep" class="sub-btn" type="primary" size="large" @click="next">下一步</el-button>
 		            </el-form-item>
 		          </el-form>
 		        </el-col>
@@ -38,6 +38,7 @@
 
 <script>
 import HeaderBar from '../components/HeaderBar.vue';
+import {getYzm} from '@/config/env';
 export default {
   components: {
     HeaderBar,
@@ -62,9 +63,10 @@ export default {
           duration: 1000
         }));
         } else {
+          this.yzmflag = false;
           callback();
         }
-      }, 1000);
+      }, 300);
     };
     var checkMsg = (rule, value, callback) => {
       if (!value) {
@@ -82,9 +84,10 @@ export default {
           duration: 1000
         }));
         } else {
+          this.nextstep = false;
           callback();
         }
-      }, 1000);
+      }, 300);
     };
     var validatePass = (rule, value, callback) => {
       if (value === '') {
@@ -118,7 +121,9 @@ export default {
       }
     };
     return {
-      showproto: false,
+      getYzm,
+      nextstep: true,
+      yzmflag: true,
       active: 0,
       txt: 'thy',
       ruleForm2: {
@@ -163,11 +168,30 @@ export default {
       });
     },
     sendCode() {
-      this.$message({
-        message: '验证码已发送',
-        type: 'info',
-        duration: 2000
-      })
+      var obj = {
+        sjh: this.ruleForm2.phone
+      }
+      var objstr = JSON.stringify(obj);
+
+      this.$http.post(this.getYzm, objstr).then(function(response){
+          console.log(response);
+          if(response.body.code == 1) {
+            this.ruleForm2.dxid = response.body.dxid;
+            this.$message({
+              message: '验证码已发送',
+              type: 'info',
+              duration: 2000
+            })
+          } else {
+            this.$message({
+              message: response.body.message,
+              type: 'error',
+              duration: 2000
+            })
+          }
+      }, function(response){
+          console.log('fail');
+      });
     },
     next() {
       if (this.active++ > 2) this.active = 0;

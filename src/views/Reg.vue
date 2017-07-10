@@ -17,7 +17,7 @@
 		            </el-form-item>
 		            <el-form-item label="短信验证码" prop="msgcode">
 		              <el-input v-model.number="ruleForm2.msgcode"  placeholder="请输入短信验证码" class="msg-code"></el-input>
-		              <el-button  type="success" @click="sendCode">获取短信验证码</el-button>
+		              <el-button  type="success" :disabled="yzmflag" @click="sendCode">{{yzmtxt | change}}</el-button>
 		            </el-form-item>
 		            <el-form-item label="密码" prop="pass">
 		              <el-input type="password" v-model="ruleForm2.pass" placeholder="请输入密码" auto-complete="off"></el-input>
@@ -29,7 +29,7 @@
 		              <el-checkbox v-model="ruleForm2.checked">我已阅读并同意</el-checkbox><span class="aoi" @click="openProto">《卫宝贝用户许可协议》</span>
 		            </el-form-item>
 		            <el-form-item>
-		              <el-button class="sub-btn" type="primary" size="large" @click="submitForm('ruleForm2')">注册</el-button>
+		              <el-button class="sub-btn" type="primary" size="large" :disabled="subflag" @click="submitForm('ruleForm2')">注册</el-button>
 		              <el-button @click="resetForm('ruleForm2')">重置</el-button>
 		            </el-form-item>
 		          </el-form>
@@ -110,9 +110,10 @@
             duration: 1000
           }));
           } else {
+						this.yzmflag = false;
             callback();
           }
-        }, 1000);
+        }, 300);
       };
       var checkMsg = (rule, value, callback) => {
         if (!value) {
@@ -162,6 +163,7 @@
             duration: 1000
           }));
         } else {
+					this.subflag = false;
           callback();
         }
       };
@@ -172,7 +174,10 @@
 				regUrl,
 				getYzm,
 				showproto: false,
+				subflag: true,
+				yzmflag: false,
         txt: 'thy',
+				yzmtxt: '获取短信验证码',
         ruleForm2: {
           pass: '',
           checkPass: '',
@@ -202,6 +207,7 @@
 				var encrymm = md5(this.ruleForm2.pass);
 				var obj = {
 					sjh: this.ruleForm2.phone,
+					lx: 4,
 					mm: encrymm,
 					dxid: this.ruleForm2.dxid,
 					yzm: this.ruleForm2.msgcode
@@ -210,23 +216,24 @@
 
 				this.$http.post(this.regUrl, objstr).then(function(response){
 						console.log(response);
+						if(response.body.code == 1) {
+							this.$confirm('注册成功！', '提示', {
+								confirmButtonText: '确定',
+								type: 'success'
+							})
+						} else {
+							this.$confirm(response.body.message, '提示', {
+			          confirmButtonText: '确定',
+			          type: 'warning'
+			        })
+						}
 				}, function(response){
 						console.log('fail');
 				});
 
         // this.$refs[formName].validate((valid) => {
         //   if (valid) {
-        //     this.$notify({
-        //       title: '恭喜您！',
-        //       message: '注册成功',
-        //       type: 'success'
-        //     });
-        //   } else {
-        //     this.$notify({
-        //       title: '注册失败',
-        //       type: 'error'
-        //     });
-        //     return false;
+        //     this.subflag = false;
         //   }
         // });
       },
@@ -244,20 +251,48 @@
 
 				this.$http.post(this.getYzm, objstr).then(function(response){
 						console.log(response);
-						this.ruleForm2.dxid = response.body.dxid;
+						if(response.body.code == 1) {
+							this.ruleForm2.dxid = response.body.dxid;
+							this.$message({
+							  message: '验证码已发送',
+							  type: 'info',
+							  duration: 2000
+							});
+							this.yzmflag = true;
+							this.yzmtxt = 10;
+							let time = setInterval(() => {
+								this.yzmtxt--;
+			          if(this.yzmtxt == 0) {
+									this.yzmtxt = '重新发送';
+									this.yzmflag = false;
+									clearInterval(time);
+								}
+			        }, 1000);
+						} else {
+							this.$message({
+							  message: response.body.message,
+							  type: 'error',
+							  duration: 2000
+							})
+						}
 				}, function(response){
 						console.log('fail');
 				});
-        // this.$message({
-        //   message: '验证码已发送',
-        //   type: 'info',
-        //   duration: 2000
-        // })
       },
       golog() {
       	this.$router.push({path:'/login'})
       }
-    }
+    },
+		filters: {
+			change(value) {
+				 if(!value) return "";
+	       if(!isNaN(value)){
+						return `重新发送(${value}S)`;
+	       }else{
+	           return value;
+	       }
+			}
+		}
   }
 </script>
 

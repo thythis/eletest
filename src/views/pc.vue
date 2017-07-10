@@ -18,7 +18,7 @@
                 <div class="photo" @click="changebb">
                 </div>
                 <span class="account">{{yhsjh}}</span>
-                <span class="bbname">{{bbList[bbindex].mc}}</span>
+                <span class="bbname" v-if="bbList.length>0">{{bbList[bbindex].mc}}</span>
               </div>
               <el-tooltip :value="fstep" :manual="true" content="添加或编辑宝宝资料" placement="left">
                 <el-menu-item index="1" @click="gobaby(1)"><i class="el-icon-message"></i>宝贝管理</el-menu-item>

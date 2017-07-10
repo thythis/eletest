@@ -29,7 +29,7 @@
 								<!-- <el-tooltip :disabled="showtip" :content="item" placement="bottom" effect="light">
 									<el-input size="mini" onblur="myblur" v-if="(questionList[questionIndex].lx==3)&&(index<(processNr.length-1))" placeholder="填写" v-model="num[index]"></el-input>
 								</el-tooltip> -->
-								<el-tooltip :content="gzinfo[index]" placement="bottom" effect="light">
+								<el-tooltip :disabled="showtip[index]" :content="gzinfo[index]" placement="bottom" effect="light">
 									<input class="blankipt" v-chkdata="{ gz: questionList[questionIndex].mxList?questionList[questionIndex].mxList[index].gz:questionList[questionIndex].gz }" v-if="index<(processNr.length-1)" placeholder="填写" v-model="num[index]" />
 								</el-tooltip>
 							</span>
@@ -48,7 +48,7 @@
 				</div>
 				<div class="resoult-panel" v-if="rflag">
 					<div class="list-item" v-for="(item, index) in answerList">
-						<span class="qbh">{{item.mxxh}}</span>
+						<span class="qbh">{{item.nbbh||item.mxxh}}</span>
 						<span class="qnr">{{item.tmnr||item.nr}}</span>
 						<span class="answer">{{item.lx?(item.lx==1?item.xxnr:item.xh):item.xxnr}}</span>
 					</div>
@@ -105,7 +105,6 @@
 								arr[1] = parseInt(arr[1]);
 								if((!el.value.match(/^\d+$/)) || ((num < arr[0]) || (num > arr[1]))) {
 									el.value = "";
-									el.focus();
 								} else {
 
 								}
@@ -130,6 +129,7 @@
 				showbox: false,
 				showopt: true,
 				rflag: false,
+				showtip: [],
 				questionList: [],
 				questionListMap: new Map(),
 				mxxhMap: new Map(),
@@ -139,7 +139,6 @@
 				blanks: "___",
 				num: [],
 				gzinfo: [],
-				showtip: [],
 				answerList: [],
 				xhlist: []
 			}
@@ -163,17 +162,20 @@
 					for (var i = 0; i < this.questionList[this.questionIndex].mxList.length; i++) {
 						arr.push(this.questionList[this.questionIndex].mxList[i].nr);
 						if(this.questionList[this.questionIndex].mxList[i].gz) {
+							this.showtip[i] = false;
 							this.gzinfo[i] = this.questionList[this.questionIndex].mxList[i].gz;
 						} else {
-							this.gzinfo[i] = "任意填写"
+							this.showtip[i] = true;
 						}
 					}
 					return arr.join('').split("XXX");
 				}
 				if(this.questionList[this.questionIndex].gz) {
+					console.log(this.questionIndex);
+					this.showtip[i] = false;
 					this.gzinfo[0] = this.questionList[this.questionIndex].gz;
 				} else {
-					this.gzinfo[0] = "任意填写"
+					this.showtip[i] = true;
 				}
 				return this.questionList[this.questionIndex].nr.split("XXX");
 			},
@@ -257,7 +259,7 @@
 				this.fullscreenLoading = true;
 				var objstr = JSON.stringify({
 					yhid: myfun.fetch().yhid,
-					bbid: myfun.fetch().bbList[26].bbid,
+					bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
 		      pgbbh: this.bbinfo.pgbbh,
 					kh: this.bbinfo.kh,
 					xxlist: this.answerList
@@ -297,6 +299,7 @@
 					this.answerList.push({
 						pgbbh: this.bbinfo.pgbbh,
 						mxxh: this.questionList[this.questionIndex].mxxh,
+						nbbh: this.questionList[this.questionIndex].nbbh,
 						lx: this.questionList[this.questionIndex].lx,
 						tmnr: this.questionList[this.questionIndex].nr,
 						xh: str
@@ -306,12 +309,15 @@
 					for (var i = 0; i < this.num.length; i++) {
 						if(this.questionList[this.questionIndex].mxList) {
 							var mxxh = this.questionList[this.questionIndex].mxList[i].mxxh;
+							var nbbh = this.questionList[this.questionIndex].mxList[i].nbbh;
 						} else {
 							var mxxh = this.questionList[this.questionIndex].mxxh;
+							var nbbh = this.questionList[this.questionIndex].nbbh;
 						}
 						this.answerList.push({
 							pgbbh: this.bbinfo.pgbbh,
 							mxxh: mxxh,
+							nbbh: nbbh,
 							lx: this.questionList[this.questionIndex].lx,
 							tmnr: this.questionList[this.questionIndex].nr||this.questionList[this.questionIndex].mxList[i].nr,
 							xh: this.num[i]
@@ -338,6 +344,7 @@
 							this.answerList.push({
 								pgbbh: this.bbinfo.pgbbh,
 								mxxh: this.questionList[this.questionIndex].mxxh,
+								nbbh: this.questionList[this.questionIndex].nbbh,
 								lx: this.questionList[this.questionIndex].lx,
 								tmnr: this.questionList[this.questionIndex].nr,
 								xxnr: this.questionList[this.questionIndex].xxlist[index].nr,
@@ -349,6 +356,7 @@
 							this.answerList.push({
 								pgbbh: this.bbinfo.pgbbh,
 								mxxh: this.questionList[this.questionIndex].mxxh,
+								nbbh: this.questionList[this.questionIndex].nbbh,
 								lx: this.questionList[this.questionIndex].lx,
 								tmnr: this.questionList[this.questionIndex].nr,
 								xxnr: this.questionList[this.questionIndex].xxlist[index].nr,
@@ -456,7 +464,7 @@
 					.qnr {
 						display: inline-block;
 						float: left;
-						width: 75%;
+						width: 70%;
 						height: 28px;
 						line-height: 28px;
 						overflow: hidden;
@@ -465,9 +473,13 @@
 					}
 					.answer {
 						display: inline-block;
+						width: 40px;
 						height: 28px;
 						line-height: 28px;
 						margin-left: 20px;
+						overflow: hidden;
+						text-overflow:ellipsis;
+						white-space: nowrap;
 					}
 				}
 				.sub-btn {

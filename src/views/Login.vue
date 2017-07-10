@@ -130,7 +130,7 @@
 				}
 				var objstr = JSON.stringify(obj);
 				//18664378720
-				this.$http.post("/logurl/phone/login",objstr).then(function(response){
+				this.$http.post(this.loginUrl,objstr).then(function(response){
 						this.fullscreenLoading = false;
 						if(response.body.code == "1") {
 							var items = {
