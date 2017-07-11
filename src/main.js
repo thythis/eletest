@@ -179,6 +179,9 @@ const routes = [{
 },{
 	path: '/baby',
 	component: resolve => require(['./views/Baby'], resolve)
+},{
+	path: '/test',
+	component: resolve => require(['./views/Test'], resolve)
 }
 
 ]

@@ -172,10 +172,10 @@
 				}
 				if(this.questionList[this.questionIndex].gz) {
 					console.log(this.questionIndex);
-					this.showtip[i] = false;
+					this.showtip[0] = false;
 					this.gzinfo[0] = this.questionList[this.questionIndex].gz;
 				} else {
-					this.showtip[i] = true;
+					this.showtip[0] = true;
 				}
 				return this.questionList[this.questionIndex].nr.split("XXX");
 			},
