@@ -132,11 +132,13 @@
 				//18664378720
 				this.$http.post(this.loginUrl,objstr).then(function(response){
 						this.fullscreenLoading = false;
+						console.log(response);
 						if(response.body.code == "1") {
 							var items = {
 								yhsjh: this.ruleForm2.phone,
 								yhid: response.body.yhid,
 								token: response.body.token,
+								mm: response.body.mm,
 								currenbaby: 0,
 								bbList: response.body.bbList
 							}

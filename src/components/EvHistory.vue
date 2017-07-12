@@ -51,6 +51,7 @@
             filter-placement="bottom-end">
             <template scope="scope">
               <el-tag
+                v-if="scope.row.jg?true:false"
                 :type="scope.row.jg == '1' ? 'success' : 'warning'"
                 close-transition>{{scope.row.jg == '1' ? '正常' : (scope.row.jg == '2'?'可疑':'')}}</el-tag>
             </template>

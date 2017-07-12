@@ -4,14 +4,19 @@
  * routerMode: 路由模式
  *
  */
-let baseUrl = 'http://127.0.0.1:8080/wbaobei';
+let baseUrl = '/baseurl';
+// let baseUrl = 'http://127.0.0.1:8080/wbaobei';
 // let baseUrl = 'http://120.24.213.23:8080/wbaobei';
 let routerMode = 'history';
 // let loginUrl = baseUrl + '/phone/login';
 // let loginUrl = '/logurl/phone/login';
 let loginUrl = baseUrl + '/phone/login';
 let regUrl = baseUrl + '/phone/register';
+let getProtocol = '/getIntr/html/protocol.html';
 let getYzm = baseUrl + '/phone/hqyzm';
+let getYzmzhmm = baseUrl + '/phone/hqyzmzhmm';
+let zhmmUrl = baseUrl + '/phone/zhmm';
+let changepwd = baseUrl + '/phone/xgmm';
 let getRecord = baseUrl + '/phone/pgbrecord';
 let getReport = baseUrl + '/phone/report';
 let getTC = baseUrl + '/phone/tc';
@@ -34,7 +39,11 @@ export {
 	baseImgPath,
   loginUrl,
 	regUrl,
+	getProtocol,
 	getYzm,
+	getYzmzhmm,
+	zhmmUrl,
+	changepwd,
   getRecord,
   getReport,
   getTC,

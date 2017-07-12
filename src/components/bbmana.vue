@@ -42,7 +42,7 @@
           >
           <template scope="scope">
             <div slot="reference" class="name-wrapper">
-              <el-tag>{{ scope.row.bjh }}</el-tag>
+              <el-tag v-if="scope.row.bjh?true:false">{{ scope.row.bjh }}</el-tag>
             </div>
           </template>
         </el-table-column>

@@ -30,6 +30,7 @@
                 <el-menu-item index="3" @click="gobaby(3)"><i class="el-icon-search"></i>健康评估表</el-menu-item>
               </el-tooltip>
               <el-menu-item index="4" @click="gobaby(4)"><i class="el-icon-time"></i>评估历史</el-menu-item>
+              <el-menu-item index="5" @click="gobaby(5)"><i class="el-icon-setting"></i>修改密码</el-menu-item>
             </el-menu>
           </el-col>
           <el-col :span="19" class="nr-panel">
@@ -112,6 +113,8 @@ export default {
         this.$router.push('/fittest')
       } else if(index == 4) {
         this.$router.push('/history')
+      } else if(index == 5) {
+        this.$router.push('/changepwd')
       }
     }
   }

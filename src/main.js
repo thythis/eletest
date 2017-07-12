@@ -168,6 +168,9 @@ const routes = [{
 		},{
 			path: '/fittest',
 			component: resolve => require(['./components/FitTest.vue'], resolve)
+		},{
+			path: '/changepwd',
+			component: resolve => require(['./components/changepwd.vue'], resolve)
 		}
 	]
 },{
@@ -179,9 +182,6 @@ const routes = [{
 },{
 	path: '/baby',
 	component: resolve => require(['./views/Baby'], resolve)
-},{
-	path: '/test',
-	component: resolve => require(['./views/Test'], resolve)
 }
 
 ]

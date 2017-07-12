@@ -11,18 +11,24 @@
 		    <el-col :xs="24" :sm="20" :md="18" :lg="14" class="bg-white">
 		      <div class="form-banner">
 		        <div class="fb-outline">
-		          <span>验证手机</span>
+		          <span>{{resetpass?'重置密码':'验证手机'}}</span>
 		        </div>
 		      </div>
 		      <el-row class="pt60">
 		        <el-col :xs="24" :sm="14" :md="13" :lg="12" class="pl70">
 		          <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="right" label-width="100px" class="demo-ruleForm">
-		            <el-form-item label="手机号" prop="phone" class="clearfix">
+		            <el-form-item label="手机号" prop="phone" class="clearfix"  v-if="!resetpass">
 		              <el-input v-model.number="ruleForm2.phone"  placeholder="请输入手机号"></el-input>
 		            </el-form-item>
-		            <el-form-item label="短信验证码" prop="msgcode">
+		            <el-form-item label="短信验证码" prop="msgcode"  v-if="!resetpass">
 		              <el-input v-model.number="ruleForm2.msgcode"  placeholder="请输入短信验证码" class="msg-code"></el-input>
-		              <el-button  type="success" :disabled="yzmflag" @click="sendCode">获取短信验证码</el-button>
+		              <el-button  type="success" @click="sendCode" :loading="yzmflag">获取短信验证码</el-button>
+		            </el-form-item>
+                <el-form-item label="新密码" prop="pass" v-if="resetpass">
+		              <el-input type="password" v-model="ruleForm2.pass" placeholder="请输入密码" auto-complete="off"></el-input>
+		            </el-form-item>
+		            <el-form-item label="确认密码" prop="checkPass"  v-if="resetpass">
+		              <el-input type="password" v-model="ruleForm2.checkPass" placeholder="请再次输入密码" auto-complete="off"></el-input>
 		            </el-form-item>
 		            <el-form-item>
 		              <el-button :disabled="nextstep" class="sub-btn" type="primary" size="large" @click="next">下一步</el-button>
@@ -38,7 +44,8 @@
 
 <script>
 import HeaderBar from '../components/HeaderBar.vue';
-import {getYzm} from '@/config/env';
+import {getYzmzhmm, zhmmUrl} from '@/config/env';
+import md5 from 'js-md5';
 export default {
   components: {
     HeaderBar,
@@ -63,7 +70,6 @@ export default {
           duration: 1000
         }));
         } else {
-          this.yzmflag = false;
           callback();
         }
       }, 300);
@@ -117,19 +123,23 @@ export default {
           duration: 1000
         }));
       } else {
+        this.nextstep = false;
         callback();
       }
     };
     return {
-      getYzm,
+      getYzmzhmm,
+      zhmmUrl,
+      resetpass: false,
       nextstep: true,
-      yzmflag: true,
+      yzmflag: false,
       active: 0,
       txt: 'thy',
       ruleForm2: {
         pass: '',
         checkPass: '',
         phone: '',
+        dxid: 0,
         msgcode: '',
         checked: true
       },
@@ -172,11 +182,12 @@ export default {
         sjh: this.ruleForm2.phone
       }
       var objstr = JSON.stringify(obj);
-
-      this.$http.post(this.getYzm, objstr).then(function(response){
+      this.yzmflag = true;
+      this.$http.post(this.getYzmzhmm, objstr).then(function(response){
           console.log(response);
+          this.yzmflag = false;
           if(response.body.code == 1) {
-            this.ruleForm2.dxid = response.body.dxid;
+            this.ruleForm2.dxid = response.body.dxid;//114357
             this.$message({
               message: '验证码已发送',
               type: 'info',
@@ -190,11 +201,57 @@ export default {
             })
           }
       }, function(response){
+          this.yzmflag = false;
           console.log('fail');
       });
     },
     next() {
-      if (this.active++ > 2) this.active = 0;
+      if (this.active > 2) {
+        this.active = 0;
+      }
+      this.active++;
+      if(this.active == 1) {
+        this.resetpass = true;
+        this.nextstep = true;
+      } else if(this.active == 2) {
+        var encrymm = md5(this.ruleForm2.pass);
+				var obj = {
+					sjh: this.ruleForm2.phone,
+					xmm: encrymm,
+					dxid: this.ruleForm2.dxid,
+					yzm: this.ruleForm2.msgcode
+				}
+				var objstr = JSON.stringify(obj);
+
+        this.$http.post(this.zhmmUrl, objstr).then(function(response){
+						console.log(response);
+						if(response.body.code == 1) {
+              this.active++;
+							this.$confirm('重置密码成功！', '提示', {
+								confirmButtonText: '确定',
+								type: 'success'
+							}).then(() => {
+                this.$router.push('/login');
+              })
+						} else {
+							this.$confirm(response.body.message, '提示', {
+			          confirmButtonText: '确定',
+			          type: 'warning'
+			        }).then(() => {
+                this.ruleForm2.pass = '';
+                this.ruleForm2.checkPass = '';
+                this.ruleForm2.phone = '';
+                this.ruleForm2.dxid = 0;
+                this.ruleForm2.msgcode = '';
+                this.active = 0;
+                this.nextstep = true;
+                this.resetpass = false;
+              })
+						}
+				}, function(response){
+						console.log('fail');
+				});
+      }
     }
   }
 }

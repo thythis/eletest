@@ -20,15 +20,16 @@
 						<span><strong>{{questionIndex + 1}}</strong>/{{questionList.length}}</span>
 						<el-progress :percentage="percent" :show-text="false"></el-progress>
 					</div>
-					<div class="question-panel">
+					<div class="intr-page" v-if="questionList[questionIndex].lx==4">
+						<div v-html="testhtml"></div>
+						<el-button  type="primary" @click="next(questionList[questionIndex].lx)" size="large">继续</el-button>
+					</div>
+					<div class="question-panel" v-if="!(questionList[questionIndex].lx==4)">
 						<el-form>
 						<p>{{questionList[questionIndex].nbbh||questionList[questionIndex].mxxh}}、
 							<span v-if="(questionList[questionIndex].lx==1)||(questionList[questionIndex].lx==2)||(!questionList[questionIndex].lx)">{{questionList[questionIndex].nr}}</span>
 							<span v-for="(item,index) in processNr" v-if="questionList[questionIndex].lx==3">
 								{{item}}
-								<!-- <el-tooltip :disabled="showtip" :content="item" placement="bottom" effect="light">
-									<el-input size="mini" onblur="myblur" v-if="(questionList[questionIndex].lx==3)&&(index<(processNr.length-1))" placeholder="填写" v-model="num[index]"></el-input>
-								</el-tooltip> -->
 								<el-tooltip :disabled="showtip[index]" :content="gzinfo[index]" placement="bottom" effect="light">
 									<input class="blankipt" v-chkdata="{ gz: questionList[questionIndex].mxList?questionList[questionIndex].mxList[index].gz:questionList[questionIndex].gz }" v-if="index<(processNr.length-1)" placeholder="填写" v-model="num[index]" />
 								</el-tooltip>
@@ -122,9 +123,11 @@
 				ztflag: false,
 				subflag: true,
 				jlflag: true,
+				showintr: false,
 				fullscreenLoading: false,
 				reportData: "",
 				pgbinfo: "",
+				testhtml: "",
 				showreport: false,
 				showbox: false,
 				showopt: true,
@@ -147,15 +150,6 @@
 			percent: function() {
 				return this.questionIndex * this.percentrate;
 			},
-			// showtip: function() {
-			// 	for (var i = 0; i < this.num.length; i++) {
-			// 		if(this.num[i].match(/^\d+$/)) {
-			// 			this.num[i] = "";
-			// 			return true;
-			// 		}
-			// 	}
-			// 	return false;
-			// },
 			processNr: function() {
 				if(this.questionList[this.questionIndex].mxList) {
 					var arr = [];
@@ -179,13 +173,15 @@
 				}
 				return this.questionList[this.questionIndex].nr.split("XXX");
 			},
-			isRequired: function() {
-				for (var i = 0; i < this.num.length; i++) {
-					if(!this.num[i]) {
-						return true;
-					}
+			descinfo: function() {
+				if(this.questionList[this.questionIndex].lx == 4) {
+					this.$http.post("/getIntr/" + this.questionList[this.questionIndex].jsdz).then(function(response) {
+						console.log(response);
+						return response.body;
+					}, function(response) {
+
+					});
 				}
-				return false;
 			}
 		},
 		methods: {
@@ -200,7 +196,7 @@
 					console.log(response);
 					this.questionList = response.body.results;
 					if(response.body.results[0].lx == 4) {
-						this.$http.post("/baseurl/" + response.body.results[0].jsdz).then(function(response) {
+						this.$http.post("/getIntr/" + response.body.results[0].jsdz).then(function(response) {
 							console.log(response);
 							this.pgbinfo = response.body;
 						}, function(response) {
@@ -325,6 +321,14 @@
 					}
 					this.num.length = 0;
 				}
+				if(this.questionList[this.questionIndex + 1].lx == 4) {
+					this.$http.post("/getIntr/" + this.questionList[this.questionIndex + 1].jsdz).then(function(response) {
+						console.log(response);
+						this.testhtml = response.body;
+					}, function(response) {
+
+					});
+				}
 				this.questionIndex++;
 			},
 			myTest: function(x, index) {
@@ -378,6 +382,14 @@
 								}
 								this.questionIndex++;
 							} else {
+								if(this.questionList[this.questionIndex + 1].lx == 4) {
+									this.$http.post("/getIntr/" + this.questionList[this.questionIndex + 1].jsdz).then(function(response) {
+										console.log(response);
+										this.testhtml = response.body;
+									}, function(response) {
+
+									});
+								}
 								this.questionIndex++;
 							}
 							console.log(this.answerList);
@@ -525,6 +537,12 @@
 						width: 80%;
 						vertical-align: middle;
 					}
+				}
+				.intr-page {
+					padding: 0 30px 0 25px;
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
 				}
 				.question-panel {
 					padding: 0 30px 55px 25px;
