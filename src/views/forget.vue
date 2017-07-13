@@ -20,9 +20,9 @@
 		            <el-form-item label="手机号" prop="phone" class="clearfix"  v-if="!resetpass">
 		              <el-input v-model.number="ruleForm2.phone"  placeholder="请输入手机号"></el-input>
 		            </el-form-item>
-		            <el-form-item label="短信验证码" prop="msgcode"  v-if="!resetpass">
+		            <el-form-item label="验证码" prop="msgcode"  v-if="!resetpass">
 		              <el-input v-model.number="ruleForm2.msgcode"  placeholder="请输入短信验证码" class="msg-code"></el-input>
-		              <el-button  type="success" @click="sendCode" :loading="yzmflag">获取短信验证码</el-button>
+		              <el-button  type="success" @click="sendCode" :disabled="yzmflag1" :loading="yzmflag">{{yzmtxt | change}}</el-button>
 		            </el-form-item>
                 <el-form-item label="新密码" prop="pass" v-if="resetpass">
 		              <el-input type="password" v-model="ruleForm2.pass" placeholder="请输入密码" auto-complete="off"></el-input>
@@ -133,6 +133,8 @@ export default {
       resetpass: false,
       nextstep: true,
       yzmflag: false,
+      yzmflag1: false,
+      yzmtxt: '获取验证码',
       active: 0,
       txt: 'thy',
       ruleForm2: {
@@ -193,6 +195,16 @@ export default {
               type: 'info',
               duration: 2000
             })
+            this.yzmflag1 = true;
+            this.yzmtxt = 10;
+            let time = setInterval(() => {
+              this.yzmtxt--;
+              if(this.yzmtxt == 0) {
+                this.yzmtxt = '重新发送';
+                this.yzmflag1 = false;
+                clearInterval(time);
+              }
+            }, 1000);
           } else {
             this.$message({
               message: response.body.message,
@@ -252,6 +264,16 @@ export default {
 						console.log('fail');
 				});
       }
+    }
+  },
+  filters: {
+    change(value) {
+       if(!value) return "";
+       if(!isNaN(value)){
+          return `重新发送(${value}S)`;
+       }else{
+           return value;
+       }
     }
   }
 }

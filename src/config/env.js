@@ -16,7 +16,7 @@ let getProtocol = '/getIntr/html/protocol.html';
 let getYzm = baseUrl + '/phone/hqyzm';
 let getYzmzhmm = baseUrl + '/phone/hqyzmzhmm';
 let zhmmUrl = baseUrl + '/phone/zhmm';
-let changepwd = baseUrl + '/phone/xgmm';
+let changepwd = baseUrl + '/users/xgmm';
 let getRecord = baseUrl + '/phone/pgbrecord';
 let getReport = baseUrl + '/phone/report';
 let getTC = baseUrl + '/phone/tc';
@@ -24,6 +24,7 @@ let hqpgbmx = baseUrl + '/phone/hqpgbmx';
 let bbpgbxq = baseUrl + '/phone/bbpgbxq';
 let savePgb = baseUrl + '/phone/pgbbc';
 let getTclist = baseUrl + '/phone/tclist';
+let ggkCheck = baseUrl + '/ggk/check';
 let ggkdh = baseUrl + '/phone/ggkdh';
 let addBaby = baseUrl + '/phone/bbbc';
 let editBaby = baseUrl + '/phone/bbxg';
@@ -51,6 +52,7 @@ export {
   bbpgbxq,
   savePgb,
   getTclist,
+	ggkCheck,
   ggkdh,
   addBaby,
   editBaby,

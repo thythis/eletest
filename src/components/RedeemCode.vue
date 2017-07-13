@@ -49,7 +49,7 @@
       </el-table>
     </el-dialog>
     <div class="pgblist">
-      <el-tag type="gray">已激活的评估表列表</el-tag>
+      <el-tag type="gray" v-if="(tclist.length!=0)">已激活的评估表列表</el-tag>
       <div class="jhlb" v-for="item in tclist">
         <div class="paper-clip-icon">
         </div>
@@ -75,7 +75,7 @@
 
 <script>
 import myfun from '../assets/js/test.js'
-import {getTclist, ggkdh} from '@/config/env'
+import {getTclist, ggkCheck, ggkdh} from '@/config/env'
 export default {
   mounted() {
     var objstr = JSON.stringify({
@@ -92,6 +92,7 @@ export default {
     return {
       getTclist,
       ggkdh,
+      ggkCheck,
       yhid: myfun.fetch().yhid,
       bbList: myfun.fetch().bbList,
       tclist: [],
@@ -102,7 +103,23 @@ export default {
   },
   methods: {
     exchange: function() {
-      this.flag = true;
+      var objstr = JSON.stringify({
+        kh: this.rcode,
+        yhid: this.yhid,
+        token: myfun.fetch().token
+      });
+      this.$http.post(this.ggkCheck, objstr).then(function(response){
+        console.log(response);
+        if(response.body.code == "1") {
+          this.flag = true;
+        } else {
+          this.$message.error(response.body.message);
+          this.rcode = '';
+
+        }
+      }, function(response) {
+        console.log('fail');
+      })
     },
     redeemGo: function(bbid) {
       var objstr = JSON.stringify({

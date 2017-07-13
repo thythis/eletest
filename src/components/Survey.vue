@@ -6,13 +6,13 @@
 				<div class="pgb-desc" v-html="pgbinfo"></div>
 			</div>
 			<div class="opt-panel" v-if="showopt">
-				<el-button type="primary" @click="retest">{{this.bbinfo.zt==2?'开始测评':'重新测评'}}</el-button>
-				<el-button type="success" @click="showRst" v-if="ztflag">查看报告</el-button>
-				<el-button type="warning" @click="showRecord" v-if="jlflag">查看记录</el-button>
+				<el-button type="primary" @click="retest" :loading="playflag">{{this.bbinfo.zt==2?'开始测评':'重新测评'}}</el-button>
+				<el-button type="success" @click="showRst" v-if="ztflag" :loading="playflag">查看报告</el-button>
+				<el-button type="warning" @click="showRecord" v-if="jlflag" :loading="playflag">查看记录</el-button>
 			</div>
 			<div class="survey-box" v-if="showbox">
 				<div class="box-header">
-					<h2 class="title">thysama</h2>
+					<h2 class="title">{{bbinfo.mc}}</h2>
 				</div>
 				<div class="survey-content" v-if="!rflag">
 					<p class="ps">(本测试{{questionList.length}}道题，系统自动跳转，专业心理指导。)</p>
@@ -38,12 +38,14 @@
 						<el-button v-if="(questionList[questionIndex].lx==3)||(questionList[questionIndex].lx==2)" type="primary" @click="next(questionList[questionIndex].lx)">下一题</el-button>
 					</el-form>
 					</div>
-					<div class="answer-panel">
+					<div class="answer-panel" v-if="(questionList[questionIndex].lx==null)||(questionList[questionIndex].lx==1)||(questionList[questionIndex].lx==2)">
 						<div v-for="(item,index) in questionList[questionIndex].xxlist">
 							<input type="checkbox" :value="item.xh" name="xx" :id="'c'+item.xh"  v-model="xhlist">
-							<label class="answer-item"   @click.prevent="myTest(item.xh, index)" :for="'c'+item.xh">
-								<span>{{item.xh}}</span>{{item.nr}}
-							</label>
+							<el-tooltip :content="item.nr" placement="bottom" effect="light">
+								<label class="answer-item"   @click.prevent="myTest(item.xh, index)" :for="'c'+item.xh">
+									<span>{{item.xh}}</span>{{item.nr}}
+								</label>
+							</el-tooltip>
 						</div>
 					</div>
 				</div>
@@ -78,12 +80,7 @@
 	import myfun from '../assets/js/test.js'
 	export default {
 		props: {
-			bbinfo: {
-				pgbbh: '',
-				bbpgbid: 0,
-				kh: '',
-				zt: 0
-			}
+			bbinfo: {}
 		},
 		mounted() {
 			if(this.bbinfo.zt == 3) {
@@ -123,6 +120,7 @@
 				ztflag: false,
 				subflag: true,
 				jlflag: true,
+				playflag: true,
 				showintr: false,
 				fullscreenLoading: false,
 				reportData: "",
@@ -193,6 +191,7 @@
 					pgbbh: this.bbinfo.pgbbh
 				});
 				this.$http.post(this.hqpgbmx, objstr).then(function(response){
+					this.playflag = false;
 					console.log(response);
 					this.questionList = response.body.results;
 					if(response.body.results[0].lx == 4) {
@@ -509,6 +508,8 @@
 				}
 			}
 			.survey-content {
+				display: flex;
+				flex-direction: column;
 				height: 610px;
 				padding-top: 10px;
 				box-sizing: border-box;
@@ -524,6 +525,7 @@
 					height: 32px;
 					line-height: 32px;
 					padding: 0 30px 0 25px;
+					display: flex;
 					span {
 						margin-right: 16px;
 						font-size: 12px;
@@ -533,9 +535,10 @@
 						}
 					}
 					.el-progress {
+						flex: 1;
+						display: flex;
+						align-items: center;
 						display: inline-block;
-						width: 80%;
-						vertical-align: middle;
 					}
 				}
 				.intr-page {
@@ -561,6 +564,8 @@
 					}
 				}
 				.answer-panel {
+					flex: 1;
+					overflow-y: auto;
 					input {
 						position: absolute;
 						clip: rect(0, 0, 0, 0);
@@ -578,6 +583,10 @@
 						height: 48px;
 						line-height: 48px;
 						font-size: 14px;
+						width: 87%;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
 						&:hover {
 							cursor: pointer;
 							::after {

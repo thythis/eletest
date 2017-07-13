@@ -15,7 +15,7 @@
 		            <el-form-item label="手机号" prop="phone" class="clearfix">
 		              <el-input v-model.number="ruleForm2.phone"  placeholder="请输入手机号"></el-input>
 		            </el-form-item>
-		            <el-form-item label="短信验证码" prop="msgcode">
+		            <el-form-item label="验证码" prop="msgcode">
 		              <el-input v-model.number="ruleForm2.msgcode"  placeholder="请输入短信验证码" class="msg-code"></el-input>
 		              <el-button  type="success" :disabled="yzmflag" @click="sendCode">{{yzmtxt | change}}</el-button>
 		            </el-form-item>
@@ -161,7 +161,7 @@
 				subflag: true,
 				yzmflag: false,
         txt: 'thy',
-				yzmtxt: '获取短信验证码',
+				yzmtxt: '获取验证码',
 				protoinfo: '',
         ruleForm2: {
           pass: '',
@@ -205,7 +205,9 @@
 							this.$confirm('注册成功！', '提示', {
 								confirmButtonText: '确定',
 								type: 'success'
-							})
+							}).then(() => {
+                this.$router.push('/login');
+              })
 						} else {
 							this.$confirm(response.body.message, '提示', {
 			          confirmButtonText: '确定',
@@ -269,9 +271,6 @@
 				}, function(response){
 						console.log('fail');
 				});
-      },
-      golog() {
-      	this.$router.push({path:'/login'})
       }
     },
 		filters: {

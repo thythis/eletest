@@ -50,7 +50,7 @@
           label="操作">
           <template scope="scope">
             <el-button size="small" icon="edit" @click.native.prevent="editRow(scope.$index, scope.row)">编辑</el-button>
-            <el-button size="small" icon="delete" type="danger" @click.native.prevent="delRow(scope.row.bbid)">删除</el-button>
+            <el-button size="small" icon="delete" type="danger" @click.native.prevent="delRow(scope.row.bbid, scope.row.bjh)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -58,29 +58,24 @@
     </div>
     <transition name="el-fade-in">
       <div class="edit-panel" v-if="flag">
-        <el-form label-position="left" ref="form" :model="form" label-width="80px">
-          <el-form-item label="宝宝头像">
-            <el-col :span="10">
-              <VueImgInputer :img-src="imgval" v-model="form.picValue" size="small"></VueImgInputer>
-            </el-col>
-          </el-form-item>
-          <el-form-item label="真实姓名">
+        <el-form label-position="left" :rules="rules" ref="form" :model="form" label-width="80px">
+          <el-form-item label="真实姓名" prop="name" :required="form.type==1">
             <el-col :span="10">
               <el-input v-model="form.name" placeholder="请输入宝宝姓名"></el-input>
             </el-col>
           </el-form-item>
-          <el-form-item label="性别">
+          <el-form-item label="性别" prop="gendar" :required="form.type==1">
             <el-radio-group v-model="form.gendar">
               <el-radio :label="1">男宝贝</el-radio>
               <el-radio :label="2">女宝贝</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="出生日期">
+          <el-form-item label="出生日期" prop="birth" :required="form.type==1">
             <el-col :span="10">
               <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions0" v-model="form.birth" style="width: 100%;"></el-date-picker>
             </el-col>
           </el-form-item>
-          <el-form-item label="保健号">
+          <el-form-item label="保健号" v-if="!(form.type==1)">
             <el-col :span="10">
               <el-input v-model="form.bjh" placeholder="请输入保健号"></el-input>
             </el-col>
@@ -131,6 +126,17 @@ export default {
         gendar: '',
         bbid: 0,
         bjh: ''
+      },
+      rules: {
+        name: [
+          { required: true, message: '请输入宝宝姓名', trigger: 'blur' },
+        ],
+        birth: [
+          { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+        ],
+        gendar: [
+          { required: true, message: '请选择宝宝性别' }
+        ]
       }
     }
   },
@@ -149,7 +155,7 @@ export default {
     editCancel: function() {
       this.flag = false;
     },
-    delRow: function(bbid) {
+    delRow: function(bbid, bjh) {
       this.$confirm('确认删除一条宝宝数据?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -163,23 +169,31 @@ export default {
         this.$http.post(this.delBaby,objstr).then(function(response){
           this.fullscreenLoading = false;
           console.log(response);
-          var item = myfun.fetch();
-          for (var bb in item.bbList) {
-            if (item.bbList[bb].bbid == bbid) {
-              item.bbList.splice(bb, 1);
-              break;
+          if(response.body.code == "1") {
+            var item = myfun.fetch();
+            for (var bb in item.bbList) {
+              if (item.bbList[bb].bbid == bbid) {
+                item.bbList.splice(bb, 1);
+                break;
+              }
             }
+            this.bbList = item.bbList;
+            myfun.save(item);
+            this.$message({
+              type: 'success',
+              duration: 2000,
+              message: '删除成功!'
+            });
+          } else {
+            this.$message({
+              type: 'error',
+              duration: 3000,
+              message: response.body.message
+            });
           }
-          this.bbList = item.bbList;
-          myfun.save(item);
-          this.$message({
-            type: 'success',
-            duration: 1000,
-            message: '删除成功!'
-          });
         }, function(response){
-						console.log('fail');
-				});
+          console.log('fail');
+        });
       }).catch(() => {
         console.log('shibai');
       });
@@ -196,101 +210,107 @@ export default {
       this.flag = true;
     },
     saveEdit: function() {
-      this.$confirm('确认保存宝宝信息?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.fullscreenLoading = true;
+      this.$refs["form"].validate((valid) => {
+        if (valid) {
+          this.$confirm('确认保存宝宝信息?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.fullscreenLoading = true;
 
-          if(this.form.type == 1) {
-            this.form.birth = this.form.birth.getFullYear() + '-' +
-            (this.form.birth.getMonth() + 1 > 9 ? this.form.birth.getMonth() + 1 : '0' + (this.form.birth.getMonth() + 1)) + '-' +
-            (this.form.birth.getDate() > 9 ? this.form.birth.getDate() : '0' + this.form.birth.getDate());
-
-            var objjjj = JSON.stringify({
-              yhid: this.yhid,
-              mc: this.form.name,
-              xb: this.form.gendar,
-              csrq: this.form.birth,
-            });
-            this.$http.post(this.addBaby, objjjj).then(function(response){
-              this.fullscreenLoading = false;
-              console.log(response);
-              if(response.body.code == "1") {
-                var newbb = response.body;
-                this.bbList.push(newbb);
-                var item = myfun.fetch();
-                item.bbList = this.bbList;
-                myfun.save(item);
-                this.flag = false;
-                this.$message({
-                  type: 'success',
-                  message: '保存成功!'
-                });
-              } else {
-                this.flag = false;
-                this.$message({
-                  type: 'error',
-                  message: response.body.message
-                });
-              }
-            }, function(response) {
-              console.log('fail');
-            })
-
-            this.list.push({
-              name: this.form.name,
-              gendar: this.form.gendar,
-              bjh: this.form.bjh,
-              birth: this.form.birth
-            })
-          } else {
-            if(!(this.fbirth === this.form.birth)) {
-              this.fbirth = this.form.birth.getFullYear() + '-' +
+            if(this.form.type == 1) {
+              this.form.birth = this.form.birth.getFullYear() + '-' +
               (this.form.birth.getMonth() + 1 > 9 ? this.form.birth.getMonth() + 1 : '0' + (this.form.birth.getMonth() + 1)) + '-' +
               (this.form.birth.getDate() > 9 ? this.form.birth.getDate() : '0' + this.form.birth.getDate());
-            }
-            var objjjj = JSON.stringify({
-              yhid: this.yhid,
-              bbid: this.form.bbid,
-              mc: this.form.name,
-              xb: this.form.gendar,
-              csrq: this.fbirth,
-            });
-            this.$http.post(this.editBaby, objjjj).then(function(response){
-              this.fullscreenLoading = false;
-              console.log(response);
-              if(response.body.code == "1") {
-                // console.log(this.form.index);
-                var item = myfun.fetch();
-                for (var bb in item.bbList) {
-                  if (item.bbList[bb].bbid == this.form.bbid) {
-                    item.bbList[bb] = response.body;
-                    break;
-                  }
-                }
-                this.bbList = item.bbList;
-                myfun.save(item);
-                this.flag = false;
-                this.$message({
-                  type: 'success',
-                  message: '保存成功!'
-                });
-              } else {
-                this.flag = false;
-                this.$message({
-                  type: 'error',
-                  message: response.body.message
-                });
-              }
-            }, function(response) {
-              console.log('fail');
-            })
-          }
-        }).catch(() => {
 
-        });
+              var objjjj = JSON.stringify({
+                yhid: this.yhid,
+                mc: this.form.name,
+                xb: this.form.gendar,
+                csrq: this.form.birth,
+              });
+              this.$http.post(this.addBaby, objjjj).then(function(response){
+                this.fullscreenLoading = false;
+                console.log(response);
+                if(response.body.code == "1") {
+                  var newbb = response.body;
+                  this.bbList.push(newbb);
+                  var item = myfun.fetch();
+                  item.bbList = this.bbList;
+                  myfun.save(item);
+                  this.flag = false;
+                  this.$message({
+                    type: 'success',
+                    message: '保存成功!'
+                  });
+                } else {
+                  this.flag = false;
+                  this.$message({
+                    type: 'error',
+                    message: response.body.message
+                  });
+                }
+              }, function(response) {
+                console.log('fail');
+              })
+
+              this.list.push({
+                name: this.form.name,
+                gendar: this.form.gendar,
+                bjh: this.form.bjh,
+                birth: this.form.birth
+              })
+            } else {
+              if(!(this.fbirth === this.form.birth)) {
+                this.fbirth = this.form.birth.getFullYear() + '-' +
+                (this.form.birth.getMonth() + 1 > 9 ? this.form.birth.getMonth() + 1 : '0' + (this.form.birth.getMonth() + 1)) + '-' +
+                (this.form.birth.getDate() > 9 ? this.form.birth.getDate() : '0' + this.form.birth.getDate());
+              }
+              var objjjj = JSON.stringify({
+                yhid: this.yhid,
+                bbid: this.form.bbid,
+                mc: this.form.name,
+                xb: this.form.gendar,
+                csrq: this.fbirth,
+              });
+              this.$http.post(this.editBaby, objjjj).then(function(response){
+                this.fullscreenLoading = false;
+                console.log(response);
+                if(response.body.code == "1") {
+                  // console.log(this.form.index);
+                  var item = myfun.fetch();
+                  for (var bb in item.bbList) {
+                    if (item.bbList[bb].bbid == this.form.bbid) {
+                      item.bbList[bb] = response.body;
+                      break;
+                    }
+                  }
+                  this.bbList = item.bbList;
+                  myfun.save(item);
+                  this.flag = false;
+                  this.$message({
+                    type: 'success',
+                    message: '保存成功!'
+                  });
+                } else {
+                  this.flag = false;
+                  this.$message({
+                    type: 'error',
+                    message: response.body.message
+                  });
+                }
+              }, function(response) {
+                console.log('fail');
+              })
+            }
+          }).catch(() => {
+
+          });
+        } else {
+          return false;
+        }
+      });
     }
   }
 }
@@ -349,7 +369,7 @@ export default {
     margin: 50px auto 0 auto;
     .el-form {
       .el-form-item {
-        &:nth-child(5) {
+        &:nth-child(4) {
           .el-button {
             margin-left: 20px;
           }

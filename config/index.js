@@ -29,8 +29,9 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/baseurl':{
-        // target: 'http://csweb.wbaobei.com.cn/',
-        target: 'http://120.24.213.23:8080/wbaobei',
+        // target: 'http://csweb.wbaobei.com.cn',
+        //target: 'http://120.24.213.23:8080/wbaobei',
+        target: 'http://10.0.0.3:8090/wbaobei',
         changeOrigin: true,
         pathRewrite: {
           '^/baseurl' : ''

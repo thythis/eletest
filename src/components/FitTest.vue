@@ -50,7 +50,7 @@
                     <el-table-column
                     label="操作">
                     <template scope="scope">
-                      <el-button size="small" icon="search" type="danger" @click.stop="checkSurvey(scope.row.pgbbh, scope.row.bbpgbid, scope.row.zt)">查看详情</el-button>
+                      <el-button size="small" icon="search" type="danger" @click.stop="checkSurvey(scope.row)">查看详情</el-button>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -97,7 +97,7 @@
                   <el-table-column
                     label="操作">
                     <template scope="scope">
-                      <el-button size="small" icon="search" type="danger" @click.stop="checkSurvey(scope.row.pgbbh, scope.row.bbpgbid, scope.row.zt)">查看详情</el-button>
+                      <el-button size="small" icon="search" type="danger" @click.stop="checkSurvey(scope.row)">查看详情</el-button>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -131,6 +131,7 @@ export default {
     });
     this.reqloading = true;
     this.$http.post(this.getTC, objjjj).then(function(response){
+      console.log(response);
       this.reqloading = false;
       this.pgblist = response.body.results;
       // console.log(response);
@@ -256,15 +257,16 @@ export default {
       }
       return false;
     },
-    checkSurvey(pgbbh, bbpgbid, zt) {
+    checkSurvey(pgbinfo) {
+      this.bbinfo = pgbinfo;
+      // this.bbinfo.pgbbh = pgbinfo.pgbbh;
+      // this.bbinfo.bbpgbid = pgbinfo.bbpgbid;
+      // this.bbinfo.zt = pgbinfo.zt;
       if(this.activeName == "first") {
         this.showsurvey = !this.showsurvey;
       } else {
         this.showsurvey2 = !this.showsurvey2;
       }
-      this.bbinfo.pgbbh = pgbbh;
-      this.bbinfo.bbpgbid = bbpgbid;
-      this.bbinfo.zt = zt;
     }
   }
 }
