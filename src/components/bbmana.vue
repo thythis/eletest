@@ -9,6 +9,7 @@
         :default-sort = "{prop: 'csrq', order: 'descending'}"
         style="width: 100%;">
         <el-table-column
+          fixed="left"
           label="出生日期"
           prop="csrq"
           sortable
@@ -19,8 +20,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          label="姓名"
-          width="100">
+          label="姓名">
           <template scope="scope">
             <div slot="reference" class="name-wrapper">
               <el-tag>{{ scope.row.mc }}</el-tag>
@@ -28,8 +28,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          label="性别"
-          width="100">
+          label="性别">
           <template scope="scope">
             <div slot="reference" class="name-wrapper">
               <el-tag :type="{true:'primary',false:'success'}[scope.row.xb=='1']">{{ scope.row.xb=='1'?'男宝贝':'女宝贝' }}</el-tag>
@@ -37,9 +36,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          width="200"
-          label="保健号"
-          >
+          label="保健号">
           <template scope="scope">
             <div slot="reference" class="name-wrapper">
               <el-tag v-if="scope.row.bjh?true:false">{{ scope.row.bjh }}</el-tag>
@@ -47,6 +44,8 @@
           </template>
         </el-table-column>
         <el-table-column
+          fixed="right"
+          width="200"
           label="操作">
           <template scope="scope">
             <el-button size="small" icon="edit" @click.native.prevent="editRow(scope.$index, scope.row)">编辑</el-button>

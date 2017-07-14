@@ -4,6 +4,9 @@
 			<div class="info" v-if="showopt">
 				<h3>评测说明</h3>
 				<div class="pgb-desc" v-html="pgbinfo"></div>
+				<div class="tys-bar" v-if="bbinfo.zqtys">
+					<el-checkbox v-model="checkedtys">我已阅读并同意</el-checkbox><span class="aoi" @click="openProto">知情同意书</span>
+				</div>
 			</div>
 			<div class="opt-panel" v-if="showopt">
 				<el-button type="primary" @click="retest" :loading="playflag">{{this.bbinfo.zt==2?'开始测评':'重新测评'}}</el-button>
@@ -41,11 +44,10 @@
 					<div class="answer-panel" v-if="(questionList[questionIndex].lx==null)||(questionList[questionIndex].lx==1)||(questionList[questionIndex].lx==2)">
 						<div v-for="(item,index) in questionList[questionIndex].xxlist">
 							<input type="checkbox" :value="item.xh" name="xx" :id="'c'+item.xh"  v-model="xhlist">
-							<el-tooltip :content="item.nr" placement="bottom" effect="light">
-								<label class="answer-item"   @click.prevent="myTest(item.xh, index)" :for="'c'+item.xh">
-									<span>{{item.xh}}</span>{{item.nr}}
-								</label>
-							</el-tooltip>
+							<label class="answer-item"   @click.prevent="myTest(item.xh, index)" :for="'c'+item.xh">
+								<span>{{item.xh}}</span>
+								<p>{{item.nr}}</p>
+							</label>
 						</div>
 					</div>
 				</div>
@@ -117,6 +119,7 @@
 				getReport,
 				bbpgbxq,
 				savePgb,
+				checkedtys: true,
 				ztflag: false,
 				subflag: true,
 				jlflag: true,
@@ -183,10 +186,19 @@
 			}
 		},
 		methods: {
-			myblur() {
-				console.log('thhhhhh');
+			openProto() {
+				this.$http.get("/getIntr/" + this.bbinfo.zqtys).then(function(response){
+						console.log(response);
+						var REG_BODY = /<body[^>]*>([\s\S]*)<\/body>/;
+					  var result = REG_BODY.exec(response.body);
+						this.reportData = result[1];
+						this.showreport = true;
+				}, function(response){
+						console.log('fail');
+				});
 			},
 			getTest() {
+				console.log(this.bbinfo);
 				var objstr = JSON.stringify({
 					pgbbh: this.bbinfo.pgbbh
 				});
@@ -426,6 +438,14 @@
 				line-height: 26px;
 				font-size: 16px;
 			}
+			.tys-bar {
+				text-align: right;
+				.aoi {
+					cursor: pointer;
+					color: #4fc1e9;
+					font-size: 14px;
+				}
+			}
 		}
 		.opt-panel {
 			display: flex;
@@ -455,7 +475,7 @@
 				padding: 0 20px;
 				padding-bottom: 52px;
 				height: 610px;
-				overflow-y: scroll;
+				overflow-y: auto;
 				.list-item {
 					padding: 10px 0;
 					border-bottom: 1px solid #ededed;
@@ -525,7 +545,7 @@
 					height: 32px;
 					line-height: 32px;
 					padding: 0 30px 0 25px;
-					display: flex;
+			    display: flex;          /* 新版本语法: Opera 12.1, Firefox 22+ */
 					span {
 						margin-right: 16px;
 						font-size: 12px;
@@ -535,10 +555,13 @@
 						}
 					}
 					.el-progress {
-						flex: 1;
+						-webkit-flex: 1;        /* Chrome */
+					  -ms-flex: 1;             /* IE 10 */
+					  flex: 1;                /* NEW, Spec - Opera 12.1, Firefox 20+ */
+					  -webkit-box-flex: 1;     /* OLD - iOS 6-, Safari 3.1-6 */
+					  -moz-box-flex: 1;       /* OLD - Firefox 19- */
 						display: flex;
 						align-items: center;
-						display: inline-block;
 					}
 				}
 				.intr-page {
@@ -577,11 +600,11 @@
 						}
 					}
 					.answer-item {
-						display: block;
+						display: flex;
+						align-items: center;
 						position: relative;
-						padding: 0 30px 0 25px;
-						height: 48px;
-						line-height: 48px;
+						padding: 14px 30px 14px 25px;
+
 						font-size: 14px;
 						width: 87%;
 						overflow: hidden;
@@ -592,7 +615,7 @@
 							::after {
 								content: '';
 								width: 100%;
-								height: 48px;
+								height: 100%;
 								position: absolute;
 								left: 0;
 								top: 0;
@@ -606,6 +629,7 @@
 						}
 						span {
 							display: inline-block;
+							flex-shrink: 0;
 							width: 20px;
 							height: 20px;
 							border-radius: 50%;
@@ -626,6 +650,11 @@
 								color: #fff;
 								cursor: pointer;
 							}
+						}
+						p {
+							// display: inline-block;
+							line-height: 24px;
+							white-space: normal;
 						}
 					}
 				}

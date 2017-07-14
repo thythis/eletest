@@ -278,7 +278,8 @@ export default {
   }
 
   .box {
-    width: 30%;
+    display: inline-block;
+    padding-right: 30px;
     height: 24px;
     margin-top: 10px;
     margin-bottom: 10px;

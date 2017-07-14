@@ -122,6 +122,9 @@ export default {
 </script>
 
 <style lang="scss">
+  body {
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+  }
   .carousel-wrapper,.nav-bar-wrapper,.search-bar-wrapper {
     display: none;
   }
@@ -140,8 +143,9 @@ export default {
     }
     .pc-content {
       width: 75%;
-      height: 820px;
+      min-height: 820px;
       margin: 0 auto;
+      background: #f7f7f7;
       overflow: hidden;
       .el-row {
         height: 100%;
