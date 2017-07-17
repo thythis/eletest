@@ -21,6 +21,9 @@ let getRecord = baseUrl + '/phone/pgbrecord';
 let getReport = baseUrl + '/phone/report';
 let getTC = baseUrl + '/phone/tc';
 let hqpgbmx = baseUrl + '/phone/hqpgbmx';
+let getjdxx = baseUrl + 'phone/pgbjdxx';
+let getyeyxx = baseUrl + 'phone/pgbyeyxx';
+let getbjxx = baseUrl + 'phone/pgbbjxx';
 let bbpgbxq = baseUrl + '/phone/bbpgbxq';
 let savePgb = baseUrl + '/phone/pgbbc';
 let getTclist = baseUrl + '/phone/tclist';
@@ -49,6 +52,9 @@ export {
   getReport,
   getTC,
   hqpgbmx,
+	getjdxx,
+	getyeyxx,
+	getbjxx,
   bbpgbxq,
   savePgb,
   getTclist,

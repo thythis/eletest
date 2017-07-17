@@ -44,7 +44,9 @@ import {
   Spinner,
   Steps,
   Step,
+  Select,
   Carousel,
+  Cascader,
   Scrollbar,
   CarouselItem,
   Collapse,
@@ -89,7 +91,9 @@ Vue.use(Progress)
 Vue.use(Spinner)
 Vue.use(Steps)
 Vue.use(Step)
+Vue.use(Select)
 Vue.use(Carousel)
+Vue.use(Cascader)
 Vue.use(Scrollbar)
 Vue.use(CarouselItem)
 Vue.use(Collapse)

@@ -25,8 +25,10 @@
 		            <el-form-item label="确认密码" prop="checkPass">
 		              <el-input type="password" v-model="ruleForm2.checkPass" placeholder="请再次输入密码" auto-complete="off"></el-input>
 		            </el-form-item>
-		            <el-form-item>
-		              <el-checkbox v-model="ruleForm2.checked">我已阅读并同意</el-checkbox><span class="aoi" @click="openProto">《卫宝贝用户许可协议》</span>
+		            <el-form-item prop="checked">
+									<el-checkbox-group v-model="ruleForm2.checked">
+			              <el-checkbox name="checked">我已阅读并同意</el-checkbox><span class="aoi" @click="openProto">《卫宝贝用户许可协议》</span>
+									</el-checkbox-group>
 		            </el-form-item>
 		            <el-form-item>
 		              <el-button class="sub-btn" type="primary" size="large" :disabled="subflag" @click="submitForm('ruleForm2')">注册</el-button>
@@ -58,7 +60,7 @@
 		  :visible.sync="showproto">
 			<div v-html="protoinfo"></div>
 		  <span slot="footer" class="dialog-footer">
-		    <el-button type="primary" @click="showproto = false">同意</el-button>
+		    <el-button type="primary" @click="agreeProto">同意</el-button>
 		  </span>
 		</el-dialog>
 	</div>
@@ -118,6 +120,17 @@
           }
         }, 1000);
       };
+			var checkProto = (rule, value, callback) => {
+				if (value === false) {
+          callback(this.$message({
+            message: '未同意许可协议',
+            type: 'error',
+            duration: 1000
+          }));
+        } else {
+          callback();
+        }
+			};
       var validatePass = (rule, value, callback) => {
         if (value === '') {
           callback(this.$message({
@@ -158,7 +171,7 @@
 				getYzm,
 				getProtocol,
 				showproto: false,
-				subflag: true,
+				subflag: false,
 				yzmflag: false,
         txt: 'thy',
 				yzmtxt: '获取验证码',
@@ -183,46 +196,49 @@
           ],
           msgcode: [
             { validator: checkMsg, trigger: 'blur' }
-          ]
+          ],
+					checked: [
+						{ validator: checkProto, trigger: 'change' }
+					]
         }
       };
     },
     methods: {
       submitForm(formName) {
-				var encrymm = md5(this.ruleForm2.pass);
-				var obj = {
-					sjh: this.ruleForm2.phone,
-					lx: 4,
-					mm: encrymm,
-					dxid: this.ruleForm2.dxid,
-					yzm: this.ruleForm2.msgcode
-				}
-				var objstr = JSON.stringify(obj);
-
-				this.$http.post(this.regUrl, objstr).then(function(response){
-						console.log(response);
-						if(response.body.code == 1) {
-							this.$confirm('注册成功！', '提示', {
-								confirmButtonText: '确定',
-								type: 'success'
-							}).then(() => {
-                this.$router.push('/login');
-              })
-						} else {
-							this.$confirm(response.body.message, '提示', {
-			          confirmButtonText: '确定',
-			          type: 'warning'
-			        })
+				this.$refs[formName].validate((valid) => {
+          if (valid) {
+						var encrymm = md5(this.ruleForm2.pass);
+						var obj = {
+							sjh: this.ruleForm2.phone,
+							lx: 4,
+							mm: encrymm,
+							dxid: this.ruleForm2.dxid,
+							yzm: this.ruleForm2.msgcode
 						}
-				}, function(response){
-						console.log('fail');
-				});
+						var objstr = JSON.stringify(obj);
 
-        // this.$refs[formName].validate((valid) => {
-        //   if (valid) {
-        //     this.subflag = false;
-        //   }
-        // });
+						this.$http.post(this.regUrl, objstr).then(function(response){
+								console.log(response);
+								if(response.body.code == 1) {
+									this.$confirm('注册成功！', '提示', {
+										confirmButtonText: '确定',
+										type: 'success'
+									}).then(() => {
+		                this.$router.push('/login');
+		              })
+								} else {
+									this.$confirm(response.body.message, '提示', {
+					          confirmButtonText: '确定',
+					          type: 'warning'
+					        })
+								}
+						}, function(response){
+								console.log('fail');
+						});
+          } else {
+						return false;
+					}
+        });
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
@@ -236,6 +252,10 @@
 				});
 				this.showproto = true;
       },
+			agreeProto() {
+				this.ruleForm2.checked = true;
+				this.showproto = false;
+			},
       sendCode() {
 				var obj = {
 					sjh: this.ruleForm2.phone

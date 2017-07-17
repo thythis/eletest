@@ -1,12 +1,52 @@
 <template>
 	<div>
 		<div class="survey-wrapper">
-			<div class="info" v-if="showopt">
-				<h3>评测说明</h3>
-				<div class="pgb-desc" v-html="pgbinfo"></div>
-				<div class="tys-bar" v-if="bbinfo.zqtys">
-					<el-checkbox v-model="checkedtys">我已阅读并同意</el-checkbox><span class="aoi" @click="openProto">知情同意书</span>
+			<div class="info" v-if="showpgbintro">
+				<div v-if="!showjdxx">
+					<h3>评测说明</h3>
+					<div class="pgb-desc" v-html="pgbinfo"></div>
+					<div class="tys-bar" v-if="bbinfo.zqtys">
+						<el-checkbox v-model="checkedtys">我已阅读并同意</el-checkbox><span class="aoi" @click="openProto">知情同意书</span>
+					</div>
 				</div>
+				<transition name="el-fade-in">
+					<div v-if="showjdxx" class="jdxx-panel">
+						<h3>请选择街道信息</h3>
+					  <!-- <el-cascader
+							@change="jdChange"
+					    :options="options"
+					    v-model="selectedOptions2">
+					  </el-cascader> -->
+						<el-select v-model="selectedJd" @change="jdChange(1)" placeholder="请选择街道">
+					    <el-option
+					      v-for="item in jdOptions"
+					      :key="item.value"
+					      :label="item.label"
+					      :value="item.value">
+					    </el-option>
+					  </el-select>
+
+						<el-select v-model="selectedYey" :disabled="yeyflag" @change="jdChange(2)" placeholder="请选择幼儿园">
+					    <el-option
+					      v-for="item in yeyOptions"
+					      :key="item.value"
+					      :label="item.label"
+					      :value="item.value">
+					    </el-option>
+					  </el-select>
+
+						<el-select v-model="selectedBj" :disabled="bjflag" placeholder="请选择街道班级">
+					    <el-option
+					      v-for="item in bjOptions"
+					      :key="item.value"
+					      :label="item.label"
+					      :value="item.value">
+					    </el-option>
+					  </el-select>
+
+						<el-button type="primary" size="large" @click="selectF">下一步</el-button>
+					</div>
+				</transition>
 			</div>
 			<div class="opt-panel" v-if="showopt">
 				<el-button type="primary" @click="retest" :loading="playflag">{{this.bbinfo.zt==2?'开始测评':'重新测评'}}</el-button>
@@ -78,7 +118,7 @@
 </template>
 
 <script>
-	import {hqpgbmx, getReport,bbpgbxq,savePgb} from '@/config/env'
+	import {hqpgbmx, getjdxx, getyeyxx, getbjxx, getReport,bbpgbxq,savePgb} from '@/config/env'
 	import myfun from '../assets/js/test.js'
 	export default {
 		props: {
@@ -119,6 +159,9 @@
 				getReport,
 				bbpgbxq,
 				savePgb,
+				getjdxx,
+				getyeyxx,
+				getbjxx,
 				checkedtys: true,
 				ztflag: false,
 				subflag: true,
@@ -132,7 +175,11 @@
 				showreport: false,
 				showbox: false,
 				showopt: true,
+				showpgbintro: true,
+				showjdxx: false,
 				rflag: false,
+				yeyflag: true,
+				bjflag: true,
 				showtip: [],
 				questionList: [],
 				questionListMap: new Map(),
@@ -144,7 +191,38 @@
 				num: [],
 				gzinfo: [],
 				answerList: [],
-				xhlist: []
+				xhlist: [],
+				// options: [{
+        //   value: 'zhinan',
+        //   label: '指南',
+        //   children: [{
+        //     value: 'shejiyuanze',
+        //     label: '设计原则',
+        //     children: [{
+        //       value: 'yizhi',
+        //       label: '一致'
+        //     }, {
+        //       value: 'fankui',
+        //       label: '反馈'
+        //     }]
+        //   }]
+        // }, {
+        //   value: 'ziyuan',
+        //   label: '资源',
+        //   children: [{
+        //     value: 'axure',
+        //     label: 'Axure Components'
+        //   }, {
+        //     value: 'sketch',
+        //     label: 'Sketch Templates'
+        //   }]
+        // }],
+				jdOptions: [],
+				yeyOptions: [],
+				bjOptions: [],
+				selectedJd: '',
+				selectedYey: '',
+				selectedBj: '',
 			}
 		},
 		computed: {
@@ -219,6 +297,31 @@
 				})
 			},
 			retest() {
+				if(this.bbinfo.zqtys) {
+					var objstr = JSON.stringify({
+						yhid: myfun.fetch().yhid,
+						bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
+						token: myfun.fetch().token
+					});
+
+					this.$http.post(this.getjdxx, objstr).then(function(response){
+						console.log(response);
+						for (var i = 0; i < response.body.results[0].jdList.length; i++) {
+							this.jdOptions.push({
+								value: response.body.results[0].jdList[i].jdid,
+								label: response.body.results[0].jdList[i].jdmc,
+							})
+						}
+						this.selectedJd = response.body.results[0].mrjdxx.jdmc;
+						this.selectedYey = response.body.results[0].mrjdxx.jdyeymc;
+						this.selectedBj = response.body.results[0].mrjdxx.jdyeybjmc;
+						this.showopt = false;
+						this.rflag = false;
+						this.showjdxx = true;
+					}, function(response) {
+						console.log('fail');
+					})
+				} else {
 					if(this.questionList[0].lx == 4) {
 						this.questionList.splice(0,1);
 					}
@@ -227,9 +330,83 @@
 						this.mxxhMap.set(this.questionList[i].mxxh, i);
 					}
 					this.percentrate = 1 / this.questionList.length * 100;
+					this.showpgbintro = false;
 					this.showopt = false;
 					this.rflag = false;
 					this.showbox = true;
+				}
+			},
+			selectF() {
+				var objstr = JSON.stringify({
+					pgbbh: this.bbinfo.pgbbh,
+					fmlx: 1,
+					jdid: this.selectedJd,
+					jdyeyid: this.selectedYey,
+					jdyeybjid: this.selectedBj
+				});
+
+				this.$http.post(this.hqpgbmx, objstr).then(function(response){
+					console.log(response);
+				}, function(response) {
+					console.log('fail');
+				})
+			},
+			jdChange(index) {
+				if(index == 1) {
+					this.selectedYey = '';
+					this.selectedBj = '';
+					this.yeyOptions.length = 0;
+					this.bjOptions.length = 0;
+					this.yeyflag = true;
+					this.bjflag = true;
+					var objstr = JSON.stringify({
+						yhid: myfun.fetch().yhid,
+						jdid: this.selectedJd,
+						bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
+						token: myfun.fetch().token
+					});
+
+					this.$http.post(this.getyeyxx, objstr).then(function(response){
+						console.log(response);
+						if(response.body.result.length > 0) {
+							for (var i = 0; i < response.body.result.length; i++) {
+								this.yeyOptions.push({
+									value: response.body.result[i].jdyeyid,
+									label: response.body.result[i].jdyeymc
+								})
+							}
+							this.yeyflag = false;
+						}
+					}, function(response) {
+						console.log('fail');
+					})
+				} else if(index == 2) {
+					this.selectedBj = '';
+					this.bjOptions.length = 0;
+					this.bjflag = true;
+					var objstr = JSON.stringify({
+						yhid: myfun.fetch().yhid,
+						jdyeyid: this.selectedYey,
+						bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
+						token: myfun.fetch().token
+					});
+
+					this.$http.post(this.getbjxx, objstr).then(function(response){
+						console.log(response);
+						if(response.body.result.length > 0) {
+							for (var i = 0; i < response.body.result.length; i++) {
+								this.bjOptions.push({
+									value: response.body.result[i].jdyeybjid,
+									label: response.body.result[i].jdyeybjmc
+								})
+							}
+							this.bjflag = false;
+						}
+					}, function(response) {
+						console.log('fail');
+					})
+				}
+
 			},
 			showRst() {
 				console.log(this.bbinfo.bbpgbid);
@@ -282,6 +459,7 @@
 		          type: 'success'
 		        }).then(() => {
 							this.showbox = false;
+							this.showpgbintro = true;
 							this.showopt = true;
 		        }).catch(() => {
 
@@ -427,6 +605,9 @@
 			background: #faf6f7;
 			border-radius: 5px;
 			color: #8c8889;
+			.jdxx-panel {
+				text-align: center;
+			}
 			h3 {
 				height: 58px;
 				line-height: 58px;
