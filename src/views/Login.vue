@@ -29,11 +29,11 @@
 		        </div>
 		      </div>
 	          <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" class="demo-ruleForm">
-	              <el-input :autofocus="!fullscreenLoading" v-model.number="ruleForm2.phone"  placeholder="请输入手机号">
+	              <el-input :autofocus="ruleForm2.phone?false:true" v-model.number="ruleForm2.phone"  placeholder="请输入手机号">
 	              	<template slot="prepend"><i class="iconfont icon-person"></i></template>
 	              </el-input>
 
-	              <el-input type="password" v-model="ruleForm2.pass"  placeholder="请输入密码">
+	              <el-input type="password" :autofocus="ruleForm2.phone?true:false" v-model="ruleForm2.pass"  placeholder="请输入密码">
 	              	<template slot="prepend"><i class="iconfont icon-lock"></i></template>
 	              </el-input>
 								<div class="forgetmm">
@@ -95,7 +95,7 @@
         },
         ruleForm2: {
           pass: '',
-          phone: '',
+          phone: this.$store.state.sjh||'',
           checked: true
         },
         rules2: {

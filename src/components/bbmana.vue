@@ -209,8 +209,9 @@ export default {
       this.flag = true;
     },
     saveEdit: function() {
-      this.$refs["form"].validate((valid) => {
-        if (valid) {
+      console.log(this.form.birth);
+      // this.$refs["form"].validate((valid) => {
+        // if (valid) {
           this.$confirm('确认保存宝宝信息?', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
@@ -306,10 +307,10 @@ export default {
           }).catch(() => {
 
           });
-        } else {
-          return false;
-        }
-      });
+      //   } else {
+      //     return false;
+      //   }
+      // });
     }
   }
 }

@@ -21,8 +21,10 @@
 		              <el-input v-model.number="ruleForm2.phone"  placeholder="请输入手机号"></el-input>
 		            </el-form-item>
 		            <el-form-item label="验证码" prop="msgcode"  v-if="!resetpass">
-		              <el-input v-model.number="ruleForm2.msgcode"  placeholder="请输入短信验证码" class="msg-code"></el-input>
-		              <el-button  type="success" @click="sendCode" :disabled="yzmflag1" :loading="yzmflag">{{yzmtxt | change}}</el-button>
+                  <div class="msgcode-bar">
+  		              <el-input v-model.number="ruleForm2.msgcode"  placeholder="请输入短信验证码" class="msg-code"></el-input>
+  		              <el-button class="msg-btn" type="success" @click="sendCode" :disabled="yzmflag1" :loading="yzmflag">{{yzmtxt | change}}</el-button>
+                  </div>
 		            </el-form-item>
                 <el-form-item label="新密码" prop="pass" v-if="resetpass">
 		              <el-input type="password" v-model="ruleForm2.pass" placeholder="请输入密码" auto-complete="off"></el-input>
@@ -241,6 +243,7 @@ export default {
               this.active++;
 							this.$confirm('重置密码成功！', '提示', {
 								confirmButtonText: '确定',
+                showCancelButton: false,
 								type: 'success'
 							}).then(() => {
                 this.$router.push('/login');
@@ -248,6 +251,7 @@ export default {
 						} else {
 							this.$confirm(response.body.message, '提示', {
 			          confirmButtonText: '确定',
+                showCancelButton: false,
 			          type: 'warning'
 			        }).then(() => {
                 this.ruleForm2.pass = '';
@@ -324,12 +328,16 @@ body {
   padding-left: 70px;
 }
 
-.reg-form-wrapper .demo-ruleForm .el-input {
-  width: 90%;
+.reg-form-wrapper .demo-ruleForm .msgcode-bar {
+  display: flex;
+}
+
+.reg-form-wrapper .demo-ruleForm .msgcode-bar .msg-btn {
+  margin-left: 10px;
 }
 
 .reg-form-wrapper .demo-ruleForm .el-input.msg-code {
-  width: 50%;
+  flex: 1;
 }
 
 .reg-form-wrapper .el-form-item {

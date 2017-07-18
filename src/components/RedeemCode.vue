@@ -135,6 +135,7 @@ export default {
             type: 'success',
             message: '兑换成功!'
           });
+          this.$router.go(0);
         } else {
           this.$message.error(response.body.message);
         }

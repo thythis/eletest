@@ -12,11 +12,6 @@
 				<transition name="el-fade-in">
 					<div v-if="showjdxx" class="jdxx-panel">
 						<h3>请选择街道信息</h3>
-					  <!-- <el-cascader
-							@change="jdChange"
-					    :options="options"
-					    v-model="selectedOptions2">
-					  </el-cascader> -->
 						<el-select v-model="selectedJd" @change="jdChange(1)" placeholder="请选择街道">
 					    <el-option
 					      v-for="item in jdOptions"
@@ -57,7 +52,22 @@
 				<div class="box-header">
 					<h2 class="title">{{bbinfo.mc}}</h2>
 				</div>
-				<div class="survey-content" v-if="!rflag">
+				<div class="survey-content fmlx-panel" v-if="showfm">
+					<div class="question-panel">
+						<p>家庭类型</p>
+					</div>
+					<div class="answer-panel">
+						<div v-for="(item,index) in fmlist">
+							<input type="radio" :value="item.xh" name="xx" :id="'c'+item.xh"  v-model="fmlx">
+							<label class="answer-item"   @click.prevent="addFmlx(item.xh, index)" :for="'c'+item.xh">
+								<span>{{item.xh}}</span>
+								<p>{{item.nr}}</p>
+							</label>
+						</div>
+						<el-button :disabled="fmlx?false:true" type="primary" size="large" @click="fire">提交</el-button>
+					</div>
+				</div>
+				<div class="survey-content" v-if="qflag">
 					<p class="ps">(本测试{{questionList.length}}道题，系统自动跳转，专业心理指导。)</p>
 					<div class="progress-bar">
 						<span><strong>{{questionIndex + 1}}</strong>/{{questionList.length}}</span>
@@ -177,6 +187,8 @@
 				showopt: true,
 				showpgbintro: true,
 				showjdxx: false,
+				showfm: false,
+				qflag: true,
 				rflag: false,
 				yeyflag: true,
 				bjflag: true,
@@ -192,37 +204,32 @@
 				gzinfo: [],
 				answerList: [],
 				xhlist: [],
-				// options: [{
-        //   value: 'zhinan',
-        //   label: '指南',
-        //   children: [{
-        //     value: 'shejiyuanze',
-        //     label: '设计原则',
-        //     children: [{
-        //       value: 'yizhi',
-        //       label: '一致'
-        //     }, {
-        //       value: 'fankui',
-        //       label: '反馈'
-        //     }]
-        //   }]
-        // }, {
-        //   value: 'ziyuan',
-        //   label: '资源',
-        //   children: [{
-        //     value: 'axure',
-        //     label: 'Axure Components'
-        //   }, {
-        //     value: 'sketch',
-        //     label: 'Sketch Templates'
-        //   }]
-        // }],
+				fmlist: [
+					{
+						xh: "1",
+						nr: "母亲"
+					},{
+						xh: "2",
+						nr: "父亲"
+					},{
+						xh: "3",
+						nr: "其他"
+					},{
+						xh: "4",
+						nr: "母亲(单亲)"
+					},{
+						xh: "5",
+						nr: "父亲(单亲)"
+					}
+				],
+				fmlx: '',
 				jdOptions: [],
 				yeyOptions: [],
 				bjOptions: [],
 				selectedJd: '',
 				selectedYey: '',
 				selectedBj: '',
+				mrjdxx: ''
 			}
 		},
 		computed: {
@@ -312,9 +319,21 @@
 								label: response.body.results[0].jdList[i].jdmc,
 							})
 						}
-						this.selectedJd = response.body.results[0].mrjdxx.jdmc;
-						this.selectedYey = response.body.results[0].mrjdxx.jdyeymc;
-						this.selectedBj = response.body.results[0].mrjdxx.jdyeybjmc;
+						if(response.body.results[0].mrjdxx) {
+							this.yeyOptions.push({
+								value: response.body.results[0].mrjdxx.jdyeyid,
+								label: response.body.results[0].mrjdxx.jdyeymc
+							});
+							this.bjOptions.push({
+								value: response.body.results[0].mrjdxx.jdyeybjid,
+								label: response.body.results[0].mrjdxx.jdyeybjmc
+							});
+							this.selectedJd = response.body.results[0].mrjdxx.jdid;
+							this.selectedYey = response.body.results[0].mrjdxx.jdyeyid;
+							this.selectedBj = response.body.results[0].mrjdxx.jdyeybjid;
+						} else {
+							
+						}
 						this.showopt = false;
 						this.rflag = false;
 						this.showjdxx = true;
@@ -337,9 +356,16 @@
 				}
 			},
 			selectF() {
+				this.rflag = false;
+				this.qflag = false;
+				this.showjdxx = false;
+				this.showfm = true;
+				this.showbox = true;
+			},
+			fire() {
 				var objstr = JSON.stringify({
 					pgbbh: this.bbinfo.pgbbh,
-					fmlx: 1,
+					fmlx: this.fmlx,
 					jdid: this.selectedJd,
 					jdyeyid: this.selectedYey,
 					jdyeybjid: this.selectedBj
@@ -347,9 +373,30 @@
 
 				this.$http.post(this.hqpgbmx, objstr).then(function(response){
 					console.log(response);
+					if(response.body.code == "1") {
+						this.questionList = response.body.results;
+						if(this.questionList[0].lx == 4) {
+							this.$http.post("/getIntr/" + this.questionList[0].jsdz).then(function(response) {
+								console.log(response);
+								this.testhtml = response.body;
+							}, function(response) {
+
+							});
+						}
+						for (var i = 0; i < this.questionList.length; i++) {
+							this.questionListMap.set(this.questionList[i].nbbh, this.questionList[i].mxxh);
+							this.mxxhMap.set(this.questionList[i].mxxh, i);
+						}
+						this.percentrate = 1 / this.questionList.length * 100;
+						this.showfm = false;
+						this.qflag = true;
+					}
 				}, function(response) {
 					console.log('fail');
 				})
+			},
+			addFmlx(xh, index) {
+				this.fmlx = xh;
 			},
 			jdChange(index) {
 				if(index == 1) {
@@ -433,6 +480,7 @@
 		      console.log(response);
 					this.answerList = response.body.results;
 					this.showbox = true;
+					this.qflag = false;
 					this.rflag = true;
 					this.subflag = false;
 		    }, function(response){
@@ -543,6 +591,7 @@
 								xxnr: this.questionList[this.questionIndex].xxlist[index].nr,
 								xh: x
 							});
+							this.qflag = false;
 							this.rflag = true;
 							return;
 						} else {
@@ -715,6 +764,9 @@
 				padding-top: 10px;
 				box-sizing: border-box;
 				border: 1px solid #eee;
+				p {
+					text-indent: 0;
+				}
 				.ps {
 					padding: 0 30px 0 25px;
 					line-height: 24px;
@@ -767,6 +819,15 @@
 						font-size: 16px;
 					}
 				}
+				&.fmlx-panel .answer-panel {
+					position: relative;
+					.el-button--large {
+						position: absolute;
+						bottom: 0;
+						width: 100%;
+						height: 50px;
+					}
+				}
 				.answer-panel {
 					flex: 1;
 					overflow-y: auto;
@@ -785,7 +846,6 @@
 						align-items: center;
 						position: relative;
 						padding: 14px 30px 14px 25px;
-
 						font-size: 14px;
 						width: 87%;
 						overflow: hidden;

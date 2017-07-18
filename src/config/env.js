@@ -29,6 +29,7 @@ let savePgb = baseUrl + '/phone/pgbbc';
 let getTclist = baseUrl + '/phone/tclist';
 let ggkCheck = baseUrl + '/phone/check';
 let ggkdh = baseUrl + '/phone/ggkdh';
+let pgbxddh = baseUrl + '/phone/pgbxddh';
 let addBaby = baseUrl + '/phone/bbbc';
 let editBaby = baseUrl + '/phone/bbxg';
 let delBaby = baseUrl + '/phone/bbsc';
@@ -60,6 +61,7 @@ export {
   getTclist,
 	ggkCheck,
   ggkdh,
+  pgbxddh,
   addBaby,
   editBaby,
   delBaby,

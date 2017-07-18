@@ -136,6 +136,7 @@ export default {
               if(response.body.code == 1) {
                 this.$confirm('修改密码成功！', '提示', {
                   confirmButtonText: '确定',
+                  showCancelButton: false,
                   type: 'success'
                 }).then(() => {
                   this.$router.push('/bbmana');
@@ -143,6 +144,7 @@ export default {
               } else {
                 this.$confirm(response.body.message, '提示', {
                   confirmButtonText: '确定',
+                  showCancelButton: false,
                   type: 'warning'
                 }).then(() => {
                 })

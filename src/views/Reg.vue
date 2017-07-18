@@ -16,8 +16,10 @@
 		              <el-input v-model.number="ruleForm2.phone"  placeholder="请输入手机号"></el-input>
 		            </el-form-item>
 		            <el-form-item label="验证码" prop="msgcode">
-		              <el-input v-model.number="ruleForm2.msgcode"  placeholder="请输入短信验证码" class="msg-code"></el-input>
-		              <el-button  type="success" :disabled="yzmflag" @click="sendCode">{{yzmtxt | change}}</el-button>
+									<div class="msgcode-bar">
+										<el-input v-model.number="ruleForm2.msgcode"  placeholder="请输入短信验证码" class="msg-code"></el-input>
+										<el-button class="msg-btn" type="success" :disabled="yzmflag" @click="sendCode">{{yzmtxt | change}}</el-button>
+									</div>
 		            </el-form-item>
 		            <el-form-item label="密码" prop="pass">
 		              <el-input type="password" v-model="ruleForm2.pass" placeholder="请输入密码" auto-complete="off"></el-input>
@@ -75,6 +77,9 @@
     components: {
       HeaderBar,
     },
+		mounted() {
+			console.log('thy');
+		},
     data() {
       var checkPhone = (rule, value, callback) => {
         var reg = /1[0-9]{10}/;
@@ -222,13 +227,16 @@
 								if(response.body.code == 1) {
 									this.$confirm('注册成功！', '提示', {
 										confirmButtonText: '确定',
+										showCancelButton: false,
 										type: 'success'
 									}).then(() => {
+										this.$store.commit('setSjh', this.ruleForm2.phone);
 		                this.$router.push('/login');
 		              })
 								} else {
 									this.$confirm(response.body.message, '提示', {
 					          confirmButtonText: '确定',
+										showCancelButton: false,
 					          type: 'warning'
 					        })
 								}
@@ -346,12 +354,16 @@
     padding-left: 70px;
   }
 
-  .reg-form-wrapper .demo-ruleForm .el-input {
-    width: 90%;
-  }
+	.reg-form-wrapper .demo-ruleForm .msgcode-bar {
+		display: flex;
+	}
+
+	.reg-form-wrapper .demo-ruleForm .msgcode-bar .msg-btn {
+		margin-left: 10px;
+	}
 
   .reg-form-wrapper .demo-ruleForm .el-input.msg-code {
-    width: 50%;
+    flex: 1;
   }
 
   .reg-form-wrapper .el-form-item {

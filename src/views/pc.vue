@@ -27,7 +27,10 @@
                 <el-menu-item index="2" @click="gobaby(2)"><i class="el-icon-menu"></i>兑换码</el-menu-item>
               </el-tooltip>
               <el-tooltip :value="tstep" :manual="true" content="填写健康评估表" placement="left">
-                <el-menu-item index="3" @click="gobaby(3)"><i class="el-icon-search"></i>健康评估表</el-menu-item>
+                <el-menu-item index="3" @click="gobaby(3)">
+                    <i class="el-icon-search"></i>
+                    健康评估表
+                </el-menu-item>
               </el-tooltip>
               <el-menu-item index="4" @click="gobaby(4)"><i class="el-icon-time"></i>评估历史</el-menu-item>
               <el-menu-item index="5" @click="gobaby(5)"><i class="el-icon-setting"></i>修改密码</el-menu-item>
@@ -197,6 +200,8 @@ export default {
               a {
                 color: #4fc1e9;
               }
+            }
+            .badge-item {
             }
           }
           .el-submenu .el-menu-item:hover, .el-submenu__title:hover,

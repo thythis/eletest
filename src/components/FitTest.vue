@@ -6,6 +6,10 @@
           <a v-for="(item, index) in bbList"
           :class="[{hover: isBaby(index)}]"
           @click="changebb(index)">{{item.mc}}</a>
+          <div class="exchange-part">
+            <el-input placeholder="请输入兑换口令" v-model="xdbh"></el-input>
+            <el-button type="primary" @click="testCmd">兑换</el-button>
+          </div>
         </div>
         <el-tabs v-model="activeName" @tab-click="handleBaby">
           <el-tab-pane label="健康评估" name="first">
@@ -117,7 +121,7 @@
 
 <script>
 import myfun from '../assets/js/test.js'
-import {getTC} from '@/config/env'
+import {getTC, pgbxddh} from '@/config/env'
 import Survey from '../components/Survey.vue';
 export default {
   components: {
@@ -176,7 +180,9 @@ export default {
   data() {
     return {
       getTC,
+      pgbxddh,
       bbindex: 5,
+      xdbh: '',
       yhid: myfun.fetch().yhid,
       bbindex: myfun.fetch().currenbaby,
       bbname: myfun.fetch().bbList[this.$store.state.count].mc,
@@ -198,6 +204,19 @@ export default {
   methods: {
     changebb(index) {
       this.$store.commit('setCount', index);
+    },
+    testCmd() {
+      var objjjj = JSON.stringify({
+        yhid: myfun.fetch().yhid,
+        bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
+        token: myfun.fetch().token,
+        xdbh: this.xdbh
+      });
+      this.$http.post(this.pgbxddh, objjjj).then(function(response){
+        console.log(response);
+      }, function(response) {
+        console.log('fail');
+      })
     },
     handleBaby(tab, event) {
       this.loading = true;
@@ -275,6 +294,17 @@ export default {
 <style lang="scss">
   .el-tabs__item {
     font-size: 16px;
+  }
+
+  .exchange-part {
+    width: 80%;
+    margin-top: 10px;
+    .el-input {
+      width: 50%;
+    }
+    .el-button {
+      margin-left: 10px;
+    }
   }
 
   .box {

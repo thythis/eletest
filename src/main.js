@@ -27,6 +27,7 @@ import {
   OptionGroup,
   Button,
   ButtonGroup,
+  Badge,
   Table,
   TableColumn,
   DatePicker,
@@ -74,6 +75,7 @@ Vue.use(Option)
 Vue.use(OptionGroup)
 Vue.use(Button)
 Vue.use(ButtonGroup)
+Vue.use(Badge)
 Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(DatePicker)
@@ -197,6 +199,7 @@ const router = new VueRouter({
 const store = new Vuex.Store({
   state: {
     count: 0,
+    sjh: '',
     bbpgblist: []
   },
   mutations: {
@@ -204,6 +207,9 @@ const store = new Vuex.Store({
     decrement: state => state.count--,
     setCount(state, num) {
       state.count = num;
+    },
+    setSjh(state, num) {
+      state.sjh = num;
     },
     bblist(state, list) {
       state.bbpgblist = list;
