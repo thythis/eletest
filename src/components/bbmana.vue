@@ -78,7 +78,7 @@
             <el-col :span="10">
               <el-input v-model="form.bjh" placeholder="请输入保健号"></el-input>
             </el-col>
-            <el-button type="primary" >绑定</el-button>
+            <el-button type="primary" :disabled="form.bjh?false:true" @click="bindbjh">绑定</el-button>
           </el-form-item>
 
           <el-form-item>
@@ -92,7 +92,7 @@
 </template>
 
 <script>
-import {addBaby, editBaby, delBaby} from '@/config/env'
+import {addBaby, editBaby, babybjh, delBaby} from '@/config/env'
 import myfun from '../assets/js/test.js'
 import VueImgInputer from 'vue-img-inputer';
 import baby1 from '../assets/img/baby1.jpg';
@@ -104,6 +104,7 @@ export default {
     return {
       addBaby,
       editBaby,
+      babybjh,
       delBaby,
       bbList: myfun.fetch().bbList,
       fullscreenLoading: false,
@@ -207,6 +208,73 @@ export default {
       this.form.bbid = item.bbid;
       this.form.bjh = item.bjh;
       this.flag = true;
+    },
+    bindbjh: function() {
+      var objstr = JSON.stringify({
+        xb: this.form.gendar,
+        csrq: this.form.birth,
+        yhid: this.yhid,
+        mc: this.form.name,
+        bbid: this.form.bbid,
+        bjh: this.form.bjh,
+        token: myfun.fetch().token
+      });
+      this.$http.post(this.babybjh, objstr).then(function(response){
+        console.log(response);
+        if(response.body.code == "1") {
+          this.fullscreenLoading = true;
+          if(!(this.fbirth === this.form.birth)) {
+            this.fbirth = this.form.birth.getFullYear() + '-' +
+            (this.form.birth.getMonth() + 1 > 9 ? this.form.birth.getMonth() + 1 : '0' + (this.form.birth.getMonth() + 1)) + '-' +
+            (this.form.birth.getDate() > 9 ? this.form.birth.getDate() : '0' + this.form.birth.getDate());
+          }
+          var objjjj = JSON.stringify({
+            yhid: this.yhid,
+            bbid: this.form.bbid,
+            mc: this.form.name,
+            xb: this.form.gendar,
+            csrq: this.fbirth,
+            bjh: this.form.bjh,
+            token: myfun.fetch().token
+          });
+          this.$http.post(this.editBaby, objjjj).then(function(response){
+            this.fullscreenLoading = false;
+            console.log(response);
+            if(response.body.code == "1") {
+              var item = myfun.fetch();
+              for (var bb in item.bbList) {
+                if (item.bbList[bb].bbid == this.form.bbid) {
+                  item.bbList[bb] = response.body;
+                  break;
+                }
+              }
+              this.bbList = item.bbList;
+              myfun.save(item);
+              this.flag = false;
+              this.$message({
+                type: 'success',
+                message: '保存成功!'
+              });
+            } else {
+              this.$message({
+                type: 'error',
+                message: response.body.message
+              });
+            }
+          }, function(response) {
+            console.log('fail');
+          })
+        } else {
+          this.$message({
+            type: 'error',
+            duration: 2000,
+            message: response.body.message
+          });
+          this.form.bjh = '';
+        }
+      }, function(response) {
+        console.log('fail');
+      })
     },
     saveEdit: function() {
       console.log(this.form.birth);

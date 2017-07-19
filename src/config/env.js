@@ -32,6 +32,7 @@ let ggkdh = baseUrl + '/phone/ggkdh';
 let pgbxddh = baseUrl + '/phone/pgbxddh';
 let addBaby = baseUrl + '/phone/bbbc';
 let editBaby = baseUrl + '/phone/bbxg';
+let babybjh = baseUrl + '/phone/bindbjh';
 let delBaby = baseUrl + '/phone/bbsc';
 
 // if (process.env.NODE_ENV == 'development') {
@@ -63,6 +64,7 @@ export {
   ggkdh,
   pgbxddh,
   addBaby,
+	babybjh,
   editBaby,
   delBaby,
 }

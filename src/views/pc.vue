@@ -8,7 +8,7 @@
           <el-step title="步骤 2"  description="在左边“导航栏”中进入“兑换码”，输入儿童心理筛查兑换卡背面的兑换码"></el-step>
           <el-step title="步骤 3"  description="在左边“导航栏”中进入“健康评估表”填写有“可评测”标识的心理调查问卷，填写完毕后，请提交"></el-step>
         </el-steps>
-        <el-button type="primary" @click="next" v-text="steptxt"></el-button>
+        <el-button type="primary" v-if="stepbtn" @click="next" v-text="steptxt"></el-button>
       </div>
       <div class="pc-content">
         <el-row>
@@ -77,6 +77,7 @@ export default {
       active: 0,
       fstep: false,
       sstep: false,
+      stepbtn: true,
       tstep: false,
       steptxt: '下一步',
     }
@@ -91,7 +92,7 @@ export default {
       this.bbindex = this.$store.state.count;
     },
     next() {
-      if (++this.active > 3) this.active = 0;
+      if (++this.active > 3) this.stepbtn = false;
       if(this.active == 1) {
         this.tstep = false;
         this.fstep = true;

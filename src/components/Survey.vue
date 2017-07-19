@@ -81,14 +81,22 @@
 						<el-form>
 						<p>{{questionList[questionIndex].nbbh||questionList[questionIndex].mxxh}}、
 							<span v-if="(questionList[questionIndex].lx==1)||(questionList[questionIndex].lx==2)||(!questionList[questionIndex].lx)">{{questionList[questionIndex].nr}}</span>
-							<span v-for="(item,index) in processNr" v-if="questionList[questionIndex].lx==3">
+							<span v-for="(item,index) in processNr" v-if="questionList[questionIndex].lx==3" >
 								{{item}}
-								<el-tooltip :disabled="showtip[index]" :content="gzinfo[index]" placement="bottom" effect="light">
-									<input class="blankipt" v-chkdata="{ gz: questionList[questionIndex].mxList?questionList[questionIndex].mxList[index].gz:questionList[questionIndex].gz }" v-if="index<(processNr.length-1)" placeholder="填写" v-model="num[index]" />
-								</el-tooltip>
+								<!-- <el-tooltip content="123" placement="bottom" effect="light"> -->
+								<!-- <el-tooltip :disabled="showtip[index]" :content="gzinfo[index]" placement="bottom" effect="light"> -->
+								<input class="blankipt" @change="blankgz(index)"  v-if="index<(processNr.length-1)" placeholder="填写" ref="iptitem" v-model="num[index]" />
+								<!-- </el-tooltip> -->
+									<!-- <el-popover
+										ref="popover1"
+										placement="bottom"
+										trigger="click"
+										content="20-1111">
+									</el-popover> -->
+									<!-- <input  v-popover:popover1 type="text" name="" value="" placeholder="asdflksajdflja"> -->
 							</span>
 						</p>
-						<el-button v-if="(questionList[questionIndex].lx==3)||(questionList[questionIndex].lx==2)" type="primary" @click="next(questionList[questionIndex].lx)">下一题</el-button>
+						<el-button :disabled="nextflag" v-if="(questionList[questionIndex].lx==3)||(questionList[questionIndex].lx==2)" type="primary" @click="next(questionList[questionIndex].lx)">下一题</el-button>
 					</el-form>
 					</div>
 					<div class="answer-panel" v-if="(questionList[questionIndex].lx==null)||(questionList[questionIndex].lx==1)||(questionList[questionIndex].lx==2)">
@@ -189,6 +197,7 @@
 				showjdxx: false,
 				showfm: false,
 				qflag: true,
+				nextflag: true,
 				rflag: false,
 				yeyflag: true,
 				bjflag: true,
@@ -248,7 +257,9 @@
 							this.showtip[i] = true;
 						}
 					}
-					return arr.join('').split("XXX");
+					arr = arr.join('').split("XXX");
+					this.num.length = arr.length - 1;
+					return arr;
 				}
 				if(this.questionList[this.questionIndex].gz) {
 					console.log(this.questionIndex);
@@ -281,6 +292,31 @@
 				}, function(response){
 						console.log('fail');
 				});
+			},
+			blankgz(index) {
+				console.log(this.num.length);
+				if(this.gzinfo[index]) {
+					let arr = this.gzinfo[index].split('-');
+					let num = parseInt(this.num[index]);
+					arr[0] = parseInt(arr[0]);
+					arr[1] = parseInt(arr[1]);
+					// (!this.num[index].match(/^\d+$/)) ||
+					if((!this.num[index].match(/^\d+$/)) || ((num < arr[0]) || (num > arr[1]))) {
+						this.$refs.iptitem[index].value = "";
+						this.num[index] = '';
+						this.$refs.iptitem[index].focus();
+						this.$message.error('输入格式：' + this.gzinfo[index]);
+					} else {
+
+					}
+				}
+				for (var i = 0; i < this.num.length; i++) {
+					if((this.num[i] == "")||(!this.num[i])) {
+							this.nextflag = true;
+							return;
+					}
+				}
+				this.nextflag = false;
 			},
 			getTest() {
 				console.log(this.bbinfo);
@@ -332,7 +368,7 @@
 							this.selectedYey = response.body.results[0].mrjdxx.jdyeyid;
 							this.selectedBj = response.body.results[0].mrjdxx.jdyeybjid;
 						} else {
-							
+
 						}
 						this.showopt = false;
 						this.rflag = false;
@@ -494,6 +530,7 @@
 					bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
 		      pgbbh: this.bbinfo.pgbbh,
 					kh: this.bbinfo.kh,
+					fmlx: this.fmlx,
 					xxlist: this.answerList
 		    });
 		    this.$http.post(this.savePgb, objstr).then(function(response){
@@ -504,6 +541,7 @@
 						msg = response.body.remark;
 						this.$confirm(msg, '提交成功', {
 		          confirmButtonText: '确定',
+							showCancelButton: false,
 		          type: 'success'
 		        }).then(() => {
 							this.showbox = false;
@@ -567,6 +605,9 @@
 					});
 				}
 				this.questionIndex++;
+				this.nextflag = true;
+				this.gzinfo.length = 0;
+				this.num.length = 0;
 			},
 			myTest: function(x, index) {
 				var lx = this.questionList[this.questionIndex].lx;
@@ -578,6 +619,11 @@
 						this.xhlist.splice(this.xhlist.indexOf(x),1);
 					} else {
 						this.xhlist.push(x);
+					}
+					if(this.xhlist.length == 0) {
+						this.nextflag = true;
+					} else {
+						this.nextflag = false;
 					}
 				} else if((lx == 1)||!lx) {
 					setTimeout(() => {
@@ -641,6 +687,10 @@
 
 <style lang="scss" type="text/css" scoped>
 	$MAIN_COLOR: #4fc1e9;
+	.el-popover {
+		min-width: 50px!important;
+		text-align: center;
+	}
 	.el-message-box {
 		width: 760px;
 	}
@@ -697,6 +747,11 @@
 					font-size: 22px;
 					text-align: center;
 					font-weight: normal;
+					overflow: hidden;
+					width: 80%;
+					white-space: nowrap;
+					margin: 0 auto;
+					text-overflow: ellipsis;
 				}
 			}
 			.resoult-panel {
@@ -708,6 +763,7 @@
 				overflow-y: auto;
 				.list-item {
 					padding: 10px 0;
+					display: flex;
 					border-bottom: 1px solid #ededed;
 					.qbh {
 						display: inline-block;
@@ -847,7 +903,6 @@
 						position: relative;
 						padding: 14px 30px 14px 25px;
 						font-size: 14px;
-						width: 87%;
 						overflow: hidden;
 						text-overflow: ellipsis;
 						white-space: nowrap;
