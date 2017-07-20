@@ -307,6 +307,7 @@ export default {
                   var item = myfun.fetch();
                   item.bbList = this.bbList;
                   myfun.save(item);
+                  this.$store.commit('increCount');
                   this.flag = false;
                   this.$message({
                     type: 'success',

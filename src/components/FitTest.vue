@@ -54,7 +54,7 @@
                     <el-table-column
                     label="操作">
                     <template scope="scope">
-                      <el-button size="small" icon="search" type="danger" @click.stop="checkSurvey(scope.row)">查看详情</el-button>
+                      <el-button size="small" icon="search" type="danger" @click.stop="(scope.row.qzpgbbh!='lh_jbxx')?checkSurvey(scope.row):specSurvey(scope.row, item.zdlist)">查看详情</el-button>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -135,10 +135,9 @@ export default {
     });
     this.reqloading = true;
     this.$http.post(this.getTC, objjjj).then(function(response){
-      console.log(response);
       this.reqloading = false;
       this.pgblist = response.body.results;
-      // console.log(response);
+      console.log(this.pgblist);
     }, function(response) {
       this.loading = false;
       console.log('fail');
@@ -278,13 +277,28 @@ export default {
     },
     checkSurvey(pgbinfo) {
       this.bbinfo = pgbinfo;
-      // this.bbinfo.pgbbh = pgbinfo.pgbbh;
-      // this.bbinfo.bbpgbid = pgbinfo.bbpgbid;
-      // this.bbinfo.zt = pgbinfo.zt;
       if(this.activeName == "first") {
         this.showsurvey = !this.showsurvey;
       } else {
         this.showsurvey2 = !this.showsurvey2;
+      }
+    },
+    specSurvey(pgbinfo, list) {
+      for (var i = 0; i < list.length; i++) {
+        if((list[i].pgbbh == "lh_jbxx") && (list[i].zt != 1)) {
+          this.$confirm('请先填写基本信息表', '提示', {
+            confirmButtonText: '确定',
+            showCancelButton: false,
+            type: 'warning'
+          })
+        } else {
+          this.bbinfo = pgbinfo;
+          if(this.activeName == "first") {
+            this.showsurvey = !this.showsurvey;
+          } else {
+            this.showsurvey2 = !this.showsurvey2;
+          }
+        }
       }
     }
   }

@@ -201,6 +201,7 @@ const store = new Vuex.Store({
   state: {
     count: 0,
     sjh: '',
+    bblist: [],
     bbpgblist: []
   },
   mutations: {
@@ -209,8 +210,14 @@ const store = new Vuex.Store({
     setCount(state, num) {
       state.count = num;
     },
+    increCount(state) {
+      state.count++;
+    },
     setSjh(state, num) {
       state.sjh = num;
+    },
+    setBblist(state, list) {
+      state.bblist = list;
     },
     bblist(state, list) {
       state.bbpgblist = list;

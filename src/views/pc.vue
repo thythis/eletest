@@ -42,7 +42,6 @@
         </el-row>
       </div>
     </div>
-
     <main-footer></main-footer>
   </div>
 </template>
@@ -132,6 +131,14 @@ export default {
   .carousel-wrapper,.nav-bar-wrapper,.search-bar-wrapper {
     display: none;
   }
+  .mask {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background: #000;
+		display: block;
+		z-index: 9999;
+	}
   .pc-wrapper {
     overflow: hidden;
     padding-top: 50px;
