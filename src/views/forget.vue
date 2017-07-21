@@ -2,38 +2,38 @@
   <div>
     <header-bar txt="我已注册，现在就" path="login" btntxt="登录"></header-bar>
     <div class="reg-form-wrapper">
-      <el-steps :space="300" :center="true" :active="active" finish-status="success">
+      <!-- <el-steps :space="300" :center="true" :active="active" finish-status="success">
         <el-step title="验证手机"></el-step>
         <el-step title="重置密码"></el-step>
         <el-step title="完成"></el-step>
-      </el-steps>
+      </el-steps> -->
 		  <el-row :gutter="10" type="flex" justify="center">
 		    <el-col :xs="24" :sm="20" :md="18" :lg="14" class="bg-white">
 		      <div class="form-banner">
 		        <div class="fb-outline">
-		          <span>{{resetpass?'重置密码':'验证手机'}}</span>
+		          <span>重置密码</span>
 		        </div>
 		      </div>
 		      <el-row class="pt60">
 		        <el-col :xs="24" :sm="14" :md="13" :lg="12" class="pl70">
 		          <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="right" label-width="100px" class="demo-ruleForm">
-		            <el-form-item label="手机号" prop="phone" class="clearfix"  v-if="!resetpass">
+		            <el-form-item label="手机号" prop="phone" class="clearfix">
 		              <el-input v-model.number="ruleForm2.phone"  placeholder="请输入手机号"></el-input>
 		            </el-form-item>
-		            <el-form-item label="验证码" prop="msgcode"  v-if="!resetpass">
+		            <el-form-item label="验证码" prop="msgcode">
                   <div class="msgcode-bar">
   		              <el-input v-model.number="ruleForm2.msgcode"  placeholder="请输入短信验证码" class="msg-code"></el-input>
   		              <el-button class="msg-btn" type="success" @click="sendCode" :disabled="yzmflag1" :loading="yzmflag">{{yzmtxt | change}}</el-button>
                   </div>
 		            </el-form-item>
-                <el-form-item label="新密码" prop="pass" v-if="resetpass">
+                <el-form-item label="新密码" prop="pass">
 		              <el-input type="password" v-model="ruleForm2.pass" placeholder="请输入密码" auto-complete="off"></el-input>
 		            </el-form-item>
-		            <el-form-item label="确认密码" prop="checkPass"  v-if="resetpass">
+		            <el-form-item label="确认密码" prop="checkPass">
 		              <el-input type="password" v-model="ruleForm2.checkPass" placeholder="请再次输入密码" auto-complete="off"></el-input>
 		            </el-form-item>
 		            <el-form-item>
-		              <el-button :disabled="nextstep" class="sub-btn" type="primary" size="large" @click="next">下一步</el-button>
+		              <el-button :disabled="nextstep" class="sub-btn" type="primary" size="large" @click="submitForm('ruleForm2')">下一步</el-button>
 		            </el-form-item>
 		          </el-form>
 		        </el-col>
@@ -58,6 +58,7 @@ export default {
       var re = new RegExp(reg);
       if (!value) {
         // new Error('手机号不能为空')
+        this.nextstep = true;
         return callback(this.$message({
           message: '手机号不能为空',
           type: 'error',
@@ -66,6 +67,7 @@ export default {
       }
       setTimeout(() => {
         if (!Number.isInteger(value)) {
+          this.nextstep = true;
           callback(this.$message({
           message: '请输入数字值',
           type: 'error',
@@ -78,6 +80,7 @@ export default {
     };
     var checkMsg = (rule, value, callback) => {
       if (!value) {
+        this.nextstep = true;
         return callback(this.$message({
           message: '验证码不能为空',
           type: 'error',
@@ -86,19 +89,20 @@ export default {
       }
       setTimeout(() => {
         if (!Number.isInteger(value)) {
+          this.nextstep = true;
           callback(this.$message({
           message: '请输入数字值',
           type: 'error',
           duration: 1000
         }));
         } else {
-          this.nextstep = false;
           callback();
         }
       }, 300);
     };
     var validatePass = (rule, value, callback) => {
       if (value === '') {
+        this.nextstep = true;
         callback(this.$message({
           message: '请输入密码',
           type: 'error',
@@ -113,12 +117,14 @@ export default {
     };
     var validatePass2 = (rule, value, callback) => {
       if (value === '') {
+        this.nextstep = true;
         callback(this.$message({
           message: '请再次输入密码',
           type: 'error',
           duration: 1000
         }));
       } else if (value !== this.ruleForm2.pass) {
+        this.nextstep = true;
         callback(this.$message({
           message: '两次输入密码不一致',
           type: 'error',
@@ -167,16 +173,8 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$notify({
-            title: '恭喜您！',
-            message: '注册成功',
-            type: 'success'
-          });
+          this.next();
         } else {
-          this.$notify({
-            title: '注册失败',
-            type: 'error'
-          });
           return false;
         }
       });
@@ -220,14 +218,6 @@ export default {
       });
     },
     next() {
-      if (this.active > 2) {
-        this.active = 0;
-      }
-      this.active++;
-      if(this.active == 1) {
-        this.resetpass = true;
-        this.nextstep = true;
-      } else if(this.active == 2) {
         var encrymm = md5(this.ruleForm2.pass);
 				var obj = {
 					sjh: this.ruleForm2.phone,
@@ -259,7 +249,6 @@ export default {
                 this.ruleForm2.phone = '';
                 this.ruleForm2.dxid = 0;
                 this.ruleForm2.msgcode = '';
-                this.active = 0;
                 this.nextstep = true;
                 this.resetpass = false;
               })
@@ -267,7 +256,6 @@ export default {
 				}, function(response){
 						console.log('fail');
 				});
-      }
     }
   },
   filters: {

@@ -7,7 +7,8 @@ import VueResource from 'vue-resource'
 import Vuex from 'vuex'
 import myfun from './assets/js/test.js'
 import App from './App'
-
+import VueScroller from 'vue-scroller'
+Vue.use(VueScroller)
 
 // import {
 //   Dialog,

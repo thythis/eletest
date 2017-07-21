@@ -53,89 +53,16 @@
 				<el-button type="success" @click="showRst" v-if="ztflag" :loading="playflag">查看报告</el-button>
 				<el-button type="warning" @click="showRecord" v-if="jlflag" :loading="playflag">查看记录</el-button>
 			</div>
-			独占模式
+			<!-- 独占模式
 			<el-switch
 			  v-model="monomode"
 			  on-text="on"
 			  off-text="">
-			</el-switch>
+			</el-switch> -->
 			<el-dialog
 				size="tiny"
 			  :visible.sync="monomode">
-				<div class="survey-box monobox" v-if="showbox">
-					<div class="box-header">
-						<h2 class="title">{{bbinfo.mc}}</h2>
-					</div>
-					<div class="survey-content fmlx-panel" v-if="showfm">
-						<div class="question-panel">
-							<p>家庭类型</p>
-						</div>
-						<div class="answer-panel">
-							<div v-for="(item,index) in fmlist">
-								<input type="radio" :value="item.xh" name="xx" :id="'c'+item.xh"  v-model="fmlx">
-								<label class="answer-item"   @click.prevent="addFmlx(item.xh, index)" :for="'c'+item.xh">
-									<span>{{item.xh}}</span>
-									<p>{{item.nr}}</p>
-								</label>
-							</div>
-							<el-button :disabled="fmlx?false:true" type="primary" size="large" @click="fire">提交</el-button>
-						</div>
-					</div>
-					<div class="survey-content" v-if="qflag">
-						<p class="ps">(本测试{{questionList.length}}道题，系统自动跳转，专业心理指导。)</p>
-						<div class="progress-bar">
-							<span><strong>{{questionIndex + 1}}</strong>/{{questionList.length}}</span>
-							<!-- <el-progress :percentage="percent" :show-text="false"></el-progress> -->
-							<el-slider :max="questionList.length" :show-tooltip="false" v-model="questionIndex"></el-slider>
-						</div>
-						<div class="intr-page" v-if="questionList[questionIndex].lx==4">
-							<div v-html="testhtml"></div>
-							<el-button  type="primary" @click="next(questionList[questionIndex].lx)" size="large">继续</el-button>
-						</div>
-						<div class="question-panel" v-if="!(questionList[questionIndex].lx==4)">
-							<el-form>
-							<p>{{questionList[questionIndex].nbbh||questionList[questionIndex].mxxh}}、
-								<span v-if="(questionList[questionIndex].lx==1)||(questionList[questionIndex].lx==2)||(!questionList[questionIndex].lx)">{{questionList[questionIndex].nr}}</span>
-								<span v-for="(item,index) in processNr" v-if="questionList[questionIndex].lx==3" >
-									{{item}}
-									<!-- <el-tooltip content="123" placement="bottom" effect="light"> -->
-									<!-- <el-tooltip :disabled="showtip[index]" :content="gzinfo[index]" placement="bottom" effect="light"> -->
-									<input class="blankipt" @change="blankgz(index)" v-chkdata="{index: index}"  v-if="index<(processNr.length-1)" placeholder="填写" ref="iptitem" v-model="num[index]" />
-									<!-- </el-tooltip> -->
-										<!-- <el-popover
-											ref="popover1"
-											placement="bottom"
-											trigger="click"
-											content="20-1111">
-										</el-popover> -->
-										<!-- <input  v-popover:popover1 type="text" name="" value="" placeholder="asdflksajdflja"> -->
-								</span>
-							</p>
 
-							<el-button :disabled="nextflag" ref="nextbtn" v-if="(questionList[questionIndex].lx==3)||(questionList[questionIndex].lx==2)" type="primary" @click="next(questionList[questionIndex].lx)">下一题</el-button>
-						</el-form>
-						</div>
-						<div class="answer-panel" v-if="(questionList[questionIndex].lx==null)||(questionList[questionIndex].lx==1)||(questionList[questionIndex].lx==2)">
-							<div v-for="(item,index) in questionList[questionIndex].xxlist">
-								<input type="checkbox" :value="item.xh" name="xx" :id="'c'+item.xh"  v-model="xhlist">
-								<label class="answer-item"   @click.prevent="myTest(item.xh, index)" :for="'c'+item.xh">
-									<span>{{item.xh}}</span>
-									<p>{{item.nr}}</p>
-								</label>
-							</div>
-						</div>
-					</div>
-					<div class="resoult-panel" v-if="rflag">
-						<div class="list-item" v-for="(item, index) in answerList">
-							<span class="qbh">{{item.nbbh||item.mxxh}}</span>
-							<span class="qnr">{{item.tmnr||item.nr}}</span>
-							<span class="answer">{{item.lx?(item.lx==1?item.xxnr:item.xh):item.xxnr}}</span>
-						</div>
-						<button class="sub-btn" v-if="questionList[0].bbpgbid!=null?!subflag:subflag" @click="subsurvey" v-loading.fullscreen.lock="fullscreenLoading">
-							提交评测
-						</button>
-					</div>
-				</div>
 			</el-dialog>
 			<div class="survey-box" v-if="showbox">
 				<div class="box-header">
@@ -157,38 +84,40 @@
 					</div>
 				</div>
 				<div class="survey-content" v-if="qflag">
-					<p class="ps">(本测试{{questionList.length}}道题，系统自动跳转，专业心理指导。)</p>
-					<div class="progress-bar">
-						<span><strong>{{questionIndex + 1}}</strong>/{{questionList.length}}</span>
-						<!-- <el-progress :percentage="percent" :show-text="false"></el-progress> -->
-						<el-slider :max="questionList.length" :show-tooltip="false" v-model="questionIndex"></el-slider>
-					</div>
-					<div class="intr-page" v-if="questionList[questionIndex].lx==4">
-						<div v-html="testhtml"></div>
-						<el-button  type="primary" @click="next(questionList[questionIndex].lx)" size="large">继续</el-button>
-					</div>
-					<div class="question-panel" v-if="!(questionList[questionIndex].lx==4)">
-						<el-form>
-						<p>{{questionList[questionIndex].nbbh||questionList[questionIndex].mxxh}}、
-							<span v-if="(questionList[questionIndex].lx==1)||(questionList[questionIndex].lx==2)||(!questionList[questionIndex].lx)">{{questionList[questionIndex].nr}}</span>
-							<span v-for="(item,index) in processNr" v-if="questionList[questionIndex].lx==3" >
-								{{item}}
-								<!-- <el-tooltip content="123" placement="bottom" effect="light"> -->
-								<!-- <el-tooltip :disabled="showtip[index]" :content="gzinfo[index]" placement="bottom" effect="light"> -->
-								<input class="blankipt" @change="blankgz(index)" v-chkdata="{index: index}"  v-if="index<(processNr.length-1)" placeholder="填写" ref="iptitem" v-model="num[index]" />
-								<!-- </el-tooltip> -->
-									<!-- <el-popover
+					<scroller
+						class="page-content">
+						<p class="ps">(本测试{{questionList.length}}道题，系统自动跳转，专业心理指导。)</p>
+						<div class="progress-bar">
+							<span><strong>{{questionIndex + 1}}</strong>/{{questionList.length}}</span>
+							<!-- <el-progress :percentage="percent" :show-text="false"></el-progress> -->
+							<el-slider :max="questionList.length" :show-tooltip="false" v-model="questionIndex"></el-slider>
+						</div>
+						<div class="intr-page" v-if="questionList[questionIndex].lx==4">
+							<div v-html="testhtml"></div>
+							<el-button  type="primary" @click="next(questionList[questionIndex].lx)" size="large">继续</el-button>
+						</div>
+						<div class="question-panel" v-if="!(questionList[questionIndex].lx==4)">
+							<el-form>
+								<p>{{questionList[questionIndex].nbbh||questionList[questionIndex].mxxh}}、
+									<span v-if="(questionList[questionIndex].lx==1)||(questionList[questionIndex].lx==2)||(!questionList[questionIndex].lx)">{{questionList[questionIndex].nr}}</span>
+									<span v-for="(item,index) in processNr" v-if="questionList[questionIndex].lx==3" >
+										{{item}}
+										<!-- <el-tooltip content="123" placement="bottom" effect="light"> -->
+										<!-- <el-tooltip :disabled="showtip[index]" :content="gzinfo[index]" placement="bottom" effect="light"> -->
+										<input class="blankipt" @change="blankgz(index)" v-chkdata="{index: index}"  v-if="index<(processNr.length-1)" placeholder="填写" ref="iptitem" v-model="num[index]" />
+										<!-- </el-tooltip> -->
+										<!-- <el-popover
 										ref="popover1"
 										placement="bottom"
 										trigger="click"
 										content="20-1111">
 									</el-popover> -->
 									<!-- <input  v-popover:popover1 type="text" name="" value="" placeholder="asdflksajdflja"> -->
-							</span>
-						</p>
+								</span>
+							</p>
 
-						<el-button :disabled="nextflag" ref="nextbtn" v-if="(questionList[questionIndex].lx==3)||(questionList[questionIndex].lx==2)" type="primary" @click="next(questionList[questionIndex].lx)">下一题</el-button>
-					</el-form>
+							<el-button :disabled="nextflag" :autofocus="nextflag" ref="nextbtn" v-if="(questionList[questionIndex].lx==3)||(questionList[questionIndex].lx==2)" type="primary" @click="next(questionList[questionIndex].lx)">下一题</el-button>
+						</el-form>
 					</div>
 					<div class="answer-panel" v-if="(questionList[questionIndex].lx==null)||(questionList[questionIndex].lx==1)||(questionList[questionIndex].lx==2)">
 						<div v-for="(item,index) in questionList[questionIndex].xxlist">
@@ -199,13 +128,17 @@
 							</label>
 						</div>
 					</div>
+					</scroller>
 				</div>
 				<div class="resoult-panel" v-if="rflag">
+					<scroller
+						:class="[{ 'page-content': subflag, 'page-content nobtn': !subflag }]">
 					<div class="list-item" v-for="(item, index) in answerList">
 						<span class="qbh">{{item.nbbh||item.mxxh}}</span>
 						<span class="qnr">{{item.tmnr||item.nr}}</span>
 						<span class="answer">{{item.lx?(item.lx==1?item.xxnr:item.xh):item.xxnr}}</span>
 					</div>
+					</scroller>
 					<button class="sub-btn" v-if="questionList[0].bbpgbid!=null?!subflag:subflag" @click="subsurvey" v-loading.fullscreen.lock="fullscreenLoading">
 						提交评测
 					</button>
@@ -327,6 +260,9 @@
 			percent: function() {
 				return this.questionIndex * this.percentrate;
 			},
+			aboutindex: function() {
+				return this.questionIndex;
+			},
 			processNr: function() {
 				if(this.questionList[this.questionIndex].mxList) {
 					var arr = [];
@@ -349,6 +285,7 @@
 				} else {
 					this.showtip[0] = true;
 				}
+				this.num.length = 1;
 				return this.questionList[this.questionIndex].nr.split("XXX");
 			},
 			descinfo: function() {
@@ -360,6 +297,13 @@
 
 					});
 				}
+			}
+		},
+		watch: {
+			aboutindex(val) {
+				this.num.length = 0;
+				this.gzinfo.length = 0;
+				this.nextflag = true;
 			}
 		},
 		methods: {
@@ -398,6 +342,12 @@
 						} else {
 							this.$refs.iptitem[index].blur();
 						}
+					}
+				} else {
+					if(index < (this.num.length - 1)) {
+						this.$refs.iptitem[index + 1].focus();
+					} else {
+						this.$refs.iptitem[index].blur();
 					}
 				}
 				for (var i = 0; i < this.num.length; i++) {
@@ -677,6 +627,11 @@
 		      console.log('fail');
 		    })
 			},
+			show(ev) {
+				if(ev.keyCode == 13) {
+					console.log('按回车了');
+				}
+			},
 			next(lx) {
 				if(lx == 2) {
 					var str = this.xhlist.join('#');
@@ -698,6 +653,10 @@
 							var mxxh = this.questionList[this.questionIndex].mxxh;
 							var nbbh = this.questionList[this.questionIndex].nbbh;
 						}
+						if((this.bbinfo.pgbbh == "lh_jbxx") && (nbbh == "A12")) {
+							this.questionList[this.questionIndex + 1].gz = this.num[i] + "-" + this.num[i];
+							console.log(this.questionList[this.questionIndex + 1].gz);
+						}
 						this.answerList.push({
 							pgbbh: this.bbinfo.pgbbh,
 							mxxh: mxxh,
@@ -707,7 +666,6 @@
 							xh: this.num[i]
 						})
 					}
-					this.num.length = 0;
 				}
 				if(this.questionList[this.questionIndex + 1].lx == 4) {
 					this.$http.post("/getIntr/" + this.questionList[this.questionIndex + 1].jsdz).then(function(response) {
@@ -728,14 +686,15 @@
 					var gz = this.questionList[this.questionIndex].gz.split("#");
 				}
 				if(lx == 2) {
+					if(gz&&(gz[0] != "")) {
+						var arr = gz[0].split("-");
+						arr[0] = parseInt(arr[0]);
+						arr[1] = parseInt(arr[1]);
+					}
 					if(this.xhlist.indexOf(x) >= 0) {
 						this.xhlist.splice(this.xhlist.indexOf(x),1);
 					} else {
-						if(gz&&(gz[0] != "")) {
-							var arr = gz[0].split("-");
-							arr[0] = parseInt(arr[0]);
-							arr[1] = parseInt(arr[1]);
-							console.log(arr);
+						if(arr) {
 							if(this.xhlist.length < arr[1]) {
 								this.xhlist.push(x);
 							}
@@ -746,7 +705,11 @@
 					if(this.xhlist.length == 0) {
 						this.nextflag = true;
 					} else{
-						this.nextflag = false;
+						if(arr&&(arr[0] == arr[1])&&(this.xhlist.length != arr[1])) {
+							this.nextflag = true;
+						} else {
+							this.nextflag = false;
+						}
 					}
 				} else if((lx == 1)||!lx) {
 					setTimeout(() => {
@@ -892,6 +855,14 @@
 				padding-bottom: 52px;
 				height: 610px;
 				overflow-y: auto;
+				.page-content {
+					width: 90%;
+					height: 554px;
+					padding: 0 5%;
+					&.nobtn {
+						height: 610px;
+					}
+				}
 				.list-item {
 					padding: 10px 0;
 					display: flex;
@@ -943,6 +914,10 @@
 					text-align: center;
 					border: none;
 				}
+			}
+			.page-content {
+				top: 60px;
+				height: 610px;
 			}
 			.survey-content {
 				display: flex;
