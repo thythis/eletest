@@ -8,11 +8,19 @@
           @click="changebb(index)">{{item.mc}}</a>
           <div class="exchange-part">
             <el-input placeholder="请输入兑换口令" v-model="xdbh"></el-input>
-            <el-button type="primary" @click="testCmd">兑换</el-button>
+            <el-button :disabled="xdbh?false:true" type="primary" @click="testCmd">兑换</el-button>
           </div>
         </div>
         <el-tabs v-model="activeName" @tab-click="handleBaby">
           <el-tab-pane label="健康评估" name="first">
+            <div class="switch-list">
+              <el-tag class="switch-info" type="primary">显示所有评估表</el-tag>
+              <el-switch
+                v-model="pgblx"
+                on-value="0"
+                off-value="1">
+              </el-switch>
+            </div>
             <div v-if="!showsurvey">
               <div v-for="item in pgblist">
                 <div class="box">
@@ -62,7 +70,7 @@
             </div>
             <transition name="el-fade-in">
               <div v-if="showsurvey">
-                <el-button type="primary" icon="arrow-left" @click="showsurvey= false">返回</el-button>
+                <el-button type="primary" icon="arrow-left" @click="goBack">返回</el-button>
                 <survey :bbinfo="bbinfo"></survey>
               </div>
             </transition>
@@ -87,6 +95,7 @@
                   </el-table-column>
                   <el-table-column
                   prop="synld"
+                  :formatter="ageFormat"
                   label="年龄段">
                   </el-table-column>
                   <el-table-column
@@ -131,6 +140,7 @@ export default {
     var objjjj = JSON.stringify({
       yhid: myfun.fetch().yhid,
       bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
+      pgblx: this.pgblx,
       flbh: "jkpg"
     });
     this.reqloading = true;
@@ -148,6 +158,9 @@ export default {
   computed: {
     requestTc() {
       return this.$store.state.count
+    },
+    switchLx() {
+      return this.pgblx;
     }
   },
   watch: {
@@ -164,6 +177,29 @@ export default {
       var objjjj = JSON.stringify({
         yhid: myfun.fetch().yhid,
         bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
+        pgblx: this.pgblx,
+        flbh: flbh
+      });
+      this.$http.post(this.getTC, objjjj).then(function(response){
+        this.loading = false;
+        this.pgblist = response.body.results;
+        // console.log(response);
+      }, function(response) {
+        this.loading = false;
+        console.log('fail');
+      })
+    },
+    switchLx(val) {
+      var flbh = "";
+      if(this.activeName == "first") {
+        flbh = "jkpg";
+      } else {
+        flbh = "jkjk";
+      }
+      var objjjj = JSON.stringify({
+        yhid: myfun.fetch().yhid,
+        bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
+        pgblx: this.pgblx,
         flbh: flbh
       });
       this.$http.post(this.getTC, objjjj).then(function(response){
@@ -182,6 +218,7 @@ export default {
       pgbxddh,
       bbindex: 5,
       xdbh: '',
+      pgblx: 1,
       yhid: myfun.fetch().yhid,
       bbindex: myfun.fetch().currenbaby,
       bbname: myfun.fetch().bbList[this.$store.state.count].mc,
@@ -213,6 +250,20 @@ export default {
       });
       this.$http.post(this.pgbxddh, objjjj).then(function(response){
         console.log(response);
+        if(response.body.code == "1") {
+          this.$message({
+            type: 'success',
+            duration: 2000,
+            message: '兑换成功!'
+          });
+          this.$router.go(0);
+        } else {
+          this.$message({
+            type: 'warning',
+            duration: 2000,
+            message: response.body.message
+          });
+        }
       }, function(response) {
         console.log('fail');
       })
@@ -224,6 +275,7 @@ export default {
         var objjjj = JSON.stringify({
           yhid: myfun.fetch().yhid,
           bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
+          pgblx: this.pgblx,
           flbh: "jkpg"
         });
       } else if(tab.index == "1") {
@@ -231,6 +283,7 @@ export default {
         var objjjj = JSON.stringify({
           yhid: myfun.fetch().yhid,
           bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
+          pgblx: this.pgblx,
           flbh: "jkjk"
         });
       }
@@ -275,8 +328,17 @@ export default {
       }
       return false;
     },
+    goBack() {
+      this.$confirm('确认返回？', '提示', {
+        confirmButtonText: '确定',
+        type: 'success'
+      }).then(() => {
+        this.showsurvey= false;
+      })
+    },
     checkSurvey(pgbinfo) {
       this.bbinfo = pgbinfo;
+      console.log(pgbinfo);
       if(this.activeName == "first") {
         this.showsurvey = !this.showsurvey;
       } else {
@@ -369,6 +431,13 @@ export default {
   .test-content {
     width: 80%;
     margin: 10px auto 20px auto;
+    .switch-list {
+      display: flex;
+      justify-content: flex-end;
+      .switch-info {
+        margin-right: 10px;
+      }
+    }
     .list-panel {
       padding: 20px 0;
       border-bottom: 1px dashed #d1dee5;

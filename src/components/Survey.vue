@@ -168,6 +168,22 @@
 			bbinfo: {}
 		},
 		mounted() {
+			var synld = this.bbinfo.synld.split('-');
+			var bbage = myfun.fetch().bbList[this.$store.state.count].csrq.split('-');
+			var min = parseInt(synld[0]);
+			var max = parseInt(synld[1]);
+			var bbyear = parseInt(bbage[0]);
+			var bbMon = parseInt(bbage[1]);
+			var d = new Date();
+			var nowYear = d.getFullYear();
+			var nowMonth = d.getMonth() + 1;
+			bbMon = (bbMon > nowMonth) ? (bbMon - nowMonth) : (nowMonth - bbMon);
+			var bbyl = (nowYear - bbyear) * 12 + bbMon;
+			if((min <= bbyl) && (bbyl <= max)) {
+				this.testflag = true;
+			} else {
+				this.testflag = false;
+			}
 			if(this.bbinfo.zt == 3) {
 				this.ztflag = true;
 			}
@@ -194,6 +210,7 @@
 				getjdxx,
 				getyeyxx,
 				getbjxx,
+				testflag: false,
 				checkedtys: true,
 				ztflag: false,
 				subflag: true,
@@ -379,8 +396,64 @@
 				})
 			},
 			retest() {
-				if(this.bbinfo.zqtys) {
-					if(this.bbinfo.qzpgbbh && (this.bbinfo.qzpgbbh == "lh_jbxx")) {
+				if(!this.testflag) {
+					this.$confirm('宝宝不在评测年龄范围内！', '提示', {
+            confirmButtonText: '确定',
+            showCancelButton: false,
+            type: 'warning'
+          })
+				} else {
+					if(this.bbinfo.zqtys) {
+						if(this.bbinfo.qzpgbbh && (this.bbinfo.qzpgbbh == "lh_jbxx")) {
+							if(this.questionList[0].lx == 4) {
+								this.questionList.splice(0,1);
+							}
+							for (var i = 0; i < this.questionList.length; i++) {
+								this.questionListMap.set(this.questionList[i].nbbh, this.questionList[i].mxxh);
+								this.mxxhMap.set(this.questionList[i].mxxh, i);
+							}
+							this.percentrate = 1 / this.questionList.length * 100;
+							this.showpgbintro = false;
+							this.showopt = false;
+							this.showbox = true;
+						} else {
+							var objstr = JSON.stringify({
+								yhid: myfun.fetch().yhid,
+								bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
+								token: myfun.fetch().token
+							});
+
+							this.$http.post(this.getjdxx, objstr).then(function(response){
+								console.log(response);
+								for (var i = 0; i < response.body.results[0].jdList.length; i++) {
+									this.jdOptions.push({
+										value: response.body.results[0].jdList[i].jdid,
+										label: response.body.results[0].jdList[i].jdmc,
+									})
+								}
+								if(response.body.results[0].mrjdxx) {
+									this.yeyOptions.push({
+										value: response.body.results[0].mrjdxx.jdyeyid,
+										label: response.body.results[0].mrjdxx.jdyeymc
+									});
+									this.bjOptions.push({
+										value: response.body.results[0].mrjdxx.jdyeybjid,
+										label: response.body.results[0].mrjdxx.jdyeybjmc
+									});
+									this.selectedJd = response.body.results[0].mrjdxx.jdid;
+									this.selectedYey = response.body.results[0].mrjdxx.jdyeyid;
+									this.selectedBj = response.body.results[0].mrjdxx.jdyeybjid;
+								} else {
+
+								}
+								this.showopt = false;
+								this.rflag = false;
+								this.showjdxx = true;
+							}, function(response) {
+								console.log('fail');
+							})
+						}
+					} else {
 						if(this.questionList[0].lx == 4) {
 							this.questionList.splice(0,1);
 						}
@@ -391,57 +464,9 @@
 						this.percentrate = 1 / this.questionList.length * 100;
 						this.showpgbintro = false;
 						this.showopt = false;
+						this.rflag = false;
 						this.showbox = true;
-					} else {
-						var objstr = JSON.stringify({
-							yhid: myfun.fetch().yhid,
-							bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
-							token: myfun.fetch().token
-						});
-
-						this.$http.post(this.getjdxx, objstr).then(function(response){
-							console.log(response);
-							for (var i = 0; i < response.body.results[0].jdList.length; i++) {
-								this.jdOptions.push({
-									value: response.body.results[0].jdList[i].jdid,
-									label: response.body.results[0].jdList[i].jdmc,
-								})
-							}
-							if(response.body.results[0].mrjdxx) {
-								this.yeyOptions.push({
-									value: response.body.results[0].mrjdxx.jdyeyid,
-									label: response.body.results[0].mrjdxx.jdyeymc
-								});
-								this.bjOptions.push({
-									value: response.body.results[0].mrjdxx.jdyeybjid,
-									label: response.body.results[0].mrjdxx.jdyeybjmc
-								});
-								this.selectedJd = response.body.results[0].mrjdxx.jdid;
-								this.selectedYey = response.body.results[0].mrjdxx.jdyeyid;
-								this.selectedBj = response.body.results[0].mrjdxx.jdyeybjid;
-							} else {
-
-							}
-							this.showopt = false;
-							this.rflag = false;
-							this.showjdxx = true;
-						}, function(response) {
-							console.log('fail');
-						})
 					}
-				} else {
-					if(this.questionList[0].lx == 4) {
-						this.questionList.splice(0,1);
-					}
-					for (var i = 0; i < this.questionList.length; i++) {
-						this.questionListMap.set(this.questionList[i].nbbh, this.questionList[i].mxxh);
-						this.mxxhMap.set(this.questionList[i].mxxh, i);
-					}
-					this.percentrate = 1 / this.questionList.length * 100;
-					this.showpgbintro = false;
-					this.showopt = false;
-					this.rflag = false;
-					this.showbox = true;
 				}
 			},
 			selectF() {

@@ -2,6 +2,9 @@
   <div>
     <div class="history-panel">
       <el-tag class="toptag" type="gray">已评估的记录</el-tag>
+      <div class="no-his" v-if="hisList.length==0?true:false">
+        没有评估记录哟~
+      </div>
       <div class="hisitem" v-for="item in hisList">
         <div class="box">
           <div class="ribbon">
@@ -170,6 +173,13 @@ export default {
   .history-panel {
     width: 80%;
     margin: 50px auto 0 auto;
+    .no-his {
+      height: 500px;
+      color: #ccc;
+      text-align: center;
+      margin: 0 auto;
+      background: url(../assets/img/place.png) center center no-repeat;
+    }
     .toptag {
       margin-bottom: 20px;
     }

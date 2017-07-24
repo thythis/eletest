@@ -33,7 +33,7 @@
 		              <el-input type="password" v-model="ruleForm2.checkPass" placeholder="请再次输入密码" auto-complete="off"></el-input>
 		            </el-form-item>
 		            <el-form-item>
-		              <el-button :disabled="nextstep" class="sub-btn" type="primary" size="large" @click="submitForm('ruleForm2')">下一步</el-button>
+		              <el-button :disabled="nextstep" class="sub-btn" type="primary" size="large" @click="submitForm('ruleForm2')">重置密码</el-button>
 		            </el-form-item>
 		          </el-form>
 		        </el-col>
@@ -105,6 +105,12 @@ export default {
         this.nextstep = true;
         callback(this.$message({
           message: '请输入密码',
+          type: 'error',
+          duration: 1000
+        }));
+      } else if(value.length < 6) {
+        callback(this.$message({
+          message: '密码不能小于6位',
           type: 'error',
           duration: 1000
         }));
@@ -236,6 +242,7 @@ export default {
                 showCancelButton: false,
 								type: 'success'
 							}).then(() => {
+                this.$store.commit('setSjh', this.ruleForm2.phone);
                 this.$router.push('/login');
               })
 						} else {
@@ -244,11 +251,13 @@ export default {
                 showCancelButton: false,
 			          type: 'warning'
 			        }).then(() => {
-                this.ruleForm2.pass = '';
-                this.ruleForm2.checkPass = '';
-                this.ruleForm2.phone = '';
-                this.ruleForm2.dxid = 0;
-                this.ruleForm2.msgcode = '';
+                // this.ruleForm2.pass = '';
+                // this.ruleForm2.checkPass = '';
+                // this.ruleForm2.phone = '';
+                // this.ruleForm2.dxid = 0;
+                if(response.body.code == "91") {
+                  this.ruleForm2.msgcode = '';
+                }
                 this.nextstep = true;
                 this.resetpass = false;
               })

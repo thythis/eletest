@@ -66,6 +66,7 @@ export default {
   watch: {
     requestTc(val) {
       this.bbindex = this.$store.state.count;
+      this.bbList = myfun.fetch().bbList;
     }
   },
   data() {
@@ -88,6 +89,7 @@ export default {
       } else {
         this.$store.commit('increment')
       }
+      this.bbList = myfun.fetch().bbList;
       this.bbindex = this.$store.state.count;
     },
     next() {

@@ -18,7 +18,7 @@
           </el-col>
         </el-form-item>
         <el-form-item>
-          <el-button class="sub-btn" type="primary" size="large" @click="subModify">修改密码</el-button>
+          <el-button class="sub-btn" type="primary" size="large" @click="subModify('ruleForm')">修改密码</el-button>
           <el-button class="sub-btn" size="large" @click="resetForm('ruleForm')">重置</el-button>
         </el-form-item>
       </el-form>
@@ -111,50 +111,45 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    subModify() {
-          var encryoldmm = md5(this.ruleForm.oldpwd);
-          var ymm = myfun.fetch().mm;
-          if(encryoldmm != ymm) {
-            this.$message({
-              message: '输入原密码错误',
-              type: 'error',
-              duration: 1000
-            })
-            this.$refs["ruleForm"].resetFields();
-            return;
-          } else {
-            var encrymm = md5(this.ruleForm.newpwd);
-            var obj = {
-              yhid: this.yhid,
-              xmm: encrymm,
-              ymm: encryoldmm,
-              token: myfun.fetch().token
-            }
-            var objstr = JSON.stringify(obj);
-            this.$http.post(this.changepwd, objstr).then(function(response){
-              console.log(response);
-              if(response.body.code == 1) {
-                this.$confirm('修改密码成功！', '提示', {
-                  confirmButtonText: '确定',
-                  showCancelButton: false,
-                  type: 'success'
-                }).then(() => {
-                  this.$router.push('/bbmana');
-                })
-              } else {
-                this.$confirm(response.body.message, '提示', {
-                  confirmButtonText: '确定',
-                  showCancelButton: false,
-                  type: 'warning'
-                }).then(() => {
-                })
-              }
-            }, function(response){
-              console.log('fail');
-            });
-          }
-    }
+    subModify(formName) {
+      // this.$refs[formName].validate((valid) => {
+      //   if (valid) {
+      //   } else {
+      //     return false;
+      //   }
+      // });
+      var encrymm = md5(this.ruleForm.newpwd);
+      var encryoldmm = md5(this.ruleForm.oldpwd);
+      var obj = {
+        yhid: this.yhid,
+        xmm: encrymm,
+        ymm: encryoldmm,
+        token: myfun.fetch().token
+      }
+      var objstr = JSON.stringify(obj);
+      this.$http.post(this.changepwd, objstr).then(function(response){
+        console.log(response);
+        if(response.body.code == 1) {
+          this.$confirm('修改密码成功！', '提示', {
+            confirmButtonText: '确定',
+            showCancelButton: false,
+            type: 'success'
+          }).then(() => {
+            this.$router.push('/bbmana');
+          })
+        } else {
+          this.$confirm(response.body.message, '提示', {
+            confirmButtonText: '确定',
+            showCancelButton: false,
+            type: 'warning'
+          }).then(() => {
+          })
+        }
+      }, function(response){
+        console.log('fail');
+      });
   }
+}
 }
 </script>
 

@@ -144,6 +144,7 @@
 							}
 							myfun.save(items);
 							myfun.loginFlag(true);
+							this.$store.commit('setSjh', this.ruleForm2.phone);
 							this.$router.push({path:'/bbmana'});
 						} else {
 							this.$notify({

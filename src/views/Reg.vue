@@ -143,7 +143,13 @@
             type: 'error',
             duration: 1000
           }));
-        } else {
+        } else if(value.length < 6) {
+	        callback(this.$message({
+	          message: '密码不能小于6位',
+	          type: 'error',
+	          duration: 1000
+	        }));
+	      } else {
           if (this.ruleForm2.checkPass !== '') {
             this.$refs.ruleForm2.validateField('checkPass');
           }
