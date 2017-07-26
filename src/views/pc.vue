@@ -1,5 +1,5 @@
 <template lang="html">
-  <div>
+  <div class="main-field">
     <main-header :yhsjh="yhsjh"></main-header>
     <div class="pc-wrapper">
       <div class="step-bar">
@@ -12,13 +12,15 @@
       </div>
       <div class="pc-content">
         <el-row>
-          <el-col :span="5">
+          <el-col :span="3">
             <el-menu default-active="1" class="el-menu-vertical-demo">
               <div class="baby">
                 <div class="photo" @click="changebb">
                 </div>
                 <span class="account">{{yhsjh}}</span>
-                <span class="bbname" v-if="bbList.length>0">{{bbList[bbindex].mc}}</span>
+
+                <span class="bbname" v-if="bbList.length>0">{{bbList[bbindex].mc}}<i class="el-icon-caret-bottom el-icon--right"></i></span>
+
               </div>
               <el-tooltip :value="fstep" :manual="true" content="添加或编辑宝宝资料" placement="left">
                 <el-menu-item index="1" @click="gobaby(1)"><i class="el-icon-message"></i>宝贝管理</el-menu-item>
@@ -36,13 +38,37 @@
               <el-menu-item index="5" @click="gobaby(5)"><i class="el-icon-setting"></i>修改密码</el-menu-item>
             </el-menu>
           </el-col>
-          <el-col :span="19" class="nr-panel">
-            <router-view></router-view>
+          <el-col :span="21" class="nr-panel">
+            <div class="nr-header">
+              <div class="nr-header-content">
+                <div>
+                  <strong>宝宝列表：</strong>
+                  <el-select v-model="bbindex" filterable placeholder="请选择">
+                    <el-option
+                      v-for="(item, index) in bbList"
+                      :key="item.mc"
+                      :label="item.mc"
+                      :value="index">
+                    </el-option>
+                  </el-select>
+                </div>
+                <div>
+                  <el-tag class="switch-info" type="primary">显示所有评估表</el-tag>
+                  <el-switch
+                    v-model="pgblx"
+                    on-value="0"
+                    off-value="1">
+                  </el-switch>
+                </div>
+              </div>
+            </div>
+            <div class="nr-content">
+              <router-view></router-view>
+            </div>
           </el-col>
         </el-row>
       </div>
     </div>
-    <main-footer></main-footer>
   </div>
 </template>
 
@@ -61,17 +87,31 @@ export default {
   computed: {
     requestTc() {
       return this.$store.state.count
+    },
+    watchbb() {
+      return this.bbindex
+    },
+    watchpgblx() {
+      return this.pgblx
     }
   },
   watch: {
     requestTc(val) {
       this.bbindex = this.$store.state.count;
       this.bbList = myfun.fetch().bbList;
+    },
+    watchbb(val) {
+      this.$store.commit('setCount', val);
+    },
+    watchpgblx(val) {
+      console.log(this.$store.state.pgblx);
+      this.$store.commit('setPgblx', val);
     }
   },
   data() {
     return {
       bbindex: this.$store.state.count,
+      pgblx: this.$store.state.pgblx,
       bbList: myfun.fetch().bbList,
       yhsjh:   myfun.fetch().yhsjh,
       active: 0,
@@ -133,6 +173,9 @@ export default {
   .carousel-wrapper,.nav-bar-wrapper,.search-bar-wrapper {
     display: none;
   }
+  .main-field {
+    height: 100%;
+  }
   .mask {
 		position: absolute;
 		width: 100%;
@@ -141,13 +184,34 @@ export default {
 		display: block;
 		z-index: 9999;
 	}
+  .el-menu {
+    background: none;
+  }
+  .el-menu-item {
+    a {
+      text-decoration: none;
+      color: #48576a;
+    }
+    &.is-active {
+      color: #4fc1e9;
+      a {
+        color: #4fc1e9;
+      }
+    }
+    .badge-item {
+    }
+  }
+  .el-submenu .el-menu-item:hover, .el-submenu__title:hover,
+  .el-menu-item:hover {
+    background-color: #f3f3f3;
+  }
   .pc-wrapper {
     overflow: hidden;
-    padding-top: 50px;
     .step-bar {
-      display: flex;
+      display: none;
       justify-content: center;
       margin-bottom: 20px;
+      margin-top: 20px;
       .el-button {
         height: 40px;
         margin-top: 10px;
@@ -155,21 +219,33 @@ export default {
       }
     }
     .pc-content {
-      width: 75%;
-      min-height: 820px;
+      // min-height: 820px;
       margin: 0 auto;
-      background: #f7f7f7;
-      overflow: hidden;
+      // overflow: hidden;
       .el-row {
-        height: 100%;
+        // height: 100%;
         .el-col {
           height: 100%;
-          background: #eef1f6;
           &.nr-panel {
-            background: #f7f7f7;
             overflow-y: auto;
-            .el-col {
-              background: #f7f7f7;
+            .nr-header {
+              height: 50px;
+              line-height: 50px;
+              padding: 0 20px;
+              border-bottom: 1px solid #ccc;
+              .nr-header-content {
+                width: 80%;
+                margin: 0 auto;
+                display: flex;
+                justify-content: space-between;
+                strong {
+                  color: #656564;
+                }
+              }
+            }
+            .nr-content {
+              max-height: 800px;
+              overflow-y: auto;
             }
           }
           .baby {
@@ -200,28 +276,7 @@ export default {
               }
             }
           }
-          .el-menu-item {
-            a {
-              text-decoration: none;
-              color: #48576a;
-            }
-            &.is-active {
-              color: #4fc1e9;
-              a {
-                color: #4fc1e9;
-              }
-            }
-            .badge-item {
-            }
-          }
-          .el-submenu .el-menu-item:hover, .el-submenu__title:hover,
-          .el-menu-item:hover {
-            background-color: #4fc1e9;
-            color: #fff;
-            a {
-              color: #fff;
-            }
-          }
+
         }
       }
     }

@@ -2,7 +2,7 @@
   <div>
     <div class="history-panel">
       <el-tag class="toptag" type="gray">已评估的记录</el-tag>
-      <div class="no-his" v-if="hisList.length==0?true:false">
+      <div class="no-his" v-if="nohisflag">
         没有评估记录哟~
       </div>
       <div class="hisitem" v-for="item in hisList">
@@ -16,22 +16,16 @@
           :default-sort = "{prop: 'pgrq', order: 'descending'}"
           stripe
           style="width: 100%">
-          <el-table-column type="expand">
+          <!-- <el-table-column type="expand">
             <template scope="props">
               <p>{{props.row.remark}}</p>
               <el-button v-if="(props.row.jg=='1'||'2')?showbtn:!showbtn" @click="showReport(props.row.bbpgbid)">查看报表</el-button>
             </template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column
             prop="pgrq"
             sortable
             label="评估日期">
-          </el-table-column>
-          <el-table-column
-            label="姓名">
-            <template scope="scope">
-              {{bbname}}
-            </template>
           </el-table-column>
           <el-table-column
             prop="mc"
@@ -57,6 +51,12 @@
                 v-if="(scope.row.jg=='1')||(scope.row.jg=='2')"
                 :type="scope.row.jg == '1' ? 'success' : 'warning'"
                 close-transition>{{scope.row.jg == '1' ? '正常' : (scope.row.jg == '2'?'可疑':'')}}</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="操作">
+            <template scope="scope">
+              <el-button v-if="(scope.row.jg!='1')?true:false" @click="showReport(scope.row.bbpgbid)">查看报表</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -88,6 +88,9 @@ export default {
     this.$http.post(this.getRecord,objjjj).then(function(response){
       console.log(response);
       this.hisList = response.body.results;
+      if(this.hisList.length == 0) {
+        this.nohisflag = true;
+      }
     }, function(response){
         console.log('fail');
     });
@@ -120,6 +123,7 @@ export default {
       hisList: [],
       bbname: myfun.fetch().bbList[this.$store.state.count].mc,
       showbtn: true,
+      nohisflag: false,
       reportData: "",
       reportTitle: "",
       showreport: false,

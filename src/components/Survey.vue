@@ -61,30 +61,31 @@
 			</el-switch> -->
 			<el-dialog
 				size="tiny"
+				:before-close="goBack"
+				:close-on-press-escape="false"
+				:close-on-click-modal="false"
 			  :visible.sync="monomode">
-
-			</el-dialog>
-			<div class="survey-box" v-if="showbox">
-				<div class="box-header">
-					<h2 class="title">{{bbinfo.mc}}</h2>
-				</div>
-				<div class="survey-content fmlx-panel" v-if="showfm">
-					<div class="question-panel">
-						<p>家庭类型</p>
+				<div class="survey-box" v-if="showbox">
+					<div class="box-header">
+						<h2 class="title">{{bbinfo.mc}}</h2>
 					</div>
-					<div class="answer-panel">
-						<div v-for="(item,index) in fmlist">
-							<input type="radio" :value="item.xh" name="xx" :id="'c'+item.xh"  v-model="fmlx">
-							<label class="answer-item"   @click.prevent="addFmlx(item.xh, index)" :for="'c'+item.xh">
-								<span>{{item.xh}}</span>
-								<p>{{item.nr}}</p>
-							</label>
+					<div class="survey-content fmlx-panel" v-if="showfm">
+						<div class="question-panel">
+							<p>家庭类型</p>
 						</div>
-						<el-button :disabled="fmlx?false:true" type="primary" size="large" @click="fire">提交</el-button>
+						<div class="answer-panel">
+							<div v-for="(item,index) in fmlist">
+								<input type="radio" :value="item.xh" name="xx" :id="'c'+item.xh"  v-model="fmlx">
+								<label class="answer-item"   @click.prevent="addFmlx(item.xh, index)" :for="'c'+item.xh">
+									<span>{{item.xh}}</span>
+									<p>{{item.nr}}</p>
+								</label>
+							</div>
+							<el-button :disabled="fmlx?false:true" type="primary" size="large" @click="fire">提交</el-button>
+						</div>
 					</div>
-				</div>
-				<div class="survey-content" v-if="qflag">
-					<scroller
+					<div class="survey-content" v-if="qflag">
+						<scroller
 						class="page-content">
 						<p class="ps">(本测试{{questionList.length}}道题，系统自动跳转，专业心理指导。)</p>
 						<div class="progress-bar">
@@ -128,22 +129,24 @@
 							</label>
 						</div>
 					</div>
-					</scroller>
-				</div>
-				<div class="resoult-panel" v-if="rflag">
-					<scroller
-						:class="[{ 'page-content': subflag, 'page-content nobtn': !subflag }]">
-					<div class="list-item" v-for="(item, index) in answerList">
-						<span class="qbh">{{item.nbbh||item.mxxh}}</span>
-						<span class="qnr">{{item.tmnr||item.nr}}</span>
-						<span class="answer">{{item.lx?(item.lx==1?item.xxnr:item.xh):item.xxnr}}</span>
-					</div>
-					</scroller>
-					<button class="sub-btn" v-if="questionList[0].bbpgbid!=null?!subflag:subflag" @click="subsurvey" v-loading.fullscreen.lock="fullscreenLoading">
-						提交评测
-					</button>
-				</div>
+				</scroller>
 			</div>
+			<div class="resoult-panel" v-if="rflag">
+				<scroller
+				:class="[{ 'page-content': subflag, 'page-content nobtn': !subflag }]">
+				<div class="list-item" v-for="(item, index) in answerList">
+					<span class="qbh">{{item.nbbh||item.mxxh}}</span>
+					<span class="qnr">{{item.tmnr||item.nr}}</span>
+					<span class="answer">{{item.lx?(item.lx==1?item.xxnr:item.xh):item.xxnr}}</span>
+				</div>
+			</scroller>
+			<button class="sub-btn" v-if="questionList[0].bbpgbid!=null?!subflag:subflag" @click="subsurvey" v-loading.fullscreen.lock="fullscreenLoading">
+				提交评测
+			</button>
+		</div>
+	</div>
+
+			</el-dialog>
 		</div>
 		<el-dialog
 		  title="提示"
@@ -375,6 +378,18 @@
 				}
 				this.nextflag = false;
 			},
+			goBack() {
+				this.$confirm('确认返回？', '提示', {
+	        confirmButtonText: '确定',
+	        type: 'success'
+	      }).then(() => {
+					this.qflag = true;
+					this.rflag = false;
+					this.answerList = [];
+					this.showbox = false;
+					this.monomode = false;
+	      })
+			},
 			getTest() {
 				var objstr = JSON.stringify({
 					pgbbh: this.bbinfo.pgbbh
@@ -413,9 +428,10 @@
 								this.mxxhMap.set(this.questionList[i].mxxh, i);
 							}
 							this.percentrate = 1 / this.questionList.length * 100;
-							this.showpgbintro = false;
-							this.showopt = false;
+							// this.showpgbintro = false;
+							// this.showopt = false;
 							this.showbox = true;
+							this.monomode = true;
 						} else {
 							var objstr = JSON.stringify({
 								yhid: myfun.fetch().yhid,
@@ -462,10 +478,11 @@
 							this.mxxhMap.set(this.questionList[i].mxxh, i);
 						}
 						this.percentrate = 1 / this.questionList.length * 100;
-						this.showpgbintro = false;
-						this.showopt = false;
+						// this.showpgbintro = false;
+						// this.showopt = false;
 						this.rflag = false;
 						this.showbox = true;
+						this.monomode = true;
 					}
 				}
 			},
@@ -475,6 +492,7 @@
 				this.showpgbintro = false;
 				this.showfm = true;
 				this.showbox = true;
+				this.monomode = true;
 			},
 			fire() {
 				if(isNaN(this.selectedBj)) {
@@ -604,6 +622,7 @@
 		      console.log(response);
 					this.answerList = response.body.results;
 					this.showbox = true;
+					this.monomode = true;
 					this.qflag = false;
 					this.rflag = true;
 					this.subflag = false;
@@ -633,6 +652,7 @@
 		          type: 'success'
 		        }).then(() => {
 							this.showbox = false;
+							this.monomode = false;
 							this.showpgbintro = true;
 							this.showopt = true;
 		        }).catch(() => {
@@ -749,6 +769,7 @@
 								xh: x
 							});
 							this.qflag = false;
+							this.subflag = true;
 							this.rflag = true;
 							this.gzinfo.length = 0;
 							return;
@@ -813,7 +834,12 @@
 		margin: 0 5px;
 	}
 	.survey-wrapper {
+		.el-dialog--tiny {
+			width: 25%!important;
+		}
 		.info {
+			width: 80%;
+			margin: 10px auto;
 			padding: 0 30px 30px 30px;
 			background: #faf6f7;
 			border-radius: 5px;
@@ -848,8 +874,7 @@
 		}
 		.survey-box {
 			position: relative;
-			margin: 0 auto 40px auto;
-			width: 50%;
+			margin: 0 auto 0 auto;
 			height: 670px;
 			box-shadow: 3px 3px 3px #ededed;
 			&.monobox {

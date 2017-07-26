@@ -1,7 +1,7 @@
 <template lang="html">
   <div  v-loading.body="reqloading">
     <div class="test-content">
-        <div class="list-panel">
+        <!-- <div class="list-panel">
           <strong>宝宝列表：</strong>
           <a v-for="(item, index) in bbList"
           :class="[{hover: isBaby(index)}]"
@@ -10,17 +10,9 @@
             <el-input placeholder="请输入兑换口令" v-model="xdbh"></el-input>
             <el-button :disabled="xdbh?false:true" type="primary" @click="testCmd">兑换</el-button>
           </div>
-        </div>
+        </div> -->
         <el-tabs v-model="activeName" @tab-click="handleBaby">
           <el-tab-pane label="健康评估" name="first">
-            <div class="switch-list">
-              <el-tag class="switch-info" type="primary">显示所有评估表</el-tag>
-              <el-switch
-                v-model="pgblx"
-                on-value="0"
-                off-value="1">
-              </el-switch>
-            </div>
             <div v-if="!showsurvey">
               <div v-for="item in pgblist">
                 <div class="box">
@@ -140,7 +132,7 @@ export default {
     var objjjj = JSON.stringify({
       yhid: myfun.fetch().yhid,
       bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
-      pgblx: this.pgblx,
+      pgblx: this.$store.state.pgblx,
       flbh: "jkpg"
     });
     this.reqloading = true;
@@ -160,7 +152,7 @@ export default {
       return this.$store.state.count
     },
     switchLx() {
-      return this.pgblx;
+      return this.$store.state.pgblx;
     }
   },
   watch: {
@@ -199,7 +191,7 @@ export default {
       var objjjj = JSON.stringify({
         yhid: myfun.fetch().yhid,
         bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
-        pgblx: this.pgblx,
+        pgblx: val,
         flbh: flbh
       });
       this.$http.post(this.getTC, objjjj).then(function(response){
@@ -275,7 +267,7 @@ export default {
         var objjjj = JSON.stringify({
           yhid: myfun.fetch().yhid,
           bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
-          pgblx: this.pgblx,
+          pgblx: this.$store.state.pgblx,
           flbh: "jkpg"
         });
       } else if(tab.index == "1") {
@@ -283,7 +275,7 @@ export default {
         var objjjj = JSON.stringify({
           yhid: myfun.fetch().yhid,
           bbid: myfun.fetch().bbList[this.$store.state.count].bbid,
-          pgblx: this.pgblx,
+          pgblx: this.$store.state.pgblx,
           flbh: "jkjk"
         });
       }
@@ -329,12 +321,7 @@ export default {
       return false;
     },
     goBack() {
-      this.$confirm('确认返回？', '提示', {
-        confirmButtonText: '确定',
-        type: 'success'
-      }).then(() => {
-        this.showsurvey= false;
-      })
+      this.showsurvey= false;
     },
     checkSurvey(pgbinfo) {
       this.bbinfo = pgbinfo;

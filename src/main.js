@@ -201,6 +201,7 @@ const router = new VueRouter({
 const store = new Vuex.Store({
   state: {
     count: 0,
+    pgblx: 1,
     sjh: '',
     bblist: [],
     bbpgblist: []
@@ -216,6 +217,9 @@ const store = new Vuex.Store({
     },
     setSjh(state, num) {
       state.sjh = num;
+    },
+    setPgblx(state, num) {
+      state.pgblx = num;
     },
     setBblist(state, list) {
       state.bblist = list;

@@ -5,7 +5,6 @@
       <el-table
         :data="bbList"
         border
-        stripe
         :default-sort = "{prop: 'csrq', order: 'descending'}"
         style="width: 100%;">
         <el-table-column
@@ -20,28 +19,31 @@
           </template>
         </el-table-column>
         <el-table-column
+          prop="mc"
           label="姓名">
-          <template scope="scope">
+          <!-- <template scope="scope">
             <div slot="reference" class="name-wrapper">
               <el-tag>{{ scope.row.mc }}</el-tag>
             </div>
-          </template>
+          </template> -->
         </el-table-column>
         <el-table-column
           label="性别">
           <template scope="scope">
-            <div slot="reference" class="name-wrapper">
+            <!-- <div slot="reference" class="name-wrapper">
               <el-tag :type="{true:'primary',false:'success'}[scope.row.xb=='1']">{{ scope.row.xb=='1'?'男宝贝':'女宝贝' }}</el-tag>
-            </div>
+            </div> -->
+            <span>{{ scope.row.xb=='1'?'男宝贝':'女宝贝' }}</span>
           </template>
         </el-table-column>
         <el-table-column
+          prop="bjh"
           label="保健号">
-          <template scope="scope">
+          <!-- <template scope="scope">
             <div slot="reference" class="name-wrapper">
               <el-tag v-if="scope.row.bjh?true:false">{{ scope.row.bjh }}</el-tag>
             </div>
-          </template>
+          </template> -->
         </el-table-column>
         <el-table-column
           fixed="right"
